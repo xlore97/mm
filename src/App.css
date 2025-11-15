@@ -1,0 +1,91 @@
+/* CSS RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Lato", sans-serif;
+}
+
+/* GENERAL RULES */
+a {
+  text-decoration: none;
+  color: white;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Merriweather", serif;
+  color: white;
+}
+
+h2,
+h3 {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+h4 {
+  color: rgb(149, 149, 149);
+  font-style: italic;
+  margin-top: 5px;
+}
+
+/* HEADER */
+.header-wrapper {
+  background-color: #1b1b1b;
+  height: 80px;
+  width: 100%;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0.80;
+}
+
+.header-logo {
+  height: 50px;
+  margin-left: 10px;
+}
+
+.col-left,
+.col-center,
+.col-right {
+  width: calc(100% / 3);
+  height: 100%;
+}
+
+.col-left {
+  display: flex;
+  align-items: center;
+}
+
+.col-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.col-center a {
+  margin-left: 20px;
+  font-size: 1.2rem;
+}
+
+.col-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 20px;
+}
+
+.col-right span,
+.material-symbols-outlined {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.title-wrapper {
+  margin-left: 10px;
+  padding: 10px;
+}
