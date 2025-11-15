@@ -1,0 +1,26 @@
+/* HERO */
+.hero {
+  height: 600px;
+  background-image: url("/hero.png");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.8;
+  position: relative;
+  padding-left: 10px;
+}
+
+.hero-items-wrapper {
+  position: absolute;
+  top: 35%;
+  left: 10px;
+}
+
+.btn {
+  display: inline-block;
+  width: 170px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #c52020;
+  text-align: center;
+  font-weight: 600;
+}
