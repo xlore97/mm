@@ -7,12 +7,24 @@ export default function Homepage() {
   return (
     <>
       <Hero />
+
       {/* mostra ultimi arrivi */}
-      <LatestArrivals />
+      <section>
+        <h2>Novità dall'Oltretomba</h2>
+        <LatestArrivals />
+      </section>
+
       {/* mostra i bestseller */}
-      <Bestsellers />
+      <section>
+        <h2>Prediletti dai Non Morti</h2>
+        <Bestsellers />
+      </section>
+
       {/* mostra le promozioni */}
-      <PromoProducts />
+      <section>
+        <h2>Prezzi da Brividi</h2>
+        <PromoProducts />
+      </section>
     </>
   );
 }
