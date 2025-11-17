@@ -1,42 +1,26 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* HERO */
+.hero {
+  height: 600px;
+  background-image: url("/hero.png");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.8;
+  position: relative;
+  padding-left: 10px;
+}
+
+.hero-items-wrapper {
+  position: absolute;
+  top: 35%;
+  left: 10px;
+}
+
+.btn {
+  display: inline-block;
+  width: 170px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #c52020;
   text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+  font-weight: 600;
 }
