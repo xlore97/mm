@@ -1,3 +1,36 @@
+/* CSS RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Lato", sans-serif;  font-family: "Lato", sans-serif;
+}
+
+/* GENERAL RULES */
+a {
+  text-decoration: none;
+  color: white;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Merriweather", serif;  font-family: "Merriweather", serif;
+  color: white;
+}
+
+h2,
+h3 {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+h4 {
+  color: rgb(149, 149, 149);
+  font-style: italic;
+  margin-top: 5px;
+}
+
 /* PROMO */
 .promo-container {
     min-height: 300px;
@@ -6,4 +39,10 @@
     justify-content: space-between;
     margin-right: 10px;
     margin-left: 10px;
+}
+
+.homepage-section-titles {
+    font-size: 2.5rem;
+    padding-left: 20px;
+    margin-bottom: 30px;
 }

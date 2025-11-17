@@ -10,19 +10,19 @@ export default function Homepage() {
 
       {/* mostra ultimi arrivi */}
       <section>
-        <h2>Novità dall'Oltretomba</h2>
+        <h2 className="homepage-section-titles">Novità dall'Oltretomba</h2>
         <LatestArrivals />
       </section>
 
       {/* mostra i bestseller */}
       <section>
-        <h2>Prediletti dai Non Morti</h2>
+        <h2 className="homepage-section-titles">Prediletti dai Non Morti</h2>
         <Bestsellers />
       </section>
 
       {/* mostra le promozioni */}
       <section>
-        <h2>Prezzi da Brividi</h2>
+        <h2 className="homepage-section-titles">Prezzi da Brividi</h2>
         <PromoProducts />
       </section>
     </>
