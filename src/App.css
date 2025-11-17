@@ -29,3 +29,13 @@
 .price {
   color: #c52020;
 }
+
+/* BESTSELLERS */
+.bestsellers-container {
+  min-height: 300px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-right: 10px;
+  margin-left: 10px;
+}

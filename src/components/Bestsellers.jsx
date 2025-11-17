@@ -1,4 +1,13 @@
+import SingleProduct from "./SingleProduct";
+
 export default function Bestsellers() {
-  // TODO: riempire questo componente nel branch specifico
-  return <></>;
+  return (
+    <div className="bestsellers-container">
+      <SingleProduct />
+      <SingleProduct />
+      <SingleProduct />
+      <SingleProduct />
+      <SingleProduct />
+    </div>
+  );
 }
