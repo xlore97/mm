@@ -30,8 +30,8 @@
   color: #c52020;
 }
 
-/* LATEST ARRIVALS */
-.latest-arrivals-container {
+/* BESTSELLERS */
+.bestsellers-container {
   min-height: 300px;
   display: flex;
   flex-wrap: wrap;
