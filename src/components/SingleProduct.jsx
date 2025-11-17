@@ -13,7 +13,7 @@ export default function SingleProduct() {
       <div className="card-text-container">
         <h4>Titolo</h4>
         <div className="category-label">Label categoria</div>
-        <div className="price-card"><b>Prezzo</b></div>
+        <div className="price"><b>Prezzo</b></div>
 
         {/* Pulsante per checkout */}
         <Link to="/checkout" className="card-button">
