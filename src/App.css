@@ -82,13 +82,45 @@ h2 {
 
   text-align: center;
   font-weight: 600;
-=======
 /* CSS RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Lato", sans-serif;
+}
+
+.price-card {
+  color: #c52020;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+}
+
+.category-label {
+  background-color: white;
+  border-radius: 15px;
+  width: fit-content;
+  padding: 3px 8px;
+}
+
+/* LABEL PERSONALIZZATI PER CATEGORIE */
+.vampire-label {
+  background-color: #3c1b1b;
+  color: #c52020;
+  border: 1px solid #c52020;
+}
+
+.witch-label {
+  background-color: #2a1c32;
+  color: white;
+  border: 1px solid #3b1e4a;
+}
+
+.lycan-label {
+  background-color: rgb(2, 2, 70);
+  color: #e7b540;
+  border: 1px solid rgb(4, 4, 92);
 }
 
 /* GENERAL RULES */
@@ -148,6 +180,10 @@ h3 {
   box-shadow: 0px 4px 20px rgba(197, 32, 32, 0.4);
   /* si solleva */
   transform: translateY(-6px);
+}
+
+.card-button:hover {
+  background-color: #9b1a1a;
 }
 
 .card-button:hover {

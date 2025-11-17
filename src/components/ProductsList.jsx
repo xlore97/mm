@@ -1,5 +1,4 @@
-
-import SingleProduct from "./SingleProducts";
+import SingleProduct from "./SingleProduct";
 
 export default function ProductsList(){
     // TODO: riempire questo componente nel branch specifico
