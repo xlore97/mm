@@ -1,19 +1,28 @@
+
 /* CARD */
 .card {
   background-color: #1a1a1a;
-  border-radius: 8px;
-  width: 200px;
+  border-radius: 10px;
+  width: 250px;
+  transition: box-shadow 0.2s ease;
+  transform: translateY(0);
+  /* animazioni morbide quando si solleva */
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
 }
 
 .card-img-container img {
   width: 100%;
   display: block;
-  border-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
 }
 
 .card-text-container {
   padding: 10px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .card-button {
@@ -24,8 +33,61 @@
   border-radius: 5px;
   text-decoration: none;
   font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.price {
+.card h4 {
+  font-size: 1.6rem;
+  font-style: normal;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.card a {
+  width: 90%;
+  text-align: center;
+}
+
+.price-card {
   color: #c52020;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+}
+
+.category-label {
+  background-color: white;
+  border-radius: 15px;
+  width: fit-content;
+  padding: 3px 8px;
+}
+
+/* LABEL PERSONALIZZATI PER CATEGORIE */
+.vampire-label {
+  background-color: #3c1b1b;
+  color: #c52020;
+  border: 1px solid #c52020;
+}
+
+.witch-label {
+  background-color: #2a1c32;
+  color: white;
+  border: 1px solid #3b1e4a;
+}
+
+.lycan-label {
+  background-color: rgb(2, 2, 70);
+  color: #e7b540;
+  border: 1px solid rgb(4, 4, 92);
+}
+
+/* CARD HOVER */
+.card:hover {
+  box-shadow: 0px 4px 20px rgba(197, 32, 32, 0.4);
+  /* si solleva */
+  transform: translateY(-6px);
+}
+
+.card-button:hover {
+  background-color: #9b1a1a;
 }
