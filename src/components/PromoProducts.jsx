@@ -1,13 +1,6 @@
-import SingleProduct from "./SingleProduct";
+import ProductsList from "./ProductsList";
 
 export default function PromoProducts() {
-  return (
-    <div className="promo-container">
-      {/* card statiche temporanee */}
-      <SingleProduct />
-      <SingleProduct />
-      <SingleProduct />
-      <SingleProduct />
-    </div>
-  );
+  // TODO: riempire questo componente nel branch specifico
+  return <ProductsList />;
 }
