@@ -1,13 +1,9 @@
-import SingleProduct from "./SingleProduct";
+import ProductList from "./ProductsList";
 
 export default function Bestsellers() {
   return (
     <div className="bestsellers-container">
-      <SingleProduct />
-      <SingleProduct />
-      <SingleProduct />
-      <SingleProduct />
-      <SingleProduct />
+      <ProductList />
     </div>
   );
 }
