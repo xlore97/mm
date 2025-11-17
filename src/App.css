@@ -1,4 +1,16 @@
 /* HERO */
+h1 {
+  font-size: 4rem;
+  color: #c52020;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-style: italic;
+  font-family: "Lato", sans-serif;
+  margin-bottom: 30px;
+}
+
 .hero {
   height: 600px;
   background-image: url("/hero.png");
@@ -6,19 +18,18 @@
   background-position: center;
   opacity: 0.8;
   position: relative;
-  padding-left: 10px;
 }
 
 .hero-items-wrapper {
   position: absolute;
   top: 35%;
-  left: 10px;
+  left: 30px;
 }
 
 .btn {
   display: inline-block;
   width: 170px;
-  padding: 10px;
+  padding: 10px 10px;
   border-radius: 10px;
   background-color: #c52020;
   text-align: center;
