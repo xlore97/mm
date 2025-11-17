@@ -1,41 +1,9 @@
-/* CARD */
-.card {
-  background-color: #1a1a1a;
-  border-radius: 8px;
-  width: 200px;
-}
-
-.card-img-container img {
-  width: 100%;
-  display: block;
-  border-radius: 10px;
-}
-
-.card-text-container {
-  padding: 10px;
-  text-align: center;
-}
-
-.card-button {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 12px;
-  background-color: #c52020;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.price {
-  color: #c52020;
-}
-
-/* BESTSELLERS */
-.bestsellers-container {
-  min-height: 300px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-right: 10px;
-  margin-left: 10px;
+/* PROMO */
+.promo-container {
+    min-height: 300px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-right: 10px;
+    margin-left: 10px;
 }

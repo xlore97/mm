@@ -1,4 +1,13 @@
+import SingleProduct from "./SingleProduct";
+
 export default function PromoProducts() {
-  // TODO: riempire questo componente nel branch specifico
-  return <></>;
+  return (
+    <div className="promo-container">
+      {/* card statiche temporanee */}
+      <SingleProduct />
+      <SingleProduct />
+      <SingleProduct />
+      <SingleProduct />
+    </div>
+  );
 }
