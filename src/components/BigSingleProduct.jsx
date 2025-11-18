@@ -1,46 +1,36 @@
-import Badge from "../components/Badge";
+export default function BigSingleProduct({
+  product,
+  quantity,
+  increase,
+  decrease,
+}) {
+  // Se il prodotto non è ancora disponibile (ad esempio in fase di caricamento da backend), mostra un messaggio di caricamento
+  if (!product) return <p>Loading...</p>;
 
-import TemporaryPic from "../assets/images/test-img.avif";
-
-export default function BigSingleProduct({ quantity, increase, decrease }) {
   return (
-    <>
-      <div className="box-singolo-prodotto">
-        {/* IMG */}
-        <div className="single-img-box">
-          <img src={TemporaryPic} alt="Prodotto provvisorio" />
+    <div className="big-card">
+      {/* Mostra l'immagine del prodotto; se non esiste, usa un'immagine placeholder */}
+      <img src={product.image} alt={product.name} />
+
+      <div className="details">
+        <h1>{product.name}</h1>
+        <p>Categoria: {product.category}</p>
+        <p>Prezzo: {product.price} €</p>
+        <p>{product.description}</p>
+
+        {/* Controlli per la quantità da aggiungere al carrello */}
+        <div className="quantity-controls">
+          {/* Bottone per diminuire la quantità */}
+          <button onClick={decrease}>-</button>
+          {/* Visualizza la quantità corrente */}
+          <span>{quantity}</span>
+          {/* Bottone per aumentare la quantità */}
+          <button onClick={increase}>+</button>
         </div>
 
-        {/* TXT */}
-        <div className="single-info-box">
-          {/* -------- BADGE -------- */}
-          <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-            <Badge label="vampire" type="vampire" />
-            <Badge label="Bestseller" type="bestseller" />
-          </div>
-          <h2>Nome prodotto</h2>
-          <p>
-            Descrizione prodotto: Lorem ipsum dolor sit amet consectetur
-            adipisicing elit.
-          </p>
-
-          <span className="price">$2499.99</span>
-
-          {/* Quantity */}
-          <div className="quantity-box">
-            <span>Quantity:</span>
-            <button className="quantity-btn" onClick={decrease}>
-              −
-            </button>
-            <span className="quantity-number">{quantity}</span>
-            <button className="quantity-btn" onClick={increase}>
-              +
-            </button>
-          </div>
-
-          <button className="add-to-cart">🛒 Aggiungi al Carrello</button>
-        </div>
+        {/* Bottone per aggiungere al carrello */}
+        <button className="add-to-cart">Aggiungi al carrello</button>
       </div>
-    </>
+    </div>
   );
 }
