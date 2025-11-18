@@ -40,7 +40,7 @@ export default function Carousel() {
         ‹
       </button>
 
-      {/* ----------- Track con le card ----------- */}
+      {/* ----------- Track con le card ------------ */}
       <div className="carousel-track">
         {visibleItems.map((item, index) => (
           <SingleProduct key={`${item}-${index}`} />
