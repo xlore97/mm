@@ -1,7 +1,15 @@
 import SingleProduct from "./SingleProduct";
 
-export default function ProductsList() {
-  // TODO: riempire questo componente nel branch specifico
-  // Puoi usare il componente SingleProduct per ogni prodotto nella lista
-  return <SingleProduct />;
+// ProductsList riceve una prop "products", che di default è un array vuoto.
+// Questo evita errori se il componente viene usato senza passare products.
+export default function ProductsList({ products = [] }) {
+  
+  return (
+    <div className="product-list">
+      {products.map((p) => (
+        // passiamo il prodotto come prop al componente SingleProduct
+        <SingleProduct key={p.id} product={p} />
+      ))}
+    </div>
+  );
 }

@@ -1,58 +1,62 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import SingleProduct from "./SingleProduct";
 
-const VISIBLE_COUNT = 4; // quante card mostrare alla volta
+// Numero di card visibili alla volta
+const VISIBLE_COUNT = 4;
 
 export default function Carousel() {
+  // Indice iniziale della "finestra" del carousel
   const [startIndex, setStartIndex] = useState(0);
-  console.log("Start index:", startIndex);
+  // Stato per memorizzare i prodotti ricevuti dal backend
+  const [products, setProducts] = useState([]);
 
-  // per ora array finto
-  // in futuro qui si useranno i prodotti suggeriti dal backend
-  const items = [1, 2, 3, 4, 5, 6, 7, 8];
+  // useEffect per caricare i prodotti consigliati dal backend al montaggio del componente
+  useEffect(() => {
+    axios
+      // Chiamata al backend per prodotti consigliati
+      .get("http://localhost:3000/api/products?filter=suggested")
+      .then((res) => setProducts(res.data.data))
+      .catch((err) => console.error(err));
+    // Dipendenza vuota: viene eseguito solo una volta al montaggio
+  }, []);
 
+  // Controllo se possiamo spostarci a sinistra
   const canGoPrev = startIndex > 0;
-  const canGoNext = startIndex + VISIBLE_COUNT < items.length;
 
+  // Controllo se possiamo spostarci a destra
+  const canGoNext = startIndex + VISIBLE_COUNT < products.length;
+
+  // Funzione per spostare la finestra a sinistra
   const handlePrev = () => {
-    if (canGoPrev) {
-      setStartIndex(startIndex - 1);
-    }
+    if (canGoPrev) setStartIndex(startIndex - 1);
   };
 
+  // Funzione per spostare la finestra a destra
   const handleNext = () => {
-    if (canGoNext) {
-      setStartIndex(startIndex + 1);
-    }
+    if (canGoNext) setStartIndex(startIndex + 1);
   };
 
-  // "finestra" di elementi che devono essere visibili
-  const visibleItems = items.slice(startIndex, startIndex + VISIBLE_COUNT);
+  // Prende i prodotti visibili nella "finestra" corrente
+  const visibleItems = products.slice(startIndex, startIndex + VISIBLE_COUNT);
 
   return (
     <div className="carousel-container">
       {/* Freccia sinistra */}
-      <button
-        className="carousel-btn"
-        onClick={handlePrev}
-        disabled={!canGoPrev}
-      >
+      <button onClick={handlePrev} disabled={!canGoPrev}>
         ‹
       </button>
 
-      {/* ----------- Track con le card ------------ */}
+      {/* Track del carousel contenente le card visibili */}
       <div className="carousel-track">
-        {visibleItems.map((item, index) => (
-          <SingleProduct key={`${item}-${index}`} />
+        {visibleItems.map((product) => (
+          // Mappiamo ogni prodotto reale nel componente SingleProduct
+          <SingleProduct key={product.id} product={product} />
         ))}
       </div>
 
       {/* Freccia destra */}
-      <button
-        className="carousel-btn"
-        onClick={handleNext}
-        disabled={!canGoNext}
-      >
+      <button onClick={handleNext} disabled={!canGoNext}>
         ›
       </button>
     </div>

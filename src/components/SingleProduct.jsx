@@ -1,25 +1,23 @@
 import { Link } from "react-router-dom";
-import TemporaryPic from "../assets/test-img.avif";
 
-export default function SingleProduct() {
+export default function SingleProduct({ product }) {
   return (
     <div className="card">
-      {/* Contenitore immagine */}
-      <div className="card-img-container">
-        <img src={TemporaryPic} alt="Prodotto provvisorio" />
-      </div>
-
-      {/* Contenitore testo e pulsante */}
-      <div className="card-text-container">
-        <h4>Titolo</h4>
-        <div className="category-label">Label categoria</div>
-        <div className="price"><b>Prezzo</b></div>
-
-        {/* Pulsante per checkout */}
-        <Link to="/checkout" className="card-button">
-          Aggiungi al Carrello
-        </Link>
-      </div>
+      {/* Link che porta alla pagina del prodotto singolo usando lo slug del prodotto */}
+      <Link to={`/product/${product.slug}`}>
+        {/* Contenitore per l'immagine del prodotto */}
+        <div className="card-img-container">
+          <img src={product.image} alt={product.name} />
+        </div>
+        {/* Contenitore per il testo del prodotto */}
+        <div className="card-text-container">
+          <h4>{product.name}</h4>
+          <div className="category-label">{product.category}</div>
+          <div className="price">
+            <b>{product.price} €</b>
+          </div>
+        </div>
+      </Link>
     </div>
   );
 }
