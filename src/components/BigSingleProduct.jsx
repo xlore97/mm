@@ -1,3 +1,5 @@
+import Badge from "../components/Badge";
+
 import TemporaryPic from "../assets/images/test-img.avif";
 
 export default function BigSingleProduct({ quantity, increase, decrease }) {
@@ -11,6 +13,11 @@ export default function BigSingleProduct({ quantity, increase, decrease }) {
 
         {/* TXT */}
         <div className="single-info-box">
+          {/* -------- BADGE -------- */}
+          <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+            <Badge label="vampire" type="vampire" />
+            <Badge label="Bestseller" type="bestseller" />
+          </div>
           <h2>Nome prodotto</h2>
           <p>
             Descrizione prodotto: Lorem ipsum dolor sit amet consectetur
