@@ -109,7 +109,7 @@ export default function SingleProductPage() {
       {/* Sezione carosello con prodotti correlati o consigliati */}
       <div className="carousel-section">
         <h3>Ti potrebbe interessare</h3>
-        <Carousel />
+        <Carousel category={product?.category} excludeId={product?.id} />
       </div>
     </div>
   );
