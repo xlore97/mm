@@ -117,8 +117,10 @@ h1 {
 .card {
   background-color: #1a1a1a;
   border-radius: 8px;
-  width: 200px;
-  margin-left: 20px;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-img-container img {
@@ -134,6 +136,19 @@ h1 {
   align-items: flex-start;
   justify-content: space-between;
   text-align: center;
+}
+
+/* ========================= PRODUCTS GRID ========================= */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  align-items: start;
+}
+
+.product-list .card {
+  width: 100%;
 }
 
 .card h4 {
@@ -276,6 +291,116 @@ h1 {
   flex-direction: column;
   gap: 20px;
   padding: 20px;
+}
+
+/* ========================= BIG SINGLE PRODUCT (improved) ========================= */
+.big-card {
+  display: flex;
+  gap: 30px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.big-card img {
+  width: 48%;
+  max-width: 520px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.big-card .details {
+  width: 52%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.big-card .details h1 {
+  font-size: 2.4rem;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.big-card .details p {
+  color: #d6d6d6;
+  line-height: 1.5;
+}
+
+.big-card .details .category-label {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-weight: 700;
+  color: #111;
+  background: #eee;
+  width: auto;
+}
+
+.big-card .details .price {
+  font-size: 1.6rem;
+  color: #c52020;
+  font-weight: 800;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.quantity-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: transparent;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.quantity-btn:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.quantity-number {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.add-to-cart {
+  width: 240px;
+  padding: 12px 0;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+@media (max-width: 900px) {
+  .main-container-sing-prod {
+    width: 92%;
+    padding-top: 90px;
+  }
+
+  .big-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .big-card img {
+    width: 100%;
+    height: auto;
+  }
+
+  .big-card .details {
+    width: 100%;
+  }
 }
 
 /* Badge */

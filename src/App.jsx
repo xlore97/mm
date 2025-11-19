@@ -17,7 +17,7 @@ function App() {
             <Route index element={<Homepage />} />
             {/* Route per la lista dei prodotti */}
             <Route path="/products" element={<CatalogPage />} />
-            {/* Route prodotto singolo */}
+            {/* Route prodotto singolo (usa lo slug) */}
             <Route path="/products/:slug" element={<SingleProductPage />} />
           </Route>
         </Routes>
