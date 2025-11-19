@@ -4,25 +4,23 @@ import Layout from "./layouts/Layout";
 import Homepage from "./Pages/Homepage";
 import CatalogPage from "./Pages/CatalogPage";
 import SingleProductPage from "./Pages/SingleProductPage";
+import CheckoutPage from "./Pages/CheckoutPage";
+import { CartProvider } from "./contexts/CartContext";
 
 function App() {
   return (
-    <>
-      {/* BrowserRouter avvolge tutta l'app per gestire la navigazione */}
+    <CartProvider>
       <BrowserRouter>
         <Routes>
-          {/* Route padre */}
           <Route element={<Layout />}>
-            {/* Route figlia principale: Homepage */}
             <Route index element={<Homepage />} />
-            {/* Route per la lista dei prodotti */}
             <Route path="/products" element={<CatalogPage />} />
-            {/* Route prodotto singolo (usa lo slug) */}
             <Route path="/products/:slug" element={<SingleProductPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </CartProvider>
   );
 }
 
