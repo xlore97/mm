@@ -5,7 +5,7 @@ import SingleProduct from "./SingleProduct";
 // Numero di card visibili alla volta
 const VISIBLE_COUNT = 4;
 
-export default function Carousel() {
+export default function Carousel({ category, excludeId }) {
   // Indice iniziale della "finestra" del carousel
   const [startIndex, setStartIndex] = useState(0);
   // Stato per memorizzare i prodotti ricevuti dal backend
@@ -24,8 +24,15 @@ export default function Carousel() {
   // Controllo se possiamo spostarci a sinistra
   const canGoPrev = startIndex > 0;
 
+  // Filtra i prodotti per categoria (se fornita) e opzionalmente esclude l'elemento corrente
+  const filteredProducts = category
+    ? products.filter(
+      (p) => String(p.category || "").toLowerCase() === String(category || "").toLowerCase() && String(p.id) !== String(excludeId)
+    )
+    : products;
+
   // Controllo se possiamo spostarci a destra
-  const canGoNext = startIndex + VISIBLE_COUNT < products.length;
+  const canGoNext = startIndex + VISIBLE_COUNT < filteredProducts.length;
 
   // Funzione per spostare la finestra a sinistra
   const handlePrev = () => {
@@ -38,7 +45,7 @@ export default function Carousel() {
   };
 
   // Prende i prodotti visibili nella "finestra" corrente
-  const visibleItems = products.slice(startIndex, startIndex + VISIBLE_COUNT);
+  const visibleItems = filteredProducts.slice(startIndex, startIndex + VISIBLE_COUNT);
 
   return (
     <div className="carousel-container">
