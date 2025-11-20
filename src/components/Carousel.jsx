@@ -1,3 +1,5 @@
+/* ========================= CAROSELLO DELLA PAG PRODOTTO SUNGOLO ========================= */
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import SingleProduct from "./SingleProduct";

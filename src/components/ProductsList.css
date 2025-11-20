@@ -1,9 +1,11 @@
 /* ========================= PRODUCTS  ========================= */
+
+/* wrapper generale della lista prodotti */
 .list-container {
   margin-top: 24px;
 }
 
-/* base: contenitore prodotti */
+/* riga base: verrà specializzata da .grid-mode / .list-mode */
 .product-list-row {
   display: flex;
   flex-wrap: wrap;
@@ -15,56 +17,11 @@
   justify-content: center;
 }
 
+/* larghezza card in griglia */
 .product-list-row.grid-mode .card {
-  /* ========================= PRODUCTS  ========================= */
-
-  /* wrapper generale della lista prodotti */
-  .list-container {
-    margin-top: 24px;
-  }
-
-  /* riga base: verrà specializzata da .grid-mode / .list-mode */
-  .product-list-row {
-    display: flex;
-    gap: 24px;
-  }
-
-  /* ====== MODALITÀ GRIGLIA ====== */
-  .product-list-row.grid-mode {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  /* larghezza card in griglia */
-  .product-list-row.grid-mode .card {
-    flex: 0 1 310px;
-  }
-
-  /* ====== MODALITÀ LISTA ====== */
-  .product-list-row.list-mode {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  /* ogni card diventa una "riga" centrata */
-  .product-list-row.list-mode .card {
-    width: 90%;
-  }
-
-  /* titolo un filo più piccolo in lista */
-  .product-list-row.list-mode .card h4 {
-    font-size: 1.1rem;
-  }
-
-  /* ========================= RESPONSIVE ========================= */
-
-  @media (max-width: 700px) {
-    .product-list-row.list-mode .card {
-      max-width: 100%;
-    }
-  }
-
-  flex: 0 1 310px; /* larghezza card in griglia */
+  flex: 0 0 calc(25% - 24px); /* 4 card per riga senza shrink */
+  max-width: 350px;
+  min-width: 280px; /* limite minimo responsivo */
 }
 
 /* ====== MODALITÀ LISTA ====== */
@@ -73,8 +30,9 @@
   align-items: center;
 }
 
+/* ogni card diventa una "riga" centrata */
 .product-list-row.list-mode .card {
-  width: 500px;
+  width: 90%;
   max-width: 500px;
   padding: 12px 16px;
 }
@@ -82,5 +40,3 @@
 .product-list-row.list-mode .card h4 {
   font-size: 1.1rem;
 }
-
-/* ========================= RESPONSIVE ========================= */

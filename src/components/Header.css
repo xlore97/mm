@@ -13,15 +13,13 @@
 }
 
 .header-logo {
-  height: 50px;
+  height: 25px;
   margin-left: 20px;
-  padding-top: 5px;
 }
 
 .col-left,
 .col-center,
 .col-right {
-  width: calc(100% / 3);
   height: 100%;
   display: flex;
   align-items: center;

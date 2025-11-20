@@ -9,10 +9,12 @@ export default function Header() {
   return (
     <header>
       <div className="header-wrapper">
-        <div className="col-left">
-          <img src={HeaderLogo} alt="logo" className="header-logo" />
-          <h3>Mors Market</h3>
-        </div>
+        <Link to="/">
+          <div className="col-left">
+            <img src={HeaderLogo} alt="logo" className="header-logo" />
+            <h3>Mors Market</h3>
+          </div>
+        </Link>
 
         <div className="col-center">
           <nav>
