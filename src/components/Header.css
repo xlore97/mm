@@ -1,0 +1,142 @@
+/* ========================= HEADER ========================= */
+.header-wrapper {
+  background-color: #1b1b1b;
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-logo {
+  height: 50px;
+  margin-left: 20px;
+  padding-top: 5px;
+}
+
+.col-left,
+.col-center,
+.col-right {
+  width: calc(100% / 3);
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.col-center {
+  justify-content: center;
+}
+
+.col-center a {
+  margin-left: 20px;
+  font-size: 1.2rem;
+}
+
+.col-right {
+  justify-content: flex-end;
+  margin-right: 20px;
+}
+
+.col-right span,
+.material-symbols-outlined {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.title-wrapper {
+  margin-left: 10px;
+  padding: 10px;
+}
+
+/* ========================= HEADER RESPONSIVE ========================= */
+
+/* Tablet / mobile orizzontale */
+@media (max-width: 900px) {
+  .header-wrapper {
+    height: 56px;
+    padding: 0 12px;
+  }
+
+  .header-logo {
+    height: 40px;
+    margin-left: 0;
+    padding-top: 0;
+  }
+
+  .title-wrapper {
+    padding: 4px 6px;
+    margin-left: 6px;
+  }
+
+  .title-wrapper h3 {
+    font-size: 1.15rem;
+  }
+
+  .col-left,
+  .col-center,
+  .col-right {
+    width: auto;
+  }
+
+  .col-left {
+    flex: 1; /* logo + titolo prendono lo spazio a sinistra */
+  }
+
+  .col-center {
+    justify-content: flex-end;
+  }
+
+  .col-center a {
+    margin-left: 14px;
+    font-size: 1rem;
+  }
+
+  .col-right {
+    margin-right: 0;
+    margin-left: 10px;
+  }
+
+  .cart-button {
+    display: flex;
+    align-items: center;
+  }
+
+  .cart-button .material-symbols-outlined {
+    margin-right: 6px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile stretto */
+@media (max-width: 600px) {
+  .header-wrapper {
+    height: 52px;
+  }
+
+  .header-logo {
+    height: 34px;
+  }
+
+  .title-wrapper h3 {
+    font-size: 1rem;
+  }
+
+  .col-center a {
+    margin-left: 10px;
+    font-size: 0.9rem;
+  }
+
+  /* tieni solo l’icona del carrello, nascondi la scritta */
+  .cart-button span:last-child {
+    display: none;
+  }
+
+  .cart-button .material-symbols-outlined {
+    margin-right: 0;
+  }
+}

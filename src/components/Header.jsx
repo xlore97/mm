@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import HeaderLogo from "../assets/images/logo-header.png";
+import "./Header.css";
 
 export default function Header() {
   return (
@@ -8,7 +9,11 @@ export default function Header() {
         {/* Logo e nome shop */}
         <div className="col-left">
           <div>
-            <img src={HeaderLogo} alt="logo teschio header" className="header-logo" />
+            <img
+              src={HeaderLogo}
+              alt="logo teschio header"
+              className="header-logo"
+            />
           </div>
           <div className="title-wrapper">
             <h3>Mors Market</h3>

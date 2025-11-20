@@ -1,0 +1,145 @@
+/* ========================= BIG SINGLE PRODUCT ========================= */
+
+.big-card {
+  display: flex;
+  gap: 30px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(255, 255, 255, 0.01)
+  );
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.big-card img {
+  width: 48%;
+  max-width: 520px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.big-card .details {
+  width: 52%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.big-card .details h1 {
+  font-size: 2.4rem;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+/* testo generico nella colonna di destra */
+.big-card .details p {
+  color: #d6d6d6;
+  line-height: 1.5;
+}
+
+/* riga "Categoria: [badge]" */
+.category-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 8px 0;
+}
+
+.category-label {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+/* prezzo evidenziato */
+.price {
+  font-size: 1.6rem;
+  color: #c52020;
+  font-weight: 800;
+}
+
+/* descrizione prodotto */
+.description {
+  margin-top: 6px;
+  color: #d6d6d6;
+  line-height: 1.5;
+}
+
+/* ========================= QUANTITÀ + CTA ========================= */
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.quantity-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background-color: transparent;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.15);
+}
+
+.quantity-btn:hover {
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.quantity-number {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+}
+
+/* bottone carrello */
+.add-to-cart {
+  width: 100%;
+  background-color: #c62020;
+  color: white;
+  padding: 12px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.add-to-cart:hover {
+  background-color: #e02d2d;
+  transform: scale(1.01);
+}
+
+/* ========================= RESPONSIVE ========================= */
+
+@media (max-width: 900px) {
+  .main-container-sing-prod {
+    width: 92%;
+    padding-top: 90px;
+  }
+
+  .big-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .big-card img {
+    width: 100%;
+    height: auto;
+  }
+
+  .big-card .details {
+    width: 100%;
+  }
+}
