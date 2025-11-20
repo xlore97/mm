@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../assets/checkout-css/Checkout.css";
 import CartItem from "../components/CartItem";
 import { useCart } from "../contexts/CartContext";
 
 export default function CheckoutPage() {
-  // prendo dal contesto i prodotti e il totale del carrello
   const { cart, total } = useCart();
 
   const [billingData, setBillingData] = useState({
@@ -16,10 +15,8 @@ export default function CheckoutPage() {
     country: "",
   });
 
-  // stato per abilitare l'indirizzo di spedizione diverso
   const [useDifferentAddress, setUseDifferentAddress] = useState(false);
 
-  // stato per i dati di shipping (spedizione)
   const [shippingData, setShippingData] = useState({
     name: "",
     email: "",
@@ -29,30 +26,46 @@ export default function CheckoutPage() {
     country: "",
   });
 
-  // funzione per aggiornare dinamicamente i campi del billing
+  const [canCompleteOrder, setCanCompleteOrder] = useState(false);
+
+  // aggiorna billing
   const handleBillingChange = (e) => {
     const { name, value } = e.target;
     setBillingData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // funzione per aggiornare dinamicamente i campi dello shipping
+  // aggiorna shipping
   const handleShippingChange = (e) => {
     const { name, value } = e.target;
     setShippingData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // funzione per completare l'ordine
-  // previene il refresh della pagina al submit
+  // controlla validità form
+  useEffect(() => {
+    const billingComplete =
+      billingData.name.trim() &&
+      billingData.email.trim() &&
+      billingData.address.trim() &&
+      billingData.city.trim() &&
+      /^\d{5}$/.test(billingData.zip) &&
+      billingData.country;
+
+    const shippingComplete = useDifferentAddress
+      ? shippingData.name.trim() &&
+        shippingData.email.trim() &&
+        shippingData.address.trim() &&
+        shippingData.city.trim() &&
+        /^\d{5}$/.test(shippingData.zip) &&
+        shippingData.country
+      : true;
+
+    setCanCompleteOrder(billingComplete && shippingComplete && cart.length > 0);
+  }, [billingData, shippingData, useDifferentAddress, cart]);
+
   const handleCompleteOrder = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
+    if (!canCompleteOrder) return;
 
-    // controllo se il carrello è vuoto
-    if (cart.length === 0) {
-      alert("Il carrello è vuoto!");
-      return;
-    }
-
-    // creo un oggetto con tutti i dati dell'ordine
     const order = {
       cart,
       total,
@@ -60,26 +73,25 @@ export default function CheckoutPage() {
       shipping: useDifferentAddress ? shippingData : billingData,
     };
 
-    console.log("Ordine completato:", order); // simula invio al backend
+    console.log("Ordine completato:", order);
     alert("Ordine completato! Controlla console.");
   };
 
   return (
     <div className="checkout-container">
-      {/* COLONNA SINISTRA: prodotti + indirizzi */}
+      {/* COLONNA SINISTRA: carrello + indirizzi */}
       <div className="col-left-checkout">
-        {/* lista prodotti dal carrello */}
         {cart.length > 0 ? (
           cart.map((item) => <CartItem key={item.id} item={item} />)
         ) : (
           <p>Il carrello è vuoto!</p>
         )}
 
-        {/* ================== BILLING ADDRESS ================== */}
+        {/* BILLING ADDRESS */}
         <div className="address-container">
           <h2 className="address-text">Indirizzo di Fatturazione</h2>
           <form>
-            {/* riga 1: nome e email */}
+            {/* RIGA 1: Nome e Email */}
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="name">Nome</label>
@@ -87,9 +99,9 @@ export default function CheckoutPage() {
                   type="text"
                   name="name"
                   id="name"
-                  value={billingData.name} // binding dinamico
-                  onChange={handleBillingChange} // aggiorna lo stato
-                  required // validazione
+                  value={billingData.name}
+                  onChange={handleBillingChange}
+                  required
                   placeholder="Es. Vlad Dracula"
                 />
               </div>
@@ -107,7 +119,7 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            {/* riga 2: indirizzo */}
+            {/* RIGA 2: Indirizzo */}
             <div className="form-row">
               <div className="form-group full-width">
                 <label htmlFor="address">Indirizzo</label>
@@ -123,7 +135,7 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            {/* riga 3: città, CAP, nazione */}
+            {/* RIGA 3: Città, CAP, Nazione */}
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="city">Città</label>
@@ -146,7 +158,7 @@ export default function CheckoutPage() {
                   value={billingData.zip}
                   onChange={handleBillingChange}
                   required
-                  pattern="\d{5}" // solo 5 numeri
+                  pattern="\d{5}"
                   placeholder="Es: 80100"
                 />
               </div>
@@ -170,28 +182,24 @@ export default function CheckoutPage() {
           </form>
         </div>
 
-        {/* ================== SHIPPING ADDRESS ================== */}
+        {/* SHIPPING ADDRESS OPZIONALE */}
         <div className="address-container">
           <h2 className="address-text">Indirizzo di Spedizione</h2>
-          <div>
-            {/* checkbox per abilitare un indirizzo di spedizione diverso */}
-            <label>
-              <input
-                type="checkbox"
-                checked={useDifferentAddress}
-                onChange={() => setUseDifferentAddress((prev) => !prev)}
-                className="checkbox"
-              />
-              <h4 className="inlineblock-text">
-                Inserisci un indirizzo di spedizione diverso
-              </h4>
-            </label>
-          </div>
+          <label>
+            <input
+              type="checkbox"
+              checked={useDifferentAddress}
+              onChange={() => setUseDifferentAddress((prev) => !prev)}
+              className="checkbox"
+            />
+            <span className="inlineblock-text">
+              Inserisci un indirizzo di spedizione diverso
+            </span>
+          </label>
 
-          {/* form di shipping solo se spuntato */}
           {useDifferentAddress && (
             <form>
-              {/* riga 1: nome e email */}
+              {/* RIGA 1 */}
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="s_name">Nome</label>
@@ -219,7 +227,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* riga 2: indirizzo */}
+              {/* RIGA 2 */}
               <div className="form-row">
                 <div className="form-group full-width">
                   <label htmlFor="s_address">Indirizzo</label>
@@ -235,7 +243,7 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* riga 3: città, CAP, nazione */}
+              {/* RIGA 3 */}
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="s_city">Città</label>
@@ -291,8 +299,11 @@ export default function CheckoutPage() {
             <h4>Totale:</h4>
             <h3 className="total">€{total}</h3>
           </div>
-          {/* bottone completa ordine */}
-          <button className="checkout-btn" onClick={handleCompleteOrder}>
+          <button
+            className="checkout-btn"
+            onClick={handleCompleteOrder}
+            disabled={!canCompleteOrder}
+          >
             Completa Ordine
           </button>
         </div>
