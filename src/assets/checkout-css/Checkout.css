@@ -1,0 +1,253 @@
+/* ========================= CSS RESET ========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: white;
+}
+
+/* ========================= GENERAL RULES ========================= */
+a {
+  text-decoration: none;
+  color: white;
+}
+
+h1,
+h3 {
+  font-family: "Merriweather", serif;
+  color: white;
+}
+
+h3 {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+h2 {
+  font-family: "Lato", sans-serif;
+  font-style: normal;
+  font-size: 1.4rem;
+  margin-top: 20px;
+}
+
+h4 {
+  font-family: "Lato", sans-serif;
+  color: rgb(149, 149, 149);
+  font-weight: light;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.light {
+  font-weight: 00;
+}
+
+/* CHECKOUT */
+.checkout-container {
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  gap: 30px;
+}
+
+.col-left-checkout {
+  width: 70%;
+  min-height: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.col-right-checkout {
+  width: 30%;
+  margin-top: 70px;
+}
+
+/* CART ITEM */
+.cart-item-wrapper,
+.address-container,
+.summary-container {
+  background-color: #1b1b1b;
+  border-radius: 12px;
+  border: 1px solid rgb(50, 50, 50);
+  padding: 10px;
+  width: 100%;
+}
+
+.cart-item-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 400px;
+}
+
+.address-container {
+  min-height: 200px;
+  margin-top: 30px;
+}
+
+.cart-item-col-left {
+  width: 20%;
+}
+
+.cart-item-col-center {
+  width: 60%;
+}
+
+.cart-item-col-right {
+  width: 20%;
+}
+
+.btn-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.total {
+  color: #c52020;
+  margin-left: 50px;
+}
+
+.quantity {
+  margin-left: 20px;
+  margin-right: 20px;
+  font-family: "Lato", sans-serif;
+}
+
+.address-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.form-group.full-width {
+  flex: 1 1 100%;
+}
+
+.address-container label {
+  font-family: "Lato", sans-serif;
+  font-size: 1rem;
+  color: #ffffff;
+  margin-bottom: 5px;
+}
+
+.address-container input,
+.address-container select {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid rgb(70, 70, 70);
+  background-color: #2b2b2b; /* colore più scuro */
+  color: white;
+  font-size: 1rem;
+  outline: none;
+}
+
+.address-container select {
+  cursor: pointer;
+}
+
+.inlineblock-text {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.checkbox {
+  margin-left: 10px;
+}
+
+.summary-container {
+  background-color: #1b1b1b; /* stesso sfondo scuro */
+  border-radius: 12px;
+  border: 1px solid rgb(50, 50, 50);
+  padding: 25px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.summary-container h2 {
+  font-family: "Lato", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-row h4 {
+  font-family: "Lato", sans-serif;
+  font-size: 1rem;
+  color: rgb(104, 104, 104);
+  margin: 0;
+}
+
+.summary-row .total {
+  font-family: "Lato", sans-serif;
+  font-size: 1.5rem;
+  color: #c52020; /* rosso come totale nel CartItem */
+  margin: 0;
+}
+
+.coupon-section h4 {
+  font-family: "Lato", sans-serif;
+  font-size: 1rem;
+  color: rgb(200, 200, 200);
+  margin-bottom: 10px;
+}
+
+.coupon-section form {
+  display: flex;
+  gap: 10px;
+}
+
+.coupon-section input {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid rgb(70, 70, 70);
+  background-color: #2b2b2b;
+  color: white;
+  font-size: 1rem;
+}
+
+.coupon-section button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: #c52020;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.checkout-btn {
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  background-color: #c52020;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 10px;
+}
