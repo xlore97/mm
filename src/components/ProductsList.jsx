@@ -1,15 +1,16 @@
 import SingleProduct from "./SingleProduct";
+import "./ProductsList.css";
 
-// ProductsList riceve una prop "products", che di default è un array vuoto.
-// Questo evita errori se il componente viene usato senza passare products.
-export default function ProductsList({ products = [] }) {
-  
+export default function ProductsList({ products = [], viewMode = "grid" }) {
+  const isList = viewMode === "list";
+
   return (
-    <div className="product-list">
-      {products.map((p) => (
-        // passiamo il prodotto come prop al componente SingleProduct
-        <SingleProduct key={p.id} product={p} />
-      ))}
+    <div className="list-container">
+      <div className={`product-list-row ${isList ? "list-mode" : "grid-mode"}`}>
+        {products.map((p) => (
+          <SingleProduct key={p.id} product={p} isList={isList} />
+        ))}
+      </div>
     </div>
   );
 }

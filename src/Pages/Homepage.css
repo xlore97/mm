@@ -1,0 +1,26 @@
+/* ========================= HOMEPAGE ========================= */
+.homepage-section {
+  padding: 0 40px;
+  margin: 0 auto;
+}
+
+.homepage-section-titles {
+  font-size: 2.5rem;
+  padding-left: 20px;
+  margin-bottom: 20px;
+  margin-top: 60px;
+}
+
+.latest-arrivals-container,
+.bestsellers-container {
+  min-height: 300px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.latest-arrivals-container {
+  border-radius: 10px;
+  width: 250px;
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+}

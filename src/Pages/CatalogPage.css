@@ -1,0 +1,41 @@
+/* ===== Layout generale pagina catalogo ===== */
+.catalog-page {
+  width: 90%;
+  margin: 0 auto;
+  padding: 80px 20px;
+  color: white;
+}
+
+/* Header della sezione catalogo */
+.catalog-header {
+  margin-bottom: 30px;
+}
+
+.catalog-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #ffffff;
+}
+
+.catalog-subtitle {
+  font-size: 1.1rem;
+  color: #c0c0c0;
+  font-style: italic;
+}
+
+/* Numero prodotti */
+.catalog-count {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: #b3b3b3;
+  font-size: 0.95rem;
+}
+
+/* Messaggi error/caricamento */
+.error-text {
+  color: #ff6565;
+  font-weight: 600;
+  margin: 20px 0;
+  text-align: center;
+}

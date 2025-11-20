@@ -1,0 +1,44 @@
+/* ========================= BADGE CATEGORIA ========================= */
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-top: 6px;
+}
+
+/* Categorie */
+.badge.vampire {
+  background-color: #3c1b1b;
+  color: #c52020;
+  border: 1px solid #c52020;
+}
+
+.badge.witch {
+  background-color: #2a1c32;
+  color: #ffffff;
+  border: 1px solid #3b1e4a;
+}
+
+.badge.lycan {
+  background-color: #000060;
+  color: #e7b540;
+  border: 1px solid #000060;
+}
+
+/* badge speciali */
+.bestseller {
+  background-color: #a57c1b;
+  color: black;
+  border: 1px solid #d3b14d;
+}
+
+/* fallback generico */
+.badge.default {
+  background-color: #333;
+  color: #eee;
+  border: 1px solid #666;
+}

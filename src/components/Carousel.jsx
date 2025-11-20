@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import SingleProduct from "./SingleProduct";
+import "./Carousel.css";
 
 // Numero di card visibili alla volta
 const VISIBLE_COUNT = 4;
@@ -27,8 +28,11 @@ export default function Carousel({ category, excludeId }) {
   // Filtra i prodotti per categoria (se fornita) e opzionalmente esclude l'elemento corrente
   const filteredProducts = category
     ? products.filter(
-      (p) => String(p.category || "").toLowerCase() === String(category || "").toLowerCase() && String(p.id) !== String(excludeId)
-    )
+        (p) =>
+          String(p.category || "").toLowerCase() ===
+            String(category || "").toLowerCase() &&
+          String(p.id) !== String(excludeId)
+      )
     : products;
 
   // Controllo se possiamo spostarci a destra
@@ -45,25 +49,37 @@ export default function Carousel({ category, excludeId }) {
   };
 
   // Prende i prodotti visibili nella "finestra" corrente
-  const visibleItems = filteredProducts.slice(startIndex, startIndex + VISIBLE_COUNT);
+  const visibleItems = filteredProducts.slice(
+    startIndex,
+    startIndex + VISIBLE_COUNT
+  );
 
   return (
     <div className="carousel-container">
       {/* Freccia sinistra */}
-      <button onClick={handlePrev} disabled={!canGoPrev}>
+      <button
+        className="carousel-arrow"
+        onClick={handlePrev}
+        disabled={!canGoPrev}
+        aria-label="Prodotti precedenti"
+      >
         ‹
       </button>
 
-      {/* Track del carousel contenente le card visibili */}
+      {/* Track del carousel con le card */}
       <div className="carousel-track">
         {visibleItems.map((product) => (
-          // Mappiamo ogni prodotto reale nel componente SingleProduct
           <SingleProduct key={product.id} product={product} />
         ))}
       </div>
 
       {/* Freccia destra */}
-      <button onClick={handleNext} disabled={!canGoNext}>
+      <button
+        className="carousel-arrow"
+        onClick={handleNext}
+        disabled={!canGoNext}
+        aria-label="Prodotti successivi"
+      >
         ›
       </button>
     </div>

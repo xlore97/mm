@@ -1,0 +1,40 @@
+/* ========================= SINGLE PRODUCT PAGE ========================= */
+.main-container-sing-prod {
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 100px;
+  color: white;
+}
+
+.go-back-btn {
+  background-color: transparent;
+  border: transparent;
+  color: white;
+}
+
+/* prodotto */
+.box-singolo-prodotto {
+  height: 400px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+
+.single-img-box {
+  width: 50%;
+}
+
+.single-img-box img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.single-info-box {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
