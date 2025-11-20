@@ -72,7 +72,7 @@ export default function CheckoutPage() {
         {cart.length > 0 ? (
           cart.map((item) => <CartItem key={item.id} item={item} />)
         ) : (
-          <p>Il carrello è vuoto</p>
+          <p>Il carrello è vuoto!</p>
         )}
 
         {/* ================== BILLING ADDRESS ================== */}
