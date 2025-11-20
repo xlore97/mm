@@ -53,12 +53,11 @@ export default function CatalogPage() {
 
   // ==================  FILTRO/ORDINE ==================
 
-  // Categoria del prodotto
   const getCategoryKey = (product) => {
     const c = String(product.category || "").toLowerCase();
-    if (c.includes("vamp")) return "vampire"; // Vampiri
-    if (c.includes("streg")) return "witch"; // Streghe
-    if (c.includes("licant") || c.includes("lycan")) return "lycan"; // Licantropi
+    if (c.includes("vamp")) return "vampire";
+    if (c.includes("witch")) return "witch";    // cambiato da "streg"
+    if (c.includes("lycan") || c.includes("were")) return "lycan"; // aggiunto "were" per Werewolves
     return "other";
   };
 
