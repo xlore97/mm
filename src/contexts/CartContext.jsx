@@ -1,51 +1,64 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  // qui teniamo lo stato del carrello: parte vuoto
-  const [cart, setCart] = useState([]);
-  // funzione per aggiungere un prodotto
-  // se il prodotto c'è già allora aumenta quantità
-  // se non c'è lo aggiunge
+  // Stato del carrello: inizializza da localStorage se presente
+  const [cart, setCart] = useState(() => {
+    const saved = localStorage.getItem("cart");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Aggiorna localStorage ogni volta che il carrello cambia
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  // Aggiungi prodotto al carrello
+  // Se esiste già, somma la quantità
   function addItem(item) {
-    const existing = cart.find(p => p.id === item.id);
+    const existing = cart.find((p) => p.id === item.id);
     if (existing) {
-      const updated = cart.map(p =>
-        p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p
+      const updated = cart.map((p) =>
+        p.id === item.id ? { ...p, quantity: p.quantity + item.quantity } : p
       );
       setCart(updated);
     } else {
-      setCart([...cart, { ...item, quantity: 1 }]);
+      // item già contiene quantity
+      setCart([...cart, { ...item }]);
     }
   }
 
-  // funzione per rimuovere un prodotto usando l'id
+  // Rimuovi prodotto
   function removeItem(id) {
-    const updated = cart.filter(item => item.id !== id);
-    setCart(updated);
+    setCart(cart.filter((item) => item.id !== id));
   }
 
-  // funzione per aggiornare la quantità di un prodotto
+  // Aggiorna quantità
   function updateQuantity(id, qty) {
-    const updated = cart.map(item =>
-      item.id === id ? { ...item, quantity: qty } : item
-    ).filter(item => item.quantity > 0); // rimuove prodotti con quantità 0
+    const updated = cart
+      .map((item) => (item.id === id ? { ...item, quantity: qty } : item))
+      // rimuove se quantità 0
+      .filter((item) => item.quantity > 0);
     setCart(updated);
   }
 
-  // totale del carrello (prezzo * quantità)
+  // Totale del carrello
   const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-  // qui mettiamo a disposizione tutto ai componenti figli
+  // Numero totale di prodotti (per header)
+  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+
   return (
-    <CartContext.Provider value={{ cart, addItem, removeItem, updateQuantity, total }}>
+    <CartContext.Provider
+      value={{ cart, addItem, removeItem, updateQuantity, total, totalItems }}
+    >
       {children}
     </CartContext.Provider>
   );
 }
 
-// hook per usare il cart context in modo più comodo
+// Hook comodo
 export function useCart() {
   return useContext(CartContext);
 }

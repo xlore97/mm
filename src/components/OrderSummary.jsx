@@ -1,6 +1,4 @@
-import { useCart } from "../contexts/CartContext";
-
-export default function OrderSummary() {
+export default function OrderSummary({ isBillingComplete }) {
   const { total } = useCart();
 
   return (
@@ -10,7 +8,9 @@ export default function OrderSummary() {
         <h4>Totale:</h4>
         <h3 className="total">€{total}</h3>
       </div>
-      <button className="checkout-btn">Completa Ordine</button>
+      <button className="checkout-btn" disabled={!isBillingComplete}>
+        Completa Ordine
+      </button>
     </div>
   );
 }
