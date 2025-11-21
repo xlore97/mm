@@ -5,6 +5,7 @@ import Homepage from "./Pages/Homepage";
 import CatalogPage from "./Pages/CatalogPage";
 import SingleProductPage from "./Pages/SingleProductPage";
 import CheckoutPage from "./Pages/CheckoutPage";
+import OrderComplete from "./Pages/OrderComplete";
 import { CartProvider } from "./contexts/CartContext";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <Route path="/products" element={<CatalogPage />} />
             <Route path="/products/:slug" element={<SingleProductPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/order-complete" element={<OrderComplete />} />
           </Route>
         </Routes>
       </BrowserRouter>

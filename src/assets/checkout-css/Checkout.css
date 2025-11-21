@@ -71,7 +71,8 @@ h4 {
   padding: 15px;
   border-radius: 12px;
   border: 1px solid rgb(50, 50, 50);
-  background-color: #1b1b1b; /* sfondo scuro uniforme */
+  background-color: #1b1b1b;
+  /* sfondo scuro uniforme */
 }
 
 .cart-item-col-left {
@@ -197,7 +198,8 @@ h4 {
   padding: 10px 15px;
   border-radius: 8px;
   border: 1px solid rgb(70, 70, 70);
-  background-color: #2b2b2b; /* colore più scuro */
+  background-color: #2b2b2b;
+  /* colore più scuro */
   color: white;
   font-size: 1rem;
   outline: none;
@@ -218,7 +220,8 @@ h4 {
 
 /* SUMMARY CONTAINER */
 .summary-container {
-  background-color: #1b1b1b; /* stesso sfondo scuro */
+  background-color: #1b1b1b;
+  /* stesso sfondo scuro */
   border-radius: 12px;
   border: 1px solid rgb(50, 50, 50);
   padding: 25px;
@@ -299,4 +302,107 @@ h4 {
   font-size: 1.1rem;
   cursor: pointer;
   margin-top: 10px;
+}
+
+/* PAYMENT MODAL */
+.payment-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.payment-modal {
+  background: #151515;
+  padding: 20px;
+  border-radius: 12px;
+  width: 420px;
+  max-width: calc(100% - 40px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  position: relative;
+  color: white;
+}
+
+.payment-modal h3 {
+  margin-bottom: 12px;
+}
+
+.payment-modal .modal-close {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  background: transparent;
+  border: none;
+  color: #ddd;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.payment-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* spazio tra la scritta (label) e il box di input */
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.payment-form input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgb(70, 70, 70);
+  background-color: #2b2b2b;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+}
+
+.payment-form .form-row {
+  display: flex;
+  gap: 10px;
+}
+
+/* Make expiry take available space and CVV a smaller fixed width */
+.payment-form .form-row .expiry-label {
+  flex: 1 1 auto;
+}
+
+.payment-form .form-row .cvv-label {
+  flex: 0 0 110px;
+  /* fixed small width for CVV */
+}
+
+.payment-form .cvv-input {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.payment-form .expiry-input {
+  width: 100%;
+}
+
+.payment-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.btn-secondary {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  background: #2b2b2b;
+  color: #fff;
+  cursor: pointer;
+}
+
+.payment-error {
+  color: #ff7b7b;
+  margin-top: 6px;
 }
