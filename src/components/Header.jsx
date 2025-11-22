@@ -10,8 +10,10 @@ export default function Header() {
     <header>
       <div className="header-wrapper">
         <div className="col-left">
-          <img src={HeaderLogo} alt="logo" className="header-logo" />
-          <h3>Mors Market</h3>
+          <Link to="/">
+            <img src={HeaderLogo} alt="logo" className="header-logo" />
+            <h3>Mors Market</h3>
+          </Link>
         </div>
 
         <div className="col-center">
@@ -22,11 +24,10 @@ export default function Header() {
         </div>
 
         <div className="col-right">
-          <Link to="/checkout" className="cart-button">
+          <NavLink to="/checkout" className="cart-button">
             <span className="material-symbols-outlined">shopping_cart</span>
-            <span>Carrello</span>
             {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
-          </Link>
+          </NavLink>
         </div>
       </div>
     </header>

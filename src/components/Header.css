@@ -1,4 +1,15 @@
 /* ========================= HEADER ========================= */
+
+a {
+  font-size: 1.4rem;
+}
+
+.cart-button,
+.cart-button .material-symbols-outlined,
+.cart-button .cart-count {
+font-size: 2rem;
+}
+
 .header-wrapper {
   background-color: #1b1b1b;
   height: 60px;
@@ -15,7 +26,16 @@
 .header-logo {
   height: 50px;
   margin-left: 20px;
-  padding-top: 5px;
+  margin-right: 5px;
+  margin-top: 2px;
+}
+
+.col-left a {
+  display: flex;
+}
+
+.col-left h3 {
+  line-height: 55px;
 }
 
 .col-left,
@@ -33,7 +53,6 @@
 
 .col-center a {
   margin-left: 20px;
-  font-size: 1.2rem;
 }
 
 .col-right {
@@ -52,6 +71,19 @@
   margin-left: 10px;
   padding: 10px;
 }
+
+
+/* ACTIVE STATE */
+nav a.active {
+  color: #c52020;
+  font-weight: bold;
+}
+.cart-button.active,
+.cart-button.active .material-symbols-outlined,
+.cart-button.active .cart-count {
+  color: #c52020;
+}
+
 
 /* ========================= HEADER RESPONSIVE ========================= */
 
