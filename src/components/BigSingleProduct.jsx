@@ -25,8 +25,8 @@ export default function BigSingleProduct({ product, quantity, increase, decrease
     <div className="big-card">
       <img src={product.image} alt={product.name} />
       <div className="details">
-        <Badge category={product.category} />
         <h1>{product.name}</h1>
+        <Badge category={product.category} />
         <p>Prezzo: {priceText}</p>
         <p>{product.description}</p>
 

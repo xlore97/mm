@@ -72,16 +72,16 @@ export default function SearchBar({
 
       {/* -------- vista griglia/lista -------- */}
       <div className="search-row view-row">
-        <button
-          className="view-toggle-btn-single"
-          onClick={() => onViewModeChange(isGrid ? "list" : "grid")}
-        >
-          <span className="material-symbols-outlined">
-            {isGrid ? "grid_view" : "view_list"}
-          </span>
-          <span>{isGrid ? "Griglia" : "Lista"}</span>
-        </button>
-      </div>
-    </section>
+  <button
+    className="view-toggle-btn-single"
+    onClick={() => onViewModeChange(isGrid ? "list" : "grid")}
+  >
+    <span className="material-symbols-outlined">
+      {isGrid ? "view_list" : "grid_view"}
+    </span>
+    <span>{isGrid ? "Lista" : "Griglia"}</span>
+  </button>
+</div>
+</section>
   );
 }
