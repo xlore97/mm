@@ -18,14 +18,22 @@ export function CartProvider({ children }) {
   // Se esiste già, somma la quantità
   function addItem(item) {
     const existing = cart.find((p) => p.id === item.id);
+
+    const available =
+      // prefer explicit stock property, fall back to product.quantity if present
+      (item && (item.stock ?? item.available ?? item.quantity ?? Infinity)) || Infinity;
+
     if (existing) {
+      const desired = existing.quantity + (item.quantity || 0);
+      const newQty = Math.min(desired, available);
       const updated = cart.map((p) =>
-        p.id === item.id ? { ...p, quantity: p.quantity + item.quantity } : p
+        p.id === item.id ? { ...p, quantity: newQty } : p
       );
       setCart(updated);
     } else {
-      // item già contiene quantity
-      setCart([...cart, { ...item }]);
+      const addQty = Math.min(item.quantity || 0, available);
+      if (addQty <= 0) return;
+      setCart([...cart, { ...item, quantity: addQty }]);
     }
   }
 
@@ -37,7 +45,12 @@ export function CartProvider({ children }) {
   // Aggiorna quantità
   function updateQuantity(id, qty) {
     const updated = cart
-      .map((item) => (item.id === id ? { ...item, quantity: qty } : item))
+      .map((item) => {
+        if (item.id !== id) return item;
+        const available = item.stock ?? item.available ?? item.quantity ?? Infinity;
+        const newQty = Math.min(qty, available);
+        return { ...item, quantity: newQty };
+      })
       // rimuove se quantità 0
       .filter((item) => item.quantity > 0);
     setCart(updated);

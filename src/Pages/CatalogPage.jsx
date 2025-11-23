@@ -55,9 +55,9 @@ export default function CatalogPage() {
 
   const getCategoryKey = (product) => {
     const c = String(product.category || "").toLowerCase();
-    if (c.includes("vamp")) return "vampire";
-    if (c.includes("witch")) return "witch";    // cambiato da "streg"
-    if (c.includes("lycan") || c.includes("were")) return "lycan"; // aggiunto "were" per Werewolves
+    if (c.includes("vamp")) return "vampiri";
+    if (c.includes("streghe")) return "streghe";    // cambiato da "streg"
+    if (c.includes("licant") || c.includes("licantropi")) return "licantropi"; // aggiunto "were" per Werewolves
     return "other";
   };
 

@@ -90,11 +90,17 @@ export default function SingleProductPage() {
     };
   }, [slug]);
 
-  // Funzioni per aumentare/diminuire la quantità
-  // aumenta di 1
-  const increase = () => setQuantity(quantity + 1);
-  // diminuisce di 1 solo se > 1
-  const decrease = () => quantity > 1 && setQuantity(quantity - 1);
+  const increase = () => {
+    const max = product?.quantity ?? Infinity;
+    setQuantity((q) => Math.min(q + 1, max));
+  };
+  const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : q));
+
+  useEffect(() => {
+    if (!product) return;
+    const max = product.quantity ?? Infinity;
+    setQuantity((q) => Math.min(q, max));
+  }, [product]);
 
   return (
     <div className="main-container-sing-prod">
