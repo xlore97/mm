@@ -32,12 +32,29 @@ export default function CheckoutPage() {
 
   const [canCompleteOrder, setCanCompleteOrder] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+  const [couponError, setCouponError] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
 
   // Aggiorna billing
   const handleBillingChange = (e) => {
     const { name, value } = e.target;
     setBillingData((prev) => ({ ...prev, [name]: value }));
   };
+
+  // Calcoli visualizzazione prezzi tenendo conto di coupon
+  const subtotal = Number(total) || 0;
+  let discountAmount = 0;
+  if (appliedCoupon) {
+    if (appliedCoupon.type === "percent") {
+      discountAmount = subtotal * (appliedCoupon.value / 100);
+    } else if (appliedCoupon.type === "fixed") {
+      discountAmount = appliedCoupon.value;
+    }
+  }
+  const subtotalAfterDiscount = Math.max(0, subtotal - discountAmount);
+  const shippingCost = appliedCoupon && appliedCoupon.type === "shipping" ? 0 : (subtotalAfterDiscount > 99 ? 0 : 4.99);
+  const finalTotal = Number((subtotalAfterDiscount + shippingCost).toFixed(2));
 
   // Aggiorna shipping
   const handleShippingChange = (e) => {
@@ -57,11 +74,11 @@ export default function CheckoutPage() {
 
     const shippingComplete = useDifferentAddress
       ? shippingData.name.trim() &&
-        shippingData.email.trim() &&
-        shippingData.address.trim() &&
-        shippingData.city.trim() &&
-        /^\d{5}$/.test(shippingData.zip) &&
-        shippingData.country
+      shippingData.email.trim() &&
+      shippingData.address.trim() &&
+      shippingData.city.trim() &&
+      /^\d{5}$/.test(shippingData.zip) &&
+      shippingData.country
       : true;
 
     setCanCompleteOrder(billingComplete && shippingComplete && cart.length > 0);
@@ -71,6 +88,36 @@ export default function CheckoutPage() {
     e.preventDefault();
     if (!canCompleteOrder) return;
     setShowPayment(true);
+  };
+
+  const COUPONS = {
+    SCONTO10: { type: "percent", value: 10 },
+    FREESHIP: { type: "shipping", value: 0 },
+    EURO5: { type: "fixed", value: 5 },
+  };
+
+  const handleApplyCoupon = (e) => {
+    e?.preventDefault();
+    setCouponError("");
+    const code = (couponCode || "").trim().toUpperCase();
+    if (!code) {
+      setCouponError("Inserisci un codice coupon.");
+      return;
+    }
+
+    const cfg = COUPONS[code];
+    if (!cfg) {
+      setCouponError("Coupon non valido.");
+      return;
+    }
+
+    setAppliedCoupon({ code, ...cfg });
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode("");
+    setCouponError("");
   };
 
   const handlePaymentSuccessAndRedirect = (paymentInfo) => {
@@ -85,13 +132,13 @@ export default function CheckoutPage() {
 
     const shipping = useDifferentAddress
       ? {
-          name: shippingData.name,
-          street: shippingData.address,
-          cap: shippingData.zip,
-          city: shippingData.city,
-          province: shippingData.country,
-          country: shippingData.country,
-        }
+        name: shippingData.name,
+        street: shippingData.address,
+        cap: shippingData.zip,
+        city: shippingData.city,
+        province: shippingData.country,
+        country: shippingData.country,
+      }
       : billing;
 
     const items = cart.map((it) => ({
@@ -102,8 +149,21 @@ export default function CheckoutPage() {
       product_name: it.name,
     }));
 
+    // Calcola totale effettivo includendo coupon/spedizione
+    const subtotal = Number(total) || 0;
+    let discount = 0;
+    if (appliedCoupon) {
+      if (appliedCoupon.type === "percent") {
+        discount = (subtotal * (appliedCoupon.value / 100));
+      } else if (appliedCoupon.type === "fixed") {
+        discount = appliedCoupon.value;
+      }
+    }
+    const subtotalAfterDiscount = Math.max(0, subtotal - discount);
+    const shippingCost = appliedCoupon && appliedCoupon.type === "shipping" ? 0 : (subtotalAfterDiscount > 99 ? 0 : 4.99);
+
     const payload = {
-      total_price: Number(total),
+      total_price: Number((subtotalAfterDiscount + shippingCost).toFixed(2)),
       payment_method: "card",
       username: billingData.name,
       user_email: billingData.email,
@@ -346,10 +406,59 @@ export default function CheckoutPage() {
           <div className="col-right-checkout">
             <div className="summary-container">
               <h2>Riepilogo Ordine</h2>
+
+              <div className="summary-row">
+                <h4>Prezzo prodotti:</h4>
+                <h4>€{subtotal.toFixed(2)}</h4>
+              </div>
+
+              {/* Coupon */}
+              <div className="coupon-section">
+                {!appliedCoupon ? (
+                  <form onSubmit={handleApplyCoupon}>
+                    <input
+                      type="text"
+                      placeholder="Inserisci codice coupon"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value)}
+                    />
+                    <button type="submit">Applica</button>
+                  </form>
+                ) : (
+                  <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                    <div style={{ fontSize: 14, color: "#bfe3c6" }}>
+                      Coupon applicato: <strong>{appliedCoupon.code}</strong>
+                    </div>
+                    <button onClick={handleRemoveCoupon} style={{ padding: "8px 12px" }}>
+                      Rimuovi
+                    </button>
+                  </div>
+                )}
+
+                {couponError ? <div style={{ color: "#f56565", marginTop: 8 }}>{couponError}</div> : null}
+              </div>
+
+              {subtotalAfterDiscount > 99 ? (
+                <div className="free-shipping-bar">Hai diritto alla spedizione gratuita</div>
+              ) : null}
+
+              <div className="summary-row shipping-row">
+                <h4>Spedizione:</h4>
+                <h4>€{shippingCost.toFixed(2)}</h4>
+              </div>
+
+              {discountAmount > 0 ? (
+                <div className="summary-row">
+                  <h4>Sconto coupon:</h4>
+                  <h4>-€{discountAmount.toFixed(2)}</h4>
+                </div>
+              ) : null}
+
               <div className="summary-row">
                 <h4>Totale:</h4>
-                <h3 className="total">€{total}</h3>
+                <h3 className="total">€{finalTotal.toFixed(2)}</h3>
               </div>
+
               <button
                 className="checkout-btn"
                 onClick={handleCompleteOrder}
@@ -364,7 +473,7 @@ export default function CheckoutPage() {
 
       {showPayment && (
         <PaymentModal
-          amount={total}
+          amount={finalTotal}
           onClose={() => setShowPayment(false)}
           onSuccess={handlePaymentSuccessAndRedirect}
         />
