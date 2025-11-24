@@ -24,8 +24,9 @@ font-size: 2rem;
 }
 
 .header-logo {
-  height: 50px;
+  height: 25px;
   margin-left: 20px;
+
   margin-right: 5px;
   margin-top: 2px;
 }
@@ -41,7 +42,6 @@ font-size: 2rem;
 .col-left,
 .col-center,
 .col-right {
-  width: calc(100% / 3);
   height: 100%;
   display: flex;
   align-items: center;

@@ -2,7 +2,9 @@ import { useCart } from "../contexts/CartContext";
 import Badge from "./Badge";
 import "./BigSingleProduct.css";
 
+
 export default function BigSingleProduct({ product, quantity, increase, decrease, maxQuantity }) {
+
   const { addItem } = useCart();
 
   if (!product) return <p>Loading...</p>;
@@ -10,7 +12,8 @@ export default function BigSingleProduct({ product, quantity, increase, decrease
   const extractNumericPrice = (p) => {
     if (!p) return 0;
     if (typeof p.price === "number") return p.price;
-    if (typeof p.price === "string" && !isNaN(Number(p.price))) return Number(p.price);
+    if (typeof p.price === "string" && !isNaN(Number(p.price)))
+      return Number(p.price);
     return 0;
   };
 
@@ -26,6 +29,7 @@ export default function BigSingleProduct({ product, quantity, increase, decrease
       <img src={product.image} alt={product.name} />
       <div className="details">
         <h1>{product.name}</h1>
+
         <div className="category-row">
           <Badge category={product.category} />
           {
