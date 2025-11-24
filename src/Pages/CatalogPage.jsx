@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom"; // 🔹 MODIFICA: per query params
 import axios from "axios";
 
 import ProductsList from "../components/ProductsList";
@@ -17,6 +18,20 @@ export default function CatalogPage() {
   const [sortMode, setSortMode] = useState("newest"); // newest | oldest | az
   const [viewMode, setViewMode] = useState("grid"); // "grid" | "list"
 
+  // 🔹 MODIFICA: hook per gestire query params
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // 🔹 MODIFICA: inizializza stati dai query params al mount
+  useEffect(() => {
+    const search = searchParams.get("search") || "";
+    const category = searchParams.get("category") || "all";
+    const sort = searchParams.get("sort") || "newest";
+
+    setSearchText(search);
+    setSelectedCategory(category);
+    setSortMode(sort);
+  }, []);
+
   // ================== FETCH PRODOTTI ==================
   useEffect(() => {
     async function fetchProducts() {
@@ -24,19 +39,16 @@ export default function CatalogPage() {
         setLoading(true);
         setError(null);
 
-        const res = await axios.get("http://localhost:3000/api/products");
+        const params = {
+          search: searchText || undefined,
+          category: selectedCategory !== "all" ? selectedCategory : undefined,
+          sort: sortMode,
+        };
+
+        const res = await axios.get("http://localhost:3000/api/products", { params });
         console.log("CatalogPage - prodotti:", res.data);
 
-        let list = Array.isArray(res.data) ? res.data : res.data.data;
-
-        if (!Array.isArray(list)) {
-          console.warn(
-            "La risposta non contiene un array valido di prodotti:",
-            res.data
-          );
-          list = [];
-        }
-
+        const list = Array.isArray(res.data.data) ? res.data.data : [];
         setProducts(list);
       } catch (err) {
         console.error("Errore caricamento prodotti:", err);
@@ -49,68 +61,19 @@ export default function CatalogPage() {
     }
 
     fetchProducts();
-  }, []);
+  }, [searchText, selectedCategory, sortMode]);
 
-  // ==================  FILTRO/ORDINE ==================
+  // 🔹 MODIFICA: aggiorna URL quando cambiano ricerca/categoria/ordinamento
+  useEffect(() => {
+    const params = {};
+    if (searchText) params.search = searchText;
+    if (selectedCategory !== "all") params.category = selectedCategory;
+    if (sortMode !== "newest") params.sort = sortMode;
 
-  const getCategoryKey = (product) => {
-    const c = String(product.category || "").toLowerCase();
-    if (c.includes("vamp")) return "vampiri";
-    if (c.includes("streghe")) return "streghe";    // cambiato da "streg"
-    if (c.includes("licant") || c.includes("licantropi")) return "licantropi"; // aggiunto "were" per Werewolves
-    return "other";
-  };
-
-  // Estrae una "data" di riferimento per l’ordinamento
-  const getProductTimestamp = (p) => {
-    if (p.added_at) return new Date(p.added_at).getTime();
-    if (p.created_at) return new Date(p.created_at).getTime();
-    // fallback: usa l’id (più alto = più recente)
-    if (typeof p.id === "number") return p.id;
-    const n = Number(p.id);
-    return isNaN(n) ? 0 : n;
-  };
-
-  // ================== FILTRAGGIO + ORDINAMENTO ==================
-
-  const buildVisibleProducts = () => {
-    let list = [...products];
-
-    // filtro testo (nome + descrizione)
-    const term = searchText.trim().toLowerCase();
-    if (term !== "") {
-      list = list.filter((p) => {
-        const name = String(p.name || "").toLowerCase();
-        const desc = String(p.description || "").toLowerCase();
-        return name.includes(term) || desc.includes(term);
-      });
-    }
-
-    // filtro categoria
-    if (selectedCategory !== "all") {
-      list = list.filter((p) => getCategoryKey(p) === selectedCategory);
-    }
-
-    // ordinamento
-    if (sortMode === "newest") {
-      list.sort((a, b) => getProductTimestamp(b) - getProductTimestamp(a));
-    } else if (sortMode === "oldest") {
-      list.sort((a, b) => getProductTimestamp(a) - getProductTimestamp(b));
-    } else if (sortMode === "az") {
-      list.sort((a, b) =>
-        String(a.name || "").localeCompare(String(b.name || ""), "it", {
-          sensitivity: "base",
-        })
-      );
-    }
-
-    return list;
-  };
-
-  const visibleProducts = buildVisibleProducts();
+    setSearchParams(params);
+  }, [searchText, selectedCategory, sortMode, setSearchParams]);
 
   // ================== RENDER ==================
-
   return (
     <main className="catalog-page">
       <header className="catalog-header">
@@ -131,17 +94,16 @@ export default function CatalogPage() {
         onViewModeChange={setViewMode}
       />
 
-      {/* num prodotti che escono con la ricerca effettuata */}
       {!loading && !error && (
         <p className="catalog-count">
-          {visibleProducts.length} prodotti da brivido
+          {products.length} prodotti da brivido
         </p>
       )}
 
       {loading && <p>Caricamento prodotti...</p>}
       {error && <p className="error-text">{error}</p>}
 
-      <ProductsList products={visibleProducts} viewMode={viewMode} />
+      <ProductsList products={products} viewMode={viewMode} />
     </main>
   );
 }
