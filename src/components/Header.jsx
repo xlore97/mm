@@ -3,13 +3,13 @@ import HeaderLogo from "../assets/images/logo-header.png";
 import "./Header.css";
 import { useCart } from "../contexts/CartContext";
 
-export default function Header() {
+export default function Header({ onCartClick }) {
   const { totalItems } = useCart();
 
   return (
     <header>
       <div className="header-wrapper">
-        {/* COL-LEFT: LOGO E NOME */}
+        {/* COL-LEFT: LOGO */}
         <div className="col-left">
           <Link to="/">
             <img src={HeaderLogo} alt="logo" className="header-logo" />
@@ -17,7 +17,7 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* COL-CENTER: NAV LINKS */}
+        {/* COL-CENTER: NAV */}
         <div className="col-center">
           <nav className="nav-links">
             {/* HOME */}
@@ -32,7 +32,12 @@ export default function Header() {
             </Link>
 
             {/* CATALOGO */}
-            <NavLink to="/products" className="catalog-link desktop-only">
+            <NavLink
+              to="/products"
+              className={({ isActive }) =>
+                `catalog-link desktop-only ${isActive ? "active" : ""}`
+              }
+            >
               Catalogo
             </NavLink>
             <NavLink
@@ -44,17 +49,12 @@ export default function Header() {
           </nav>
         </div>
 
-        {/* COL-RIGHT: CARRELLO */}
+        {/* COL-RIGHT: CART BUTTON */}
         <div className="col-right">
-          <NavLink
-            to="/checkout"
-            className={({ isActive }) =>
-              `cart-button ${isActive ? "active" : ""}`
-            }
-          >
+          <button className="cart-button" onClick={onCartClick}>
             <span className="material-symbols-outlined">shopping_cart</span>
             {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
-          </NavLink>
+          </button>
         </div>
       </div>
     </header>
