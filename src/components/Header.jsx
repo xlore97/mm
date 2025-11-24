@@ -9,12 +9,12 @@ export default function Header() {
   return (
     <header>
       <div className="header-wrapper">
-        <Link to="/">
-          <div className="col-left">
+        <div className="col-left">
+          <Link to="/">
             <img src={HeaderLogo} alt="logo" className="header-logo" />
             <h3>Mors Market</h3>
-          </div>
-        </Link>
+          </Link>
+        </div>
 
         <div className="col-center">
           <nav>
@@ -24,11 +24,10 @@ export default function Header() {
         </div>
 
         <div className="col-right">
-          <Link to="/checkout" className="cart-button">
+          <NavLink to="/checkout" className="cart-button">
             <span className="material-symbols-outlined">shopping_cart</span>
-            <span>Carrello</span>
             {totalItems > 0 && <span className="cart-count">{totalItems}</span>}
-          </Link>
+          </NavLink>
         </div>
       </div>
     </header>

@@ -2,12 +2,9 @@ import { useCart } from "../contexts/CartContext";
 import Badge from "./Badge";
 import "./BigSingleProduct.css";
 
-export default function BigSingleProduct({
-  product,
-  quantity,
-  increase,
-  decrease,
-}) {
+
+export default function BigSingleProduct({ product, quantity, increase, decrease, maxQuantity }) {
+
   const { addItem } = useCart();
 
   if (!product) return <p>Loading...</p>;
@@ -24,26 +21,33 @@ export default function BigSingleProduct({
   const priceText = numericPrice ? `€${numericPrice.toFixed(2)}` : "—";
 
   const handleAddToCart = () => {
-    addItem({ ...product, price: numericPrice, quantity }); // aggiunge esattamente la quantità selezionata
+    addItem({ ...product, stock: product.quantity, price: numericPrice, quantity });
   };
 
   return (
     <div className="big-card">
       <img src={product.image} alt={product.name} />
       <div className="details">
-        <Badge category={product.category} />
         <h1>{product.name}</h1>
-        <p className="price-bp">{priceText}</p>
+
+        <div className="category-row">
+          <Badge category={product.category} />
+          {
+            (() => {
+              const stock = product.quantity ?? product.stock ?? product.available ?? 0;
+              if (stock <= 0) return <span className="badge stock-out">Fuori stock</span>;
+              if (stock < 10) return <span className="badge stock-low">In esaurimento</span>;
+              return null;
+            })()
+          }
+        </div>
+        <p>Prezzo: {priceText}</p>
         <p>{product.description}</p>
 
         <div className="quantity-controls">
-          <button className="quantity-btn" onClick={decrease}>
-            -
-          </button>
+          <button className="quantity-btn" onClick={decrease} disabled={quantity <= 1}>-</button>
           <span className="quantity-number">{quantity}</span>
-          <button className="quantity-btn" onClick={increase}>
-            +
-          </button>
+          <button className="quantity-btn" onClick={increase} disabled={typeof maxQuantity === 'number' ? quantity >= maxQuantity : false}>+</button>
         </div>
 
         <button className="add-to-cart" onClick={handleAddToCart}>

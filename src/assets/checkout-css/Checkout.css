@@ -44,9 +44,8 @@ h4 {
 
 /* CHECKOUT */
 .checkout-container {
-  margin-top: 70px;
   margin-left: 20px;
-  margin-right: 20px;
+  margin-top: 80px;
   display: flex;
   gap: 30px;
 }
@@ -58,6 +57,41 @@ h4 {
   flex-direction: column;
 }
 
+.col-left-checkout p {
+  font-size: 2rem;
+  display: block;
+  margin: 0 auto;
+}
+
+.empty-cart-wrapper {
+  width: 100vw;
+  margin-top: 250px;
+  text-align: center;
+}
+
+.empty-cart-wrapper h2 {
+  font-size: 2.3rem;
+  margin-bottom: 15px;
+  margin-top: 0;
+}
+
+.empty-cart-wrapper h3 {
+  font-family: lato;
+  color: #676767;
+  margin-bottom: 30px;
+}
+
+.empty-cart-wrapper a {
+  background-color: #c52020;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 1.3rem;
+}
+
+.empty-cart-wrapper a:hover {
+  background-color: #a61919;
+}
+
 .col-right-checkout {
   width: 30%;
   margin-top: 70px;
@@ -65,13 +99,15 @@ h4 {
 
 /* CART ITEM - STILE AGGIORNATO */
 .cart-item-wrapper {
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   gap: 20px;
   padding: 15px;
   border-radius: 12px;
   border: 1px solid rgb(50, 50, 50);
-  background-color: #1b1b1b; /* sfondo scuro uniforme */
+  background-color: #1b1b1b;
+  /* sfondo scuro uniforme */
 }
 
 .cart-item-col-left {
@@ -160,7 +196,8 @@ h4 {
 
 .address-container {
   min-height: 200px;
-  margin-top: 50px;
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 
 .address-container form {
@@ -197,7 +234,8 @@ h4 {
   padding: 10px 15px;
   border-radius: 8px;
   border: 1px solid rgb(70, 70, 70);
-  background-color: #2b2b2b; /* colore più scuro */
+  background-color: #2b2b2b;
+  /* colore più scuro */
   color: white;
   font-size: 1rem;
   outline: none;
@@ -218,7 +256,8 @@ h4 {
 
 /* SUMMARY CONTAINER */
 .summary-container {
-  background-color: #1b1b1b; /* stesso sfondo scuro */
+  background-color: #1b1b1b;
+  /* stesso sfondo scuro */
   border-radius: 12px;
   border: 1px solid rgb(50, 50, 50);
   padding: 25px;
@@ -236,6 +275,20 @@ h4 {
   font-weight: 600;
   color: white;
   margin-bottom: 15px;
+}
+
+.shipping-row h4 {
+  color: #ddd;
+}
+
+.free-shipping-bar {
+  background: linear-gradient(90deg, #2d7a46, #3fb36f);
+  color: white;
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin: 8px 0;
+  text-align: center;
+  font-weight: 700;
 }
 
 .summary-row {
@@ -299,4 +352,107 @@ h4 {
   font-size: 1.1rem;
   cursor: pointer;
   margin-top: 10px;
+}
+
+/* PAYMENT MODAL */
+.payment-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.payment-modal {
+  background: #151515;
+  padding: 20px;
+  border-radius: 12px;
+  width: 420px;
+  max-width: calc(100% - 40px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  position: relative;
+  color: white;
+}
+
+.payment-modal h3 {
+  margin-bottom: 12px;
+}
+
+.payment-modal .modal-close {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  background: transparent;
+  border: none;
+  color: #ddd;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.payment-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* spazio tra la scritta (label) e il box di input */
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.payment-form input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgb(70, 70, 70);
+  background-color: #2b2b2b;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+}
+
+.payment-form .form-row {
+  display: flex;
+  gap: 10px;
+}
+
+/* Make expiry take available space and CVV a smaller fixed width */
+.payment-form .form-row .expiry-label {
+  flex: 1 1 auto;
+}
+
+.payment-form .form-row .cvv-label {
+  flex: 0 0 110px;
+  /* fixed small width for CVV */
+}
+
+.payment-form .cvv-input {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.payment-form .expiry-input {
+  width: 100%;
+}
+
+.payment-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.btn-secondary {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  background: #2b2b2b;
+  color: #fff;
+  cursor: pointer;
+}
+
+.payment-error {
+  color: #ff7b7b;
+  margin-top: 6px;
 }

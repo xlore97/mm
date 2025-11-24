@@ -3,40 +3,94 @@
 /* wrapper generale della lista prodotti */
 .list-container {
   margin-top: 24px;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 10px; /* padding di base, poi modificato dai media query */
 }
 
 /* riga base: verrà specializzata da .grid-mode / .list-mode */
 .product-list-row {
+  --gap: 48px;
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: var(--gap);
 }
 
 /* ====== MODALITÀ GRIGLIA ====== */
+/* use CSS Grid and auto-fit to distribuire le colonne e centrarle */
 .product-list-row.grid-mode {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--gap);
   justify-content: center;
+  align-items: start;
 }
 
-/* larghezza card in griglia */
+/* larghezza card in griglia (lasciamo che sia la grid a gestire le colonne) */
 .product-list-row.grid-mode .card {
-  flex: 0 0 calc(25% - 24px); /* 4 card per riga senza shrink */
-  max-width: 350px;
-  min-width: 280px; /* limite minimo responsivo */
+  width: 100%;
+  max-width: 320px; /* le card non diventano troppo larghe */
 }
 
 /* ====== MODALITÀ LISTA ====== */
+/* righe full-width con card centrata */
 .product-list-row.list-mode {
   flex-direction: column;
   align-items: center;
+  gap: 20px;
 }
 
-/* ogni card diventa una "riga" centrata */
 .product-list-row.list-mode .card {
-  width: 90%;
-  max-width: 500px;
-  padding: 12px 16px;
+  width: 100%;
+  max-width: 1100px;
+  display: block;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.01),
+    rgba(255, 255, 255, 0.005)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.product-list-row.list-mode .card h4 {
-  font-size: 1.1rem;
+
+/* ========================= RESPONSIVE  ========================= */
+
+@media (max-width: 1400px) {
+  .product-list-row.grid-mode {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 1200px) {
+  .list-container {
+    padding: 0 40px;
+  }
+
+  .product-list-row.grid-mode {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .list-container {
+    padding: 0 20px;
+  }
+
+  .product-list-row.grid-mode {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
+
+  .product-list-row.list-mode .card {
+    max-width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-list-row.grid-mode {
+    grid-template-columns: 1fr; /* una card per riga su schermi molto piccoli */
+  }
 }

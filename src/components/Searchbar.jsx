@@ -2,13 +2,13 @@ import "./Searchbar.css";
 
 export default function SearchBar({
   searchText = "",
-  onSearchTextChange = () => {},
+  onSearchTextChange = () => { },
   selectedCategory = "all",
-  onCategoryChange = () => {},
+  onCategoryChange = () => { },
   sortMode = "newest",
-  onSortChange = () => {},
+  onSortChange = () => { },
   viewMode = "grid",
-  onViewModeChange = () => {},
+  onViewModeChange = () => { },
 }) {
   const isGrid = viewMode === "grid";
 
@@ -37,9 +37,9 @@ export default function SearchBar({
             onChange={(e) => onCategoryChange(e.target.value)}
           >
             <option value="all">Tutte le Categorie</option>
-            <option value="vampire">Vampiro</option>
-            <option value="witch">Strega</option>
-            <option value="lycan">Licantropo</option>
+            <option value="vampiri">Vampiro</option>
+            <option value="streghe">Strega</option>
+            <option value="licantropi">Licantropo</option>
           </select>
         </div>
       </div>
@@ -77,9 +77,9 @@ export default function SearchBar({
           onClick={() => onViewModeChange(isGrid ? "list" : "grid")}
         >
           <span className="material-symbols-outlined">
-            {isGrid ? "grid_view" : "view_list"}
+            {isGrid ? "view_list" : "grid_view"}
           </span>
-          <span>{isGrid ? "Griglia" : "Lista"}</span>
+          <span>{isGrid ? "Lista" : "Griglia"}</span>
         </button>
       </div>
     </section>

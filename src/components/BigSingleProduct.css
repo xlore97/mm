@@ -3,11 +3,9 @@
 .big-card {
   display: flex;
   gap: 30px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.02),
-    rgba(255, 255, 255, 0.01)
-  );
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.02),
+      rgba(255, 255, 255, 0.01));
   padding: 24px;
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
@@ -48,6 +46,37 @@
   align-items: center;
   gap: 10px;
   margin: 4px 0 8px 0;
+}
+
+.big-card .details .badge {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: none;
+  margin-top: 0;
+}
+
+/* Ensure badge is visible even if other badge css doesn't load */
+.big-card .details .badge {
+  display: inline-block;
+  background-color: #333;
+  color: #eee;
+  border: 1px solid #666;
+  margin-left: 6px;
+}
+
+/* stock badges */
+.badge.stock-low {
+  background-color: #c47f17;
+  color: black;
+  border: 1px solid #b06f10;
+}
+
+.badge.stock-out {
+  background-color: #2b2b2b;
+  color: #ff6b6b;
+  border: 1px solid #ff3b3b;
 }
 
 .category-label {
