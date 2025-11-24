@@ -26,10 +26,12 @@
 
 /* Numero prodotti */
 .catalog-count {
-  margin-top: 10px;
+  margin-top: 30px;
   margin-bottom: 20px;
   color: #b3b3b3;
-  font-size: 0.95rem;
+  font-size: 1.2rem;
+  font-family: "Merriweather", serif;
+  text-align: center;
 }
 
 /* Messaggi error/caricamento */
