@@ -3,7 +3,7 @@ import "./SingleProduct.css";
 import Badge from "./Badge";
 import { useCart } from "../contexts/CartContext";
 
-export default function SingleProduct({ product }) {
+export default function SingleProduct({ product, isList = false }) {
   const { addItem } = useCart();
 
   if (!product) return null;
@@ -25,6 +25,9 @@ export default function SingleProduct({ product }) {
           <div className="price">
             <b>{priceText}</b>
           </div>
+          {isList && (
+            <p className="list-description">{product.description}</p>
+          )}
         </div>
       </Link>
     </div>

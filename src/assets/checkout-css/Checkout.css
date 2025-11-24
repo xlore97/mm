@@ -87,6 +87,7 @@ h4 {
   border-radius: 12px;
   font-size: 1.3rem;
 }
+
 .empty-cart-wrapper a:hover {
   background-color: #a61919;
 }
@@ -274,6 +275,20 @@ h4 {
   font-weight: 600;
   color: white;
   margin-bottom: 15px;
+}
+
+.shipping-row h4 {
+  color: #ddd;
+}
+
+.free-shipping-bar {
+  background: linear-gradient(90deg, #2d7a46, #3fb36f);
+  color: white;
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin: 8px 0;
+  text-align: center;
+  font-weight: 700;
 }
 
 .summary-row {
