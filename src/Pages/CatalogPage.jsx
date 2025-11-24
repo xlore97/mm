@@ -94,7 +94,7 @@ export default function CatalogPage() {
     fetchProducts();
   }, []);
 
-  // ================== FILTRAGGIO + ORDINAMENTO ==================
+  // ================== FILTRAGGIO + ORDINAMENTO (frontend) ==================
 
   const buildVisibleProducts = () => {
     let list = [...products];
@@ -152,7 +152,6 @@ export default function CatalogPage() {
   const visibleProducts = buildVisibleProducts();
 
   // ================== RENDER ==================
-
   return (
     <main className="catalog-page">
       <header className="catalog-header">
@@ -176,12 +175,11 @@ export default function CatalogPage() {
         priceBounds={priceBounds}
       />
 
-      {/* num prodotti che escono con la ricerca effettuata */}
       {!loading && !error && (
         <p className="catalog-count">
           {visibleProducts.length > 0
             ? `${visibleProducts.length} prodotti da brivido`
-            : "Nessun prodotto da brivido trovato"}
+            : "Nessun prodotto trovato"}
         </p>
       )}
 

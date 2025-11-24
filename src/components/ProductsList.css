@@ -1,14 +1,15 @@
 /* ========================= PRODUCTS  ========================= */
+
+/* wrapper generale della lista prodotti */
 .list-container {
   margin-top: 24px;
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding: 0 10px;
-  /* side padding so cards have space from viewport edges */
+  padding: 0 10px; /* padding di base, poi modificato dai media query */
 }
 
-/* base: contenitore prodotti */
+/* riga base: verrà specializzata da .grid-mode / .list-mode */
 .product-list-row {
   --gap: 48px;
   display: flex;
@@ -16,9 +17,9 @@
   gap: var(--gap);
 }
 
-/* GRID */
+/* ====== MODALITÀ GRIGLIA ====== */
+/* use CSS Grid and auto-fit to distribuire le colonne e centrarle */
 .product-list-row.grid-mode {
-  /* use CSS Grid and auto-fit to distribute columns evenly and center them */
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--gap);
@@ -26,13 +27,14 @@
   align-items: start;
 }
 
+/* larghezza card in griglia (lasciamo che sia la grid a gestire le colonne) */
 .product-list-row.grid-mode .card {
   width: 100%;
-  max-width: 320px;
-  /* visual max so cards don't stretch too wide */
+  max-width: 320px; /* le card non diventano troppo larghe */
 }
 
-/* LIST: full-width rows with image left, text right */
+/* ====== MODALITÀ LISTA ====== */
+/* righe full-width con card centrata */
 .product-list-row.list-mode {
   flex-direction: column;
   align-items: center;
@@ -45,11 +47,16 @@
   display: block;
   padding: 14px 18px;
   border-radius: 12px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.01),
+    rgba(255, 255, 255, 0.005)
+  );
   border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-/* ensure image + text layout; SingleProduct.css handles internal layout when list-mode is active */
+
+/* ========================= RESPONSIVE  ========================= */
 
 @media (max-width: 1400px) {
   .product-list-row.grid-mode {
@@ -84,14 +91,6 @@
 
 @media (max-width: 600px) {
   .product-list-row.grid-mode {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 600px) {
-  .product-list-row.grid-mode .card {
-    /* single column on very small screens */
-    flex: 0 1 100%;
-    max-width: 100%;
+    grid-template-columns: 1fr; /* una card per riga su schermi molto piccoli */
   }
 }

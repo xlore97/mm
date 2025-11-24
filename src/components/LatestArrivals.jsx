@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ProductsList from "../components/ProductsList";
+import ProductsCarousel from "./ProductsCarousel";
 
 export default function LatestArrivals() {
   //Stato per memorizzare i prodotti ricevuti dal backend
@@ -32,5 +33,5 @@ export default function LatestArrivals() {
   }, []);
 
   //Passiamo a ProductList la lista dei prodotti come prop
-  return <ProductsList products={products} />;
+  return <ProductsCarousel products={products} />;
 }

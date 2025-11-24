@@ -37,7 +37,6 @@
 
 /* testo generico nella colonna di destra */
 .big-card .details p {
-  color: #d6d6d6;
   line-height: 1.5;
 }
 
@@ -148,6 +147,12 @@
 .add-to-cart:hover {
   background-color: #e02d2d;
   transform: scale(1.01);
+}
+
+.price-bp {
+  color: #c52020;
+  font-weight: 700;
+  font-size: 1rem;
 }
 
 /* ========================= RESPONSIVE ========================= */

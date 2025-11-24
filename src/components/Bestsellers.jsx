@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ProductsList from "../components/ProductsList";
+import ProductsCarousel from "./ProductsCarousel";
 
 export default function Bestsellers() {
   const [products, setProducts] = useState([]);
@@ -12,5 +13,5 @@ export default function Bestsellers() {
       .catch((err) => console.error(err));
   }, []);
 
-  return <ProductsList products={products} />;
+  return <ProductsCarousel products={products} />;
 }

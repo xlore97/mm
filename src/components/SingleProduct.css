@@ -7,6 +7,7 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 0 18px rgba(255, 255, 255, 0.08);
   overflow: hidden;
+  flex-shrink: 0;
   transition: transform 0.25s ease, box-shadow 0.25s ease,
     border-color 0.25s ease;
 }
@@ -40,7 +41,7 @@
   aspect-ratio: 4 / 5;
   object-fit: cover;
   border-radius: 8px;
-  height: 300px;
+  height: 350px;
 }
 
 /* area testo */
@@ -73,11 +74,18 @@
   font-size: 1rem;
 }
 
+b {
+  color: #e03b3b;
+}
+
 /* ========================= MODALITÀ LISTA ========================= */
 /* layout tipo "scheda con immagine a sinistra, testo a destra" */
 
 .product-list-row.list-mode .card {
+  width: 90%;
   padding: 12px 16px;
+  display: flex;
+  align-self: center;
 }
 
 /* il link interno diventa una riga orizzontale */

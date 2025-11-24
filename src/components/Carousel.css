@@ -1,4 +1,5 @@
-/* ========================= CAROSELLO ========================= */
+/* =========================  CAROSELLO (home + pagina singola) ========================= */
+
 .carousel-section {
   width: 100%;
   margin-top: 40px;
@@ -54,6 +55,29 @@
   flex: 1;
   display: flex;
   gap: 20px;
-  padding: 30px 20px;
   overflow: hidden;
+  flex-wrap: nowrap;
+  padding: 40px 32px;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+/* larghezza uniforme delle card nel carosello */
+.carousel-track .card {
+  flex: 0 0 300px; /* larghezza fissa, niente shrink/grow */
+  width: 300px;
+  max-width: 300px;
+}
+
+/* mobile stretto: card leggermente più piccola ma sempre uguale per tutte */
+@media (max-width: 600px) {
+  .carousel-track {
+    padding: 16px 20px;
+  }
+
+  .carousel-track .card {
+    flex: 0 0 230px;
+    width: 230px;
+    max-width: 230px;
+  }
 }
