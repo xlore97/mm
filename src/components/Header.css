@@ -1,13 +1,24 @@
 /* ========================= HEADER ========================= */
+/* Mostra solo su desktop */
+.desktop-only {
+  display: inline-block;
+}
+
+/* Nascondi icone di default */
+.mobile-only {
+  display: none;
+}
 
 a {
   font-size: 1.4rem;
 }
 
-.cart-button,
-.cart-button .material-symbols-outlined,
+.cart-button .material-symbols-outlined {
+  font-size: 2rem;
+}
+
 .cart-button .cart-count {
-font-size: 2rem;
+  font-size: 1rem;
 }
 
 .header-wrapper {
@@ -72,18 +83,39 @@ font-size: 2rem;
   padding: 10px;
 }
 
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #c52020;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 7px;
+  font-size: 12px;
+}
+
+.cart-button {
+  position: relative;
+  display: inline-block;
+  color: white; /* default */
+}
 
 /* ACTIVE STATE */
-nav a.active {
+.nav-links .catalog-link.active,
+.nav-links .catalog-icon.active {
   color: #c52020;
   font-weight: bold;
 }
-.cart-button.active,
-.cart-button.active .material-symbols-outlined,
-.cart-button.active .cart-count {
+
+.cart-button.active .material-symbols-outlined {
   color: #c52020;
 }
 
+.cart-button.active,
+.cart-button.active .material-symbols-outlined,
+.cart-button.active .cart-count {
+  color: #ffffff;
+}
 
 /* ========================= HEADER RESPONSIVE ========================= */
 
@@ -95,7 +127,6 @@ nav a.active {
   }
 
   .header-logo {
-    height: 40px;
     margin-left: 0;
     padding-top: 0;
   }
@@ -116,7 +147,11 @@ nav a.active {
   }
 
   .col-left {
-    flex: 1; /* logo + titolo prendono lo spazio a sinistra */
+    flex: 1;
+  }
+
+  .col-left h3 {
+    display: none;
   }
 
   .col-center {
@@ -125,7 +160,7 @@ nav a.active {
 
   .col-center a {
     margin-left: 14px;
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .col-right {
@@ -133,11 +168,24 @@ nav a.active {
     margin-left: 10px;
   }
 
+  .col-right span {
+    margin-right: 5px;
+  }
+
   .cart-button {
     position: relative;
     display: flex;
     align-items: center;
     gap: 5px;
+  }
+
+  .cart-button .cart-count {
+    font-size: 0.7rem;
+  }
+
+  .cart-button .material-symbols-outlined {
+    margin-right: 6px;
+    font-size: 1.2rem;
   }
 
   .cart-count {
@@ -151,11 +199,6 @@ nav a.active {
     padding: 2px 6px;
     border-radius: 50%;
   }
-
-  .cart-button .material-symbols-outlined {
-    margin-right: 6px;
-    font-size: 1.2rem;
-  }
 }
 
 /* Mobile stretto */
@@ -164,25 +207,38 @@ nav a.active {
     height: 52px;
   }
 
-  .header-logo {
-    height: 34px;
+  /* Testi spariscono su mobile */
+  .desktop-only {
+    display: none;
+  }
+
+  .home,
+  .catalog-link {
+    display: none;
+  }
+
+  /* Icone visibili solo su mobile */
+  .mobile-only {
+    display: inline-block;
   }
 
   .title-wrapper h3 {
     font-size: 1rem;
   }
 
-  .col-center a {
-    margin-left: 10px;
-    font-size: 0.9rem;
-  }
-
-  /* tieni solo l’icona del carrello, nascondi la scritta */
-  .cart-button span:last-child {
-    display: none;
-  }
-
+  .col-center a,
   .cart-button .material-symbols-outlined {
-    margin-right: 0;
+    margin-left: 10px;
+    font-size: 2rem;
+  }
+
+  .col-center {
+    width: 60%;
+    justify-content: center;
+  }
+
+  .col-left,
+  .col-right {
+    width: 15%;
   }
 }

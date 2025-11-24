@@ -1,4 +1,10 @@
 /* ========================= HERO ========================= */
+h1 {
+  font-size: 4rem;
+  color: #c52020;
+  margin-bottom: 20px;
+}
+
 .hero {
   height: 600px;
   background-image: url("/hero.png");
@@ -13,10 +19,22 @@
   left: 30px;
 }
 
-h1 {
-  font-size: 4rem;
-  color: #c52020;
-  margin-bottom: 20px;
+.btn {
+  background-color: #c62020;
+  color: white;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: all 0.2s ease; 
+}
+
+.btn:hover {
+  background-color: #e02d2d;
+  transform: scale(1.05); 
 }
 
 /* Ombra sfumata sotto il background dell'hero */
