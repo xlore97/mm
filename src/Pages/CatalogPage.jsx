@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom"; // 🔹 MODIFICA: per query params
 import axios from "axios";
 
 import ProductsList from "../components/ProductsList";
@@ -14,42 +13,74 @@ export default function CatalogPage() {
 
   // stato UI ricerca / filtro / ordinamento / “doppia vista” griglia/lista
   const [searchText, setSearchText] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all"); // all | vampire | witch | lycan
-  const [sortMode, setSortMode] = useState("newest"); // newest | oldest | az
+  const [selectedCategories, setSelectedCategories] = useState([]); // es. ["vampiri", "streghe"]
+  const [sortMode, setSortMode] = useState("newest"); // newest | oldest | az | za | price-asc | price-desc
   const [viewMode, setViewMode] = useState("grid"); // "grid" | "list"
 
-  // 🔹 MODIFICA: hook per gestire query params
-  const [searchParams, setSearchParams] = useSearchParams();
+  // bounds globali dei prezzi e range attivo
+  const [priceBounds, setPriceBounds] = useState({ min: 0, max: 0 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
 
-  // 🔹 MODIFICA: inizializza stati dai query params al mount
-  useEffect(() => {
-    const search = searchParams.get("search") || "";
-    const category = searchParams.get("category") || "all";
-    const sort = searchParams.get("sort") || "newest";
+  // ================== HELPERS ==================
 
-    setSearchText(search);
-    setSelectedCategory(category);
-    setSortMode(sort);
-  }, []);
+  const getProductPrice = (p) => {
+    // stesso concetto che usi nelle card
+    return Number(p.price ?? p.amount ?? 0) || 0;
+  };
+
+  // vampiri | streghe | licantropi
+  const getCategoryKey = (product) => {
+    const c = String(product.category || "").toLowerCase();
+    if (c.includes("vamp")) return "vampiri";
+    if (c.includes("streg")) return "streghe";
+    if (c.includes("licant")) return "licantropi";
+    return "other";
+  };
+
+  // Estrae una "data" di riferimento per l’ordinamento
+  const getProductTimestamp = (p) => {
+    if (p.added_at) return new Date(p.added_at).getTime();
+    if (p.created_at) return new Date(p.created_at).getTime();
+    // fallback: usa l’id (più alto = più recente)
+    if (typeof p.id === "number") return p.id;
+    const n = Number(p.id);
+    return isNaN(n) ? 0 : n;
+  };
 
   // ================== FETCH PRODOTTI ==================
+
   useEffect(() => {
     async function fetchProducts() {
       try {
         setLoading(true);
         setError(null);
 
-        const params = {
-          search: searchText || undefined,
-          category: selectedCategory !== "all" ? selectedCategory : undefined,
-          sort: sortMode,
-        };
-
-        const res = await axios.get("http://localhost:3000/api/products", { params });
+        const res = await axios.get("http://localhost:3000/api/products");
         console.log("CatalogPage - prodotti:", res.data);
 
-        const list = Array.isArray(res.data.data) ? res.data.data : [];
+        let list = Array.isArray(res.data) ? res.data : res.data.data;
+
+        if (!Array.isArray(list)) {
+          console.warn(
+            "La risposta non contiene un array valido di prodotti:",
+            res.data
+          );
+          list = [];
+        }
+
         setProducts(list);
+
+        // calcolo bounds prezzo globali
+        if (list.length > 0) {
+          const prices = list.map(getProductPrice).filter((v) => v >= 0);
+          const min = Math.min(...prices);
+          const max = Math.max(...prices);
+          setPriceBounds({ min, max });
+          setPriceRange({ min, max });
+        } else {
+          setPriceBounds({ min: 0, max: 0 });
+          setPriceRange({ min: 0, max: 0 });
+        }
       } catch (err) {
         console.error("Errore caricamento prodotti:", err);
         const msg =
@@ -61,17 +92,64 @@ export default function CatalogPage() {
     }
 
     fetchProducts();
-  }, [searchText, selectedCategory, sortMode]);
+  }, []);
 
-  // 🔹 MODIFICA: aggiorna URL quando cambiano ricerca/categoria/ordinamento
-  useEffect(() => {
-    const params = {};
-    if (searchText) params.search = searchText;
-    if (selectedCategory !== "all") params.category = selectedCategory;
-    if (sortMode !== "newest") params.sort = sortMode;
+  // ================== FILTRAGGIO + ORDINAMENTO (frontend) ==================
 
-    setSearchParams(params);
-  }, [searchText, selectedCategory, sortMode, setSearchParams]);
+  const buildVisibleProducts = () => {
+    let list = [...products];
+
+    // filtro testo (nome + descrizione)
+    const term = searchText.trim().toLowerCase();
+    if (term !== "") {
+      list = list.filter((p) => {
+        const name = String(p.name || "").toLowerCase();
+        const desc = String(p.description || "").toLowerCase();
+        return name.includes(term) || desc.includes(term);
+      });
+    }
+
+    // filtro categorie MULTIPLO
+    // se selectedCategories è vuoto => "tutte le categorie"
+    if (selectedCategories.length > 0) {
+      list = list.filter((p) => selectedCategories.includes(getCategoryKey(p)));
+    }
+
+    // filtro per fascia di prezzo (se bounds hanno senso)
+    if (priceBounds.max > priceBounds.min) {
+      list = list.filter((p) => {
+        const price = getProductPrice(p);
+        return price >= priceRange.min && price <= priceRange.max;
+      });
+    }
+
+    // ordinamento
+    if (sortMode === "newest") {
+      list.sort((a, b) => getProductTimestamp(b) - getProductTimestamp(a));
+    } else if (sortMode === "oldest") {
+      list.sort((a, b) => getProductTimestamp(a) - getProductTimestamp(b));
+    } else if (sortMode === "az") {
+      list.sort((a, b) =>
+        String(a.name || "").localeCompare(String(b.name || ""), "it", {
+          sensitivity: "base",
+        })
+      );
+    } else if (sortMode === "za") {
+      list.sort((a, b) =>
+        String(b.name || "").localeCompare(String(a.name || ""), "it", {
+          sensitivity: "base",
+        })
+      );
+    } else if (sortMode === "price-asc") {
+      list.sort((a, b) => getProductPrice(a) - getProductPrice(b));
+    } else if (sortMode === "price-desc") {
+      list.sort((a, b) => getProductPrice(b) - getProductPrice(a));
+    }
+
+    return list;
+  };
+
+  const visibleProducts = buildVisibleProducts();
 
   // ================== RENDER ==================
   return (
@@ -86,24 +164,29 @@ export default function CatalogPage() {
       <SearchBar
         searchText={searchText}
         onSearchTextChange={setSearchText}
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
+        selectedCategories={selectedCategories}
+        onCategoriesChange={setSelectedCategories}
         sortMode={sortMode}
         onSortChange={setSortMode}
         viewMode={viewMode}
         onViewModeChange={setViewMode}
+        priceRange={priceRange}
+        onPriceRangeChange={setPriceRange}
+        priceBounds={priceBounds}
       />
 
       {!loading && !error && (
         <p className="catalog-count">
-          {products.length} prodotti da brivido
+          {visibleProducts.length > 0
+            ? `${visibleProducts.length} prodotti da brivido`
+            : "Nessun prodotto trovato"}
         </p>
       )}
 
       {loading && <p>Caricamento prodotti...</p>}
       {error && <p className="error-text">{error}</p>}
 
-      <ProductsList products={products} viewMode={viewMode} />
+      <ProductsList products={visibleProducts} viewMode={viewMode} />
     </main>
   );
 }

@@ -38,7 +38,7 @@
 .search-input {
   width: 100%;
   padding: 10px 14px;
-  padding-left: 34px; /* spazio per icona */
+  padding-left: 34px;
   border-radius: 8px;
   border: 1px solid #3a3a3a;
   background-color: #101010;
@@ -51,20 +51,110 @@
   font-size: 0.85rem;
 }
 
-/* -------- SELECT CATEGORIE -------- */
+/* -------- SEZIONI FILTRO COLLASSABILI -------- */
 
-.search-select-wrapper {
-  min-width: 220px;
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
 }
 
-.category-select {
+/* pulsante intestazione ("Categorie", "Fascia di prezzo") */
+.filter-toggle-btn {
   width: 100%;
   padding: 10px 14px;
+  border: transparent;
+  border-bottom: 1px solid #333333;
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+/* freccia che ruota */
+.price-range-arrow {
+  transition: transform 0.2s ease;
+}
+
+.price-range-arrow.is-open {
+  transform: rotate(180deg);
+}
+
+/* -------- CATEGORIE -------- */
+
+.category-panel {
+  padding: 4px 2px 0;
+}
+
+.category-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* pill generica categoria */
+.category-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.category-filter.is-active {
+  color: #111111;
+  border-color: #ffffff;
+}
+
+.category-filter:hover {
+  background-color: #202020;
+  border-color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* checkbox dentro i pill */
+.category-filter input {
+  accent-color: #e03b3b;
+}
+
+.category-filter-label {
+  white-space: nowrap;
+}
+
+/* -------- INPUT PREZZO MIN/MAX (layout, non stile slider) -------- */
+
+.price-input-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 6px;
+}
+
+.price-input-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.price-label {
+  font-size: 0.8rem;
+  color: #b3b3b3;
+}
+
+.price-input {
+  padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid #3a3a3a;
   background-color: #101010;
   color: #ffffff;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 /* -------- ORDINAMENTO -------- */
@@ -94,9 +184,8 @@
 }
 
 .sort-button.is-active {
-  background-color: #ffffff;
+  background-color: #e03b3b;
   color: #111111;
-  border-color: #ffffff;
 }
 
 /* -------- GRIGLIA / LISTA  -------- */
@@ -107,6 +196,7 @@
 }
 
 .view-toggle-btn-single {
+  margin-left: auto;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -139,19 +229,21 @@
     align-items: stretch;
   }
 
-  .search-select-wrapper {
-    min-width: 0;
-  }
-
-  .category-select {
-    width: 100%;
-  }
-
   .searchbar-wrapper {
     padding: 16px;
   }
 
-  .view-row {
-    align-items: flex-start;
+  .price-input-row {
+    flex-direction: column;
+  }
+
+  .search-sort-row {
+    flex-wrap: wrap;
+  }
+
+  .view-toggle-btn-single {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
   }
 }

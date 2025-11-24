@@ -1,0 +1,66 @@
+/* ========== PRICE RANGE / SLIDER DOPPIO ========== */
+
+/* wrapper orizzontale dello slider, dentro la sezione prezzo */
+.price-slider-row {
+  width: 100%;
+  padding: 0 4px;
+}
+
+/* contenitore dello slider custom */
+.custom-slider {
+  position: relative;
+  width: 100%;
+  height: 24px;
+}
+
+/* track grigia di base (0 → max prezzo) */
+.slider-track-base {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 6px;
+  border-radius: 999px;
+  background: #444444;
+  transform: translateY(-50%);
+}
+
+/* parte attiva rossa tra min e max */
+.slider-track-active {
+  position: absolute;
+  top: 50%;
+  height: 6px;
+  border-radius: 999px;
+  background: #e03b3b;
+  transform: translateY(-50%);
+}
+
+/* pallini (maniglie) min/max */
+.slider-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background: #e03b3b;
+  box-shadow: 0 0 8px rgba(224, 59, 59, 0.8);
+  cursor: pointer;
+}
+
+/* opzionale per differenziare visivamente i due pallini */
+.slider-thumb-min {
+  /* stile extra opzionale per il pallino min */
+}
+
+.slider-thumb-max {
+  /* stile extra opzionale per il pallino max */
+}
+
+/* messaggi di errore sotto gli input prezzo */
+.price-error {
+  font-size: 0.78rem;
+  color: #ff6565;
+  margin-top: 2px;
+}
