@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom"; // <--- AGGIUNTA
+
 import axios from "axios";
 
 import ProductsList from "../components/ProductsList";
@@ -10,6 +12,7 @@ export default function CatalogPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams(); // <--- AGGIUNTA
 
   // stato UI ricerca / filtro / ordinamento / “doppia vista” griglia/lista
   const [searchText, setSearchText] = useState("");
@@ -46,6 +49,33 @@ export default function CatalogPage() {
     const n = Number(p.id);
     return isNaN(n) ? 0 : n;
   };
+
+  // === Inizializza stati dai query params ===  // <--- AGGIUNTA
+useEffect(() => {
+  const search = searchParams.get("search") || "";
+  const categories = searchParams.get("categories");
+  const sort = searchParams.get("sort") || "newest";
+  const price = searchParams.get("price"); // es "10-80"
+
+  // search text
+  setSearchText(search);
+
+  // categorie multiple
+  if (categories) {
+    setSelectedCategories(categories.split(",")); // "vampiri,streghe"
+  }
+
+  // sort
+  setSortMode(sort);
+
+  // prezzo
+  if (price) {
+    const [min, max] = price.split("-").map(Number);
+    if (!isNaN(min) && !isNaN(max)) {
+      setPriceRange({ min, max });
+    }
+  }
+}, []);
 
   // ================== FETCH PRODOTTI ==================
 
@@ -150,6 +180,35 @@ export default function CatalogPage() {
   };
 
   const visibleProducts = buildVisibleProducts();
+
+  // === Sincronizza query string quando cambiano i filtri ===  // <--- AGGIUNTA
+useEffect(() => {
+  const params = {};
+
+  if (searchText) params.search = searchText;
+
+  if (selectedCategories.length > 0) {
+    params.categories = selectedCategories.join(",");
+  }
+
+  if (sortMode !== "newest") {
+    params.sort = sortMode;
+  }
+
+  // prezzo (solo se bounds hanno senso)
+  if (priceRange.min !== priceBounds.min || priceRange.max !== priceBounds.max) {
+    params.price = `${priceRange.min}-${priceRange.max}`;
+  }
+
+  setSearchParams(params);
+}, [
+  searchText,
+  selectedCategories,
+  sortMode,
+  priceRange,
+  priceBounds,
+  setSearchParams,
+]);
 
   // ================== RENDER ==================
   return (
