@@ -431,7 +431,7 @@ export default function CheckoutPage() {
                       value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value)}
                     />
-                    <button type="submit">Applica</button>
+                    <button type="submit" className="btn">Applica</button>
                   </form>
                 ) : (
                   <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
@@ -469,7 +469,7 @@ export default function CheckoutPage() {
               </div>
 
               <button
-                className="checkout-btn"
+                className="checkout-btn btn"
                 onClick={handleCompleteOrder}
                 disabled={!canCompleteOrder}
               >
