@@ -8,11 +8,31 @@ export default function CartDrawer({ isOpen, onClose }) {
 
   return (
     <div className={`drawer-wrapper ${isOpen ? "active" : ""}`}>
-      {/* Sfondo solo se il carrello è vuoto */}
+      {/* Bottone chiudi */}
       <button className="close-btn" onClick={onClose}>
         X
       </button>
 
+      {/* Immagine carrello vuoto: solo se cart.length === 0 */}
+      {cart.length === 0 && (
+        <img
+          src="/empty-cart.webp" // path dalla cartella public
+          alt="Carrello vuoto"
+          style={{
+            position: "absolute",
+            top: "220px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "100%",
+            height: "auto",
+            pointerEvents: "none", // non blocca click su altri elementi
+            zIndex: 0,
+            opacity: 0.8,
+          }}
+        />
+      )}
+
+      {/* Contenuto carrello */}
       {cart.length === 0 ? (
         <div className="cart">
           <h2 className="empty-message">Il tuo carrello è vuoto!</h2>
