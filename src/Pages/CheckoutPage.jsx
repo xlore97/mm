@@ -96,24 +96,33 @@ export default function CheckoutPage() {
     EURO5: { type: "fixed", value: 5 },
   };
 
-  const handleApplyCoupon = (e) => {
+  const handleApplyCoupon = async (e) => {
     e?.preventDefault();
     setCouponError("");
+    setAppliedCoupon(null);
+
     const code = (couponCode || "").trim().toUpperCase();
     if (!code) {
       setCouponError("Inserisci un codice coupon.");
       return;
     }
 
-    const cfg = COUPONS[code];
-    if (!cfg) {
-      setCouponError("Coupon non valido.");
-      return;
+    try {
+      const res = await axios.get(`http://localhost:3000/api/coupons/validate?code=${code}`);
+      const data = res.data.data;
+
+      if (!data.valid) {
+        setCouponError(data.message || "Coupon non valido.");
+        return;
+      }
+
+      // Imposta il coupon valido
+      setAppliedCoupon({ code, type: "percent", value: data.discount });
+    } catch (err) {
+      console.error(err);
+      setCouponError("Errore durante la verifica del coupon.");
     }
-
-    setAppliedCoupon({ code, ...cfg });
   };
-
   const handleRemoveCoupon = () => {
     setAppliedCoupon(null);
     setCouponCode("");
