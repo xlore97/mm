@@ -10,6 +10,8 @@
   flex-shrink: 0;
   transition: transform 0.25s ease, box-shadow 0.25s ease,
     border-color 0.25s ease;
+  width: 320px;
+  height: 500px;
 }
 
 /* hover generico */
@@ -31,7 +33,6 @@
 .card-img-container {
   width: 100%;
   border-radius: 12px;
-  
   flex-shrink: 0;
 }
 
@@ -131,59 +132,87 @@ b {
   overflow: hidden;
 }
 
-
-
 /* ========================= CAROSELLO / GRIGLIA FLEX ========================= */
 
 .carousel-track {
   display: flex;
   gap: 16px;
-  overflow-x: auto;
+  overflow-x: hidden; /* niente scroll */
   padding: 40px 32px;
   scroll-behavior: smooth;
   justify-content: flex-start;
 }
 
 .carousel-track::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
 
-.carousel-track .card {
-  flex: 0 0 300px; 
-  max-width: 300px;
-}
-
+/* card fisse sia griglia che carosello */
+.carousel-track .card,
 .product-list-row.grid-mode .card {
-    height: 500px;
+  flex: 0 0 300px; /* larghezza fissa */
+  width: 300px;
+  height: 500px; /* altezza fissa */
+  max-width: 300px;
+  max-height: 500px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* immagini dentro card sempre proporzionate */
+.carousel-track .card img,
+.product-list-row.grid-mode .card img {
+  width: 100%;
+  height: auto;
+  object-fit: contain; /* mostra tutta l'immagine senza tagli */
+  border-radius: 8px;
+}
+
+/* testo leggibile */
+.carousel-track .card .card-text-container,
+.product-list-row.grid-mode .card .card-text-container {
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 6px;
 }
 
 /* ===== Responsive ===== */
 
-/* Tablet medio / piccoli */
+/* Tablet medio / piccoli: dimensioni leggermente ridotte */
 @media (max-width: 900px) {
   .carousel-track {
     gap: 14px;
     padding: 32px 20px;
   }
 
-  .carousel-track .card {
-    flex: 0 0 250px;
-    max-width: 250px;
+  .carousel-track .card,
+  .product-list-row.grid-mode .card {
+    flex: 0 0 280px;
+    width: 280px;
+    height: 480px;
   }
 }
 
-/* Mobile: due card per riga */
+/* Mobile: una card per riga */
 @media (max-width: 600px) {
-  .carousel-track .card {
-    flex: 0 0 calc((100% - 16px) / 2); /* due card visibili con gap */
-    max-width: none;
+  .carousel-track .card,
+  .product-list-row.grid-mode .card {
+    flex: 0 0 90%; /* quasi tutta la larghezza */
+    width: 90%;
+    height: auto; /* altezza si adatta al contenuto */
   }
 }
 
-/* Extra small mobile: una card per riga */
+/* Extra small mobile: piena larghezza */
 @media (max-width: 400px) {
-  .carousel-track .card {
+  .carousel-track .card,
+  .product-list-row.grid-mode .card {
     flex: 0 0 100%;
+    width: 100%;
   }
 }
 
