@@ -62,11 +62,11 @@ export default function CheckoutPage() {
 
     const shippingComplete = useDifferentAddress
       ? shippingData.name.trim() &&
-        shippingData.email.trim() &&
-        shippingData.address.trim() &&
-        shippingData.city.trim() &&
-        /^\d{5}$/.test(shippingData.zip) &&
-        shippingData.country
+      shippingData.email.trim() &&
+      shippingData.address.trim() &&
+      shippingData.city.trim() &&
+      /^\d{5}$/.test(shippingData.zip) &&
+      shippingData.country
       : true;
 
     setCanCompleteOrder(billingComplete && shippingComplete && cart.length > 0);
@@ -79,27 +79,45 @@ export default function CheckoutPage() {
 
     // Billing
     if (!billingData.name.trim()) missingFields.push("name");
-    if (!billingData.email.trim()) missingFields.push("email");
+
+    // EMAIL BILLING: vuota o senza formato valido
+    if (!billingData.email.trim() || !/^\S+@\S+\.\S+$/.test(billingData.email)) {
+      missingFields.push("email_invalid");
+    }
+
     if (!billingData.address.trim()) missingFields.push("address");
     if (!billingData.city.trim()) missingFields.push("city");
     if (!/^\d{5}$/.test(billingData.zip)) missingFields.push("zip");
     if (!billingData.country) missingFields.push("country");
 
-    // Shipping (solo se è diverso)
+    // Shipping (solo se diverso)
     if (useDifferentAddress) {
       if (!shippingData.name.trim()) missingFields.push("s_name");
-      if (!shippingData.email.trim()) missingFields.push("s_email");
+
+      // EMAIL SHIPPING: vuota o invalida
+      if (!shippingData.email.trim() || !/^\S+@\S+\.\S+$/.test(shippingData.email)) {
+        missingFields.push("s_email_invalid");
+      }
+
       if (!shippingData.address.trim()) missingFields.push("s_address");
       if (!shippingData.city.trim()) missingFields.push("s_city");
       if (!/^\d{5}$/.test(shippingData.zip)) missingFields.push("s_zip");
       if (!shippingData.country) missingFields.push("s_country");
     }
 
+
     if (missingFields.length > 0) {
       setInvalidFields(missingFields);
+
       const firstField = document.getElementById(missingFields[0]);
       firstField?.focus();
-      setFeedbackMessage("Compila tutti i campi obbligatori prima di procedere!");
+
+      if (missingFields.includes("email_invalid") || missingFields.includes("s_email_invalid")) {
+        setFeedbackMessage("Inserisci un indirizzo email valido!");
+      } else {
+        setFeedbackMessage("Compila tutti i campi obbligatori prima di procedere!");
+      }
+
       setTimeout(() => setFeedbackMessage(""), 3000);
       return;
     }
@@ -154,13 +172,13 @@ export default function CheckoutPage() {
 
     const shipping = useDifferentAddress
       ? {
-          name: shippingData.name,
-          street: shippingData.address,
-          cap: shippingData.zip,
-          city: shippingData.city,
-          province: shippingData.country,
-          country: shippingData.country,
-        }
+        name: shippingData.name,
+        street: shippingData.address,
+        cap: shippingData.zip,
+        city: shippingData.city,
+        province: shippingData.country,
+        country: shippingData.country,
+      }
       : billing;
 
     const items = cart.map((it) => ({
