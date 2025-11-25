@@ -7,6 +7,7 @@ import SingleProductPage from "./Pages/SingleProductPage";
 import CheckoutPage from "./Pages/CheckoutPage";
 import OrderComplete from "./Pages/OrderComplete";
 import { CartProvider } from "./contexts/CartContext";
+import NotFoundPage from "./Pages/NotFoundPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/products/:slug" element={<SingleProductPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/order-complete" element={<OrderComplete />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
