@@ -20,13 +20,14 @@ export default function SearchBar({
   onPriceRangeChange = () => {},
   // limiti min/max disponibili sui prodotti (vengono dal parent)
   priceBounds = { min: 0, max: 0 },
+
   // **filtro promo**
+
   onlyPromo = false,
   onOnlyPromoChange = () => {},
 }) {
   const isGrid = viewMode === "grid";
 
-  // categorie possibili : vampiri | streghe | licantropi
   const categoryOptions = [
     { value: "vampiri", label: "Vampiri" },
     { value: "streghe", label: "Streghe" },
@@ -36,7 +37,7 @@ export default function SearchBar({
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isPriceOpen, setIsPriceOpen] = useState(false);
 
-  // toggle singola categoria (multi-select)
+
   const handleCategoryToggle = (value) => {
     if (selectedCategories.includes(value)) {
       onCategoriesChange(selectedCategories.filter((v) => v !== value));
@@ -73,12 +74,17 @@ export default function SearchBar({
           onClick={() => setIsCategoryOpen((open) => !open)}
         >
           <span>Categorie</span>
+
           <span className={`price-range-arrow ${isCategoryOpen ? "is-open" : ""}`}>▾</span>
+
         </button>
 
         {isCategoryOpen && (
           <div className="category-panel">
             <div className="category-row">
+
+              {/* Tutte le categorie */}
+              
               <label className={`category-filter ${selectedCategories.length === 0 ? "is-active" : ""}`}>
                 <input
                   type="checkbox"
@@ -126,7 +132,21 @@ export default function SearchBar({
         )}
       </div>
 
-      {/* =============== ORDINAMENTO + VISTA + PROMO ================= */}
+
+      {/* =============== SOLO PROMO ================= */}
+      <div className="filter-section promo-filter">
+        <label className={`category-filter ${onlyPromo ? "is-active" : ""}`}>
+          <input
+            type="checkbox"
+            checked={onlyPromo}
+            onChange={(e) => onOnlyPromoChange(e.target.checked)}
+          />
+          <span className="category-filter-label">Solo prodotti in promo</span>
+        </label>
+      </div>
+
+      {/* =============== ORDINAMENTO + VISTA ================= */}
+
       <div className="search-row search-sort-row">
         <span className="search-sort-label">Ordina per:</span>
 
@@ -146,6 +166,26 @@ export default function SearchBar({
           />
           Solo prodotti in promo
         </label>
+        <button
+          className={`sort-button ${sortMode === "za" ? "is-active" : ""}`}
+          onClick={() => onSortChange("za")}
+        >
+          Z-A
+        </button>
+
+        <button
+          className={`sort-button ${sortMode === "price-asc" ? "is-active" : ""}`}
+          onClick={() => onSortChange("price-asc")}
+        >
+          Prezzo ↑
+        </button>
+
+        <button
+          className={`sort-button ${sortMode === "price-desc" ? "is-active" : ""}`}
+          onClick={() => onSortChange("price-desc")}
+        >
+          Prezzo ↓
+        </button>
 
         <button className="view-toggle-btn-single" onClick={() => onViewModeChange(isGrid ? "list" : "grid")}>
           <span className="material-symbols-outlined">{isGrid ? "view_list" : "grid_view"}</span>
