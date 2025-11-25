@@ -166,26 +166,6 @@ export default function SearchBar({
           />
           Solo prodotti in promo
         </label>
-        <button
-          className={`sort-button ${sortMode === "za" ? "is-active" : ""}`}
-          onClick={() => onSortChange("za")}
-        >
-          Z-A
-        </button>
-
-        <button
-          className={`sort-button ${sortMode === "price-asc" ? "is-active" : ""}`}
-          onClick={() => onSortChange("price-asc")}
-        >
-          Prezzo ↑
-        </button>
-
-        <button
-          className={`sort-button ${sortMode === "price-desc" ? "is-active" : ""}`}
-          onClick={() => onSortChange("price-desc")}
-        >
-          Prezzo ↓
-        </button>
 
         <button className="view-toggle-btn-single" onClick={() => onViewModeChange(isGrid ? "list" : "grid")}>
           <span className="material-symbols-outlined">{isGrid ? "view_list" : "grid_view"}</span>
