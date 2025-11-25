@@ -182,10 +182,34 @@
   transition: background-color 0.2s ease, color 0.2s ease,
     border-color 0.2s ease;
 }
+.sort-button:hover {
+  box-shadow: 0 0 5px 2px #ffffffaa;
+}
 
 .sort-button.is-active {
   background-color: #e03b3b;
   color: #111111;
+  border-color: #e03b3b;
+}
+
+/* ---- bottone PROMO (giallo) ---- */
+
+.promo-sort-button {
+  border-color: #e0b92f;
+  color: #e0b92f;
+}
+
+.promo-sort-button:hover {
+  background-color: #e0b92f;
+  color: #111111;
+  border-color: #e0b92f;
+}
+
+/* override dello stato attivo solo per Promo */
+.promo-sort-button.is-active {
+  background-color: #e0b92f;
+  color: #111111;
+  border-color: #e0b92f;
 }
 
 /* -------- GRIGLIA / LISTA  -------- */

@@ -2,27 +2,56 @@ import { useCart } from "../contexts/CartContext";
 import Badge from "./Badge";
 import "./BigSingleProduct.css";
 
-
-export default function BigSingleProduct({ product, quantity, increase, decrease, maxQuantity }) {
-
+export default function BigSingleProduct({
+  product,
+  quantity,
+  increase,
+  decrease,
+  maxQuantity,
+}) {
   const { addItem } = useCart();
 
   if (!product) return <p>Loading...</p>;
 
-  const extractNumericPrice = (p) => {
-    if (!p) return 0;
-    if (typeof p.price === "number") return p.price;
-    if (typeof p.price === "string" && !isNaN(Number(p.price)))
-      return Number(p.price);
-    return 0;
-  };
+  // --- gestione prezzi base / promo ---
+  const rawBase = product.regular_price ?? product.price ?? product.amount ?? 0;
+  const rawPromo = product.special_price ?? null;
 
-  const numericPrice = extractNumericPrice(product);
-  const priceText = numericPrice ? `€${numericPrice.toFixed(2)}` : "—";
+  const basePrice =
+    typeof rawBase === "string" ? Number(rawBase) : Number(rawBase || 0);
+  const promoPrice =
+    rawPromo != null
+      ? typeof rawPromo === "string"
+        ? Number(rawPromo)
+        : Number(rawPromo)
+      : null;
+
+  const hasPromo = !!promoPrice && basePrice > promoPrice;
+
+  const currentPrice = hasPromo ? promoPrice : basePrice;
+
+  const discountPercent =
+    hasPromo && basePrice > 0
+      ? Math.round((1 - promoPrice / basePrice) * 100)
+      : null;
 
   const handleAddToCart = () => {
-    addItem({ ...product, stock: product.quantity, price: numericPrice, quantity });
+    addItem({
+      ...product,
+      stock: product.quantity,
+      price: currentPrice,
+      quantity,
+    });
   };
+
+  // --- stato stock per badge ---
+  const stock = product.quantity ?? product.stock ?? product.available ?? 0;
+  let stockBadge = null;
+  if (stock <= 0) {
+    stockBadge = <span className="badge stock-out">Fuori stock</span>;
+  } else if (stock < 10) {
+    stockBadge = <span className="badge stock-low">In esaurimento</span>;
+  }
 
   return (
     <div className="big-card">
@@ -30,24 +59,58 @@ export default function BigSingleProduct({ product, quantity, increase, decrease
       <div className="details">
         <h1>{product.name}</h1>
 
+        {/* BADGE: categoria -> promo (se c'è) -> stock */}
         <div className="category-row">
           <Badge category={product.category} />
-          {
-            (() => {
-              const stock = product.quantity ?? product.stock ?? product.available ?? 0;
-              if (stock <= 0) return <span className="badge stock-out">Fuori stock</span>;
-              if (stock < 10) return <span className="badge stock-low">In esaurimento</span>;
-              return null;
-            })()
-          }
+          {hasPromo && <Badge promo />}
+          {stockBadge}
         </div>
-        <p>Prezzo: {priceText}</p>
-        <p>{product.description}</p>
+
+        {/* PREZZO */}
+        <div className="big-price-block">
+          <span className="big-price-label">Prezzo:</span>
+
+          {!hasPromo && (
+            <div className="big-price-row">
+              <span className="big-price-normal">
+                €{currentPrice.toFixed(2)}
+              </span>
+            </div>
+          )}
+
+          {hasPromo && (
+            <div className="big-price-row">
+              <span className="big-price-original">
+                €{basePrice.toFixed(2)}
+              </span>
+              <span className="big-price-promo">€{promoPrice.toFixed(2)}</span>
+              {discountPercent !== null && (
+                <span className="big-price-discount">-{discountPercent}%</span>
+              )}
+            </div>
+          )}
+        </div>
+
+        <p className="description">{product.description}</p>
 
         <div className="quantity-controls">
-          <button className="quantity-btn" onClick={decrease} disabled={quantity <= 1}>-</button>
+          <button
+            className="quantity-btn"
+            onClick={decrease}
+            disabled={quantity <= 1}
+          >
+            -
+          </button>
           <span className="quantity-number">{quantity}</span>
-          <button className="quantity-btn" onClick={increase} disabled={typeof maxQuantity === 'number' ? quantity >= maxQuantity : false}>+</button>
+          <button
+            className="quantity-btn"
+            onClick={increase}
+            disabled={
+              typeof maxQuantity === "number" ? quantity >= maxQuantity : false
+            }
+          >
+            +
+          </button>
         </div>
 
         <button className="add-to-cart" onClick={handleAddToCart}>

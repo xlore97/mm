@@ -42,3 +42,12 @@
   color: #eee;
   border: 1px solid #666;
 }
+
+/* ===== BADGE PROMO ===== */
+.badge.promo {
+  background-color: #111;
+  color: #ffdd44; /* giallo */
+  border: 1px solid #ffdd44;
+  font-weight: 800;
+  box-shadow: 0 0 8px rgba(255, 221, 68, 0.7);
+}
