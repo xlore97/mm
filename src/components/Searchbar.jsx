@@ -20,6 +20,9 @@ export default function SearchBar({
   onPriceRangeChange = () => {},
   // limiti min/max disponibili sui prodotti (vengono dal parent)
   priceBounds = { min: 0, max: 0 },
+  // **filtro promo**
+  onlyPromo = false,
+  onOnlyPromoChange = () => {},
 }) {
   const isGrid = viewMode === "grid";
 
@@ -33,8 +36,6 @@ export default function SearchBar({
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isPriceOpen, setIsPriceOpen] = useState(false);
 
-  // ---------- CATEGORIE ----------
-
   // toggle singola categoria (multi-select)
   const handleCategoryToggle = (value) => {
     if (selectedCategories.includes(value)) {
@@ -44,7 +45,6 @@ export default function SearchBar({
     }
   };
 
-  // “Tutte le categorie” = nessun filtro applicato → array vuoto
   const handleAllCategoriesToggle = () => {
     onCategoriesChange([]);
   };
@@ -54,9 +54,7 @@ export default function SearchBar({
       {/* -------- INPUT RICERCA -------- */}
       <div className="search-row">
         <div className="search-input-wrapper">
-          <span className="material-symbols-outlined search-input-icon">
-            search
-          </span>
+          <span className="material-symbols-outlined search-input-icon">search</span>
           <input
             type="text"
             placeholder="Cerca prodotti..."
@@ -75,40 +73,25 @@ export default function SearchBar({
           onClick={() => setIsCategoryOpen((open) => !open)}
         >
           <span>Categorie</span>
-          <span
-            className={`price-range-arrow ${isCategoryOpen ? "is-open" : ""}`}
-          >
-            ▾
-          </span>
+          <span className={`price-range-arrow ${isCategoryOpen ? "is-open" : ""}`}>▾</span>
         </button>
 
         {isCategoryOpen && (
           <div className="category-panel">
             <div className="category-row">
-              {/* Tutte le categorie con quadratino */}
-              <label
-                className={`category-filter ${
-                  selectedCategories.length === 0 ? "is-active" : ""
-                }`}
-              >
+              <label className={`category-filter ${selectedCategories.length === 0 ? "is-active" : ""}`}>
                 <input
                   type="checkbox"
                   checked={selectedCategories.length === 0}
                   onChange={handleAllCategoriesToggle}
                 />
-                <span className="category-filter-label">
-                  Tutte le categorie
-                </span>
+                <span className="category-filter-label">Tutte le categorie</span>
               </label>
 
-              {/* Categorie singole */}
               {categoryOptions.map((opt) => {
                 const active = selectedCategories.includes(opt.value);
                 return (
-                  <label
-                    key={opt.value}
-                    className={`category-filter ${active ? "is-active" : ""}`}
-                  >
+                  <label key={opt.value} className={`category-filter ${active ? "is-active" : ""}`}>
                     <input
                       type="checkbox"
                       checked={active}
@@ -123,7 +106,7 @@ export default function SearchBar({
         )}
       </div>
 
-      {/* =============== FASCIA DI PREZZO (con slider) ================= */}
+      {/* =============== FASCIA DI PREZZO ================= */}
       <div className="filter-section">
         <button
           type="button"
@@ -131,9 +114,7 @@ export default function SearchBar({
           onClick={() => setIsPriceOpen((open) => !open)}
         >
           <span>Fascia di prezzo</span>
-          <span className={`price-range-arrow ${isPriceOpen ? "is-open" : ""}`}>
-            ▾
-          </span>
+          <span className={`price-range-arrow ${isPriceOpen ? "is-open" : ""}`}>▾</span>
         </button>
 
         {isPriceOpen && priceBounds.max > priceBounds.min && (
@@ -145,63 +126,29 @@ export default function SearchBar({
         )}
       </div>
 
-      {/* =============== ORDINAMENTO + VISTA ================= */}
+      {/* =============== ORDINAMENTO + VISTA + PROMO ================= */}
       <div className="search-row search-sort-row">
         <span className="search-sort-label">Ordina per:</span>
 
-        <button
-          className={`sort-button ${sortMode === "newest" ? "is-active" : ""}`}
-          onClick={() => onSortChange("newest")}
-        >
-          Nuovi
-        </button>
+        <button className={`sort-button ${sortMode === "newest" ? "is-active" : ""}`} onClick={() => onSortChange("newest")}>Nuovi</button>
+        <button className={`sort-button ${sortMode === "oldest" ? "is-active" : ""}`} onClick={() => onSortChange("oldest")}>Più vecchi</button>
+        <button className={`sort-button ${sortMode === "az" ? "is-active" : ""}`} onClick={() => onSortChange("az")}>A-Z</button>
+        <button className={`sort-button ${sortMode === "za" ? "is-active" : ""}`} onClick={() => onSortChange("za")}>Z-A</button>
+        <button className={`sort-button ${sortMode === "price-asc" ? "is-active" : ""}`} onClick={() => onSortChange("price-asc")}>Prezzo ↑</button>
+        <button className={`sort-button ${sortMode === "price-desc" ? "is-active" : ""}`} onClick={() => onSortChange("price-desc")}>Prezzo ↓</button>
 
-        <button
-          className={`sort-button ${sortMode === "oldest" ? "is-active" : ""}`}
-          onClick={() => onSortChange("oldest")}
-        >
-          Più vecchi
-        </button>
+        {/* ----- NUOVO: FILTRO PROMO ----- */}
+        <label className="promo-checkbox">
+          <input
+            type="checkbox"
+            checked={onlyPromo}
+            onChange={(e) => onOnlyPromoChange(e.target.checked)}
+          />
+          Solo prodotti in promo
+        </label>
 
-        <button
-          className={`sort-button ${sortMode === "az" ? "is-active" : ""}`}
-          onClick={() => onSortChange("az")}
-        >
-          A-Z
-        </button>
-
-        <button
-          className={`sort-button ${sortMode === "za" ? "is-active" : ""}`}
-          onClick={() => onSortChange("za")}
-        >
-          Z-A
-        </button>
-
-        <button
-          className={`sort-button ${
-            sortMode === "price-asc" ? "is-active" : ""
-          }`}
-          onClick={() => onSortChange("price-asc")}
-        >
-          Prezzo ↑
-        </button>
-
-        <button
-          className={`sort-button ${
-            sortMode === "price-desc" ? "is-active" : ""
-          }`}
-          onClick={() => onSortChange("price-desc")}
-        >
-          Prezzo ↓
-        </button>
-
-        <button
-          className="view-toggle-btn-single"
-          onClick={() => onViewModeChange(isGrid ? "list" : "grid")}
-        >
-          <span className="material-symbols-outlined">
-            {isGrid ? "view_list" : "grid_view"}
-          </span>
+        <button className="view-toggle-btn-single" onClick={() => onViewModeChange(isGrid ? "list" : "grid")}>
+          <span className="material-symbols-outlined">{isGrid ? "view_list" : "grid_view"}</span>
           <span>{isGrid ? "Lista" : "Griglia"}</span>
         </button>
       </div>
