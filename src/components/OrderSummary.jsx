@@ -17,7 +17,7 @@ export default function OrderSummary({ isBillingComplete, onClose }) {
       <h2>Riepilogo Ordine</h2>
       <div className="summary-row">
         <h4>Totale:</h4>
-        <h3 className="total">€{total}</h3>
+        <h3 className="total">€{total.toFixed(2)}</h3>
       </div>
       <button
         className="checkout-btn"
