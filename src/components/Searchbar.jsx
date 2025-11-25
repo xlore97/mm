@@ -21,7 +21,8 @@ export default function SearchBar({
   // limiti min/max disponibili sui prodotti (vengono dal parent)
   priceBounds = { min: 0, max: 0 },
 
-  // --- NUOVO: filtro promo ---
+  // **filtro promo**
+
   onlyPromo = false,
   onOnlyPromoChange = () => {},
 }) {
@@ -35,6 +36,7 @@ export default function SearchBar({
 
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isPriceOpen, setIsPriceOpen] = useState(false);
+
 
   const handleCategoryToggle = (value) => {
     if (selectedCategories.includes(value)) {
@@ -53,9 +55,7 @@ export default function SearchBar({
       {/* -------- INPUT RICERCA -------- */}
       <div className="search-row">
         <div className="search-input-wrapper">
-          <span className="material-symbols-outlined search-input-icon">
-            search
-          </span>
+          <span className="material-symbols-outlined search-input-icon">search</span>
           <input
             type="text"
             placeholder="Cerca prodotti..."
@@ -74,15 +74,17 @@ export default function SearchBar({
           onClick={() => setIsCategoryOpen((open) => !open)}
         >
           <span>Categorie</span>
-          <span className={`price-range-arrow ${isCategoryOpen ? "is-open" : ""}`}>
-            ▾
-          </span>
+
+          <span className={`price-range-arrow ${isCategoryOpen ? "is-open" : ""}`}>▾</span>
+
         </button>
 
         {isCategoryOpen && (
           <div className="category-panel">
             <div className="category-row">
+
               {/* Tutte le categorie */}
+              
               <label className={`category-filter ${selectedCategories.length === 0 ? "is-active" : ""}`}>
                 <input
                   type="checkbox"
@@ -92,7 +94,6 @@ export default function SearchBar({
                 <span className="category-filter-label">Tutte le categorie</span>
               </label>
 
-              {/* Categorie singole */}
               {categoryOptions.map((opt) => {
                 const active = selectedCategories.includes(opt.value);
                 return (
@@ -131,6 +132,7 @@ export default function SearchBar({
         )}
       </div>
 
+
       {/* =============== SOLO PROMO ================= */}
       <div className="filter-section promo-filter">
         <label className={`category-filter ${onlyPromo ? "is-active" : ""}`}>
@@ -144,30 +146,26 @@ export default function SearchBar({
       </div>
 
       {/* =============== ORDINAMENTO + VISTA ================= */}
+
       <div className="search-row search-sort-row">
         <span className="search-sort-label">Ordina per:</span>
 
-        <button
-          className={`sort-button ${sortMode === "newest" ? "is-active" : ""}`}
-          onClick={() => onSortChange("newest")}
-        >
-          Nuovi
-        </button>
+        <button className={`sort-button ${sortMode === "newest" ? "is-active" : ""}`} onClick={() => onSortChange("newest")}>Nuovi</button>
+        <button className={`sort-button ${sortMode === "oldest" ? "is-active" : ""}`} onClick={() => onSortChange("oldest")}>Più vecchi</button>
+        <button className={`sort-button ${sortMode === "az" ? "is-active" : ""}`} onClick={() => onSortChange("az")}>A-Z</button>
+        <button className={`sort-button ${sortMode === "za" ? "is-active" : ""}`} onClick={() => onSortChange("za")}>Z-A</button>
+        <button className={`sort-button ${sortMode === "price-asc" ? "is-active" : ""}`} onClick={() => onSortChange("price-asc")}>Prezzo ↑</button>
+        <button className={`sort-button ${sortMode === "price-desc" ? "is-active" : ""}`} onClick={() => onSortChange("price-desc")}>Prezzo ↓</button>
 
-        <button
-          className={`sort-button ${sortMode === "oldest" ? "is-active" : ""}`}
-          onClick={() => onSortChange("oldest")}
-        >
-          Più vecchi
-        </button>
-
-        <button
-          className={`sort-button ${sortMode === "az" ? "is-active" : ""}`}
-          onClick={() => onSortChange("az")}
-        >
-          A-Z
-        </button>
-
+        {/* ----- NUOVO: FILTRO PROMO ----- */}
+        <label className="promo-checkbox">
+          <input
+            type="checkbox"
+            checked={onlyPromo}
+            onChange={(e) => onOnlyPromoChange(e.target.checked)}
+          />
+          Solo prodotti in promo
+        </label>
         <button
           className={`sort-button ${sortMode === "za" ? "is-active" : ""}`}
           onClick={() => onSortChange("za")}

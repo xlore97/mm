@@ -203,8 +203,10 @@ export default function CatalogPage() {
         priceRange={priceRange}
         onPriceRangeChange={setPriceRange}
         priceBounds={priceBounds}
+
         onlyPromo={onlyPromo}
         onOnlyPromoChange={setOnlyPromo} // --- passaggio al SearchBar
+
       />
 
       {!loading && !error && visibleProducts.length === 0 && <NoProductFound />}
