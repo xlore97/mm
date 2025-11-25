@@ -65,17 +65,46 @@
   line-height: 1.25;
   display: flex;
   align-items: flex-start;
+  height: 44px;
 }
 
-/* prezzo */
-.price {
-  color: #e03b3b;
+/* ========================= BADGE ROW ========================= */
+
+.badge-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* ========================= PREZZI ========================= */
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+/* prezzo normale (no promo) */
+.price-normal {
+  font-size: 1.5rem;
   font-weight: 700;
-  font-size: 1rem;
+  color: #e03b3b;
 }
 
-b {
+/* prezzo vecchio sbarrato */
+.price-old {
+  font-size: 0.9rem;
   color: #e03b3b;
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+/* prezzo promo evidenziato */
+.price-new {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #ffd34a; /* giallo promo */
 }
 
 /* ========================= MODALITÀ LISTA ========================= */
@@ -94,14 +123,12 @@ b {
   );
 }
 
-/* link interno diventa riga orizzontale */
 .product-list-row.list-mode .card > a {
   flex-direction: row;
   align-items: center;
   gap: 16px;
 }
 
-/* immagine più piccola a sinistra */
 .product-list-row.list-mode .card-img-container {
   width: 120px;
   max-width: 120px;
@@ -114,7 +141,6 @@ b {
   object-fit: cover;
 }
 
-/* testo compatto a destra */
 .product-list-row.list-mode .card-text-container {
   padding: 4px 0;
   gap: 6px;
@@ -137,7 +163,7 @@ b {
 .carousel-track {
   display: flex;
   gap: 16px;
-  overflow-x: hidden; /* niente scroll */
+  overflow-x: hidden;
   padding: 40px 32px;
   scroll-behavior: smooth;
   justify-content: flex-start;
@@ -147,12 +173,11 @@ b {
   display: none;
 }
 
-/* card fisse sia griglia che carosello */
 .carousel-track .card,
 .product-list-row.grid-mode .card {
-  flex: 0 0 300px; /* larghezza fissa */
+  flex: 0 0 300px;
   width: 300px;
-  height: 500px; /* altezza fissa */
+  height: 500px;
   max-width: 300px;
   max-height: 500px;
   display: flex;
@@ -160,16 +185,14 @@ b {
   box-sizing: border-box;
 }
 
-/* immagini dentro card sempre proporzionate */
 .carousel-track .card img,
 .product-list-row.grid-mode .card img {
   width: 100%;
   height: auto;
-  object-fit: contain; /* mostra tutta l'immagine senza tagli */
+  object-fit: contain;
   border-radius: 8px;
 }
 
-/* testo leggibile */
 .carousel-track .card .card-text-container,
 .product-list-row.grid-mode .card .card-text-container {
   flex: 1;
@@ -182,7 +205,6 @@ b {
 
 /* ===== Responsive ===== */
 
-/* Tablet medio / piccoli: dimensioni leggermente ridotte */
 @media (max-width: 900px) {
   .carousel-track {
     gap: 14px;
@@ -197,17 +219,15 @@ b {
   }
 }
 
-/* Mobile: una card per riga */
 @media (max-width: 600px) {
   .carousel-track .card,
   .product-list-row.grid-mode .card {
-    flex: 0 0 90%; /* quasi tutta la larghezza */
+    flex: 0 0 90%;
     width: 90%;
-    height: auto; /* altezza si adatta al contenuto */
+    height: auto;
   }
 }
 
-/* Extra small mobile: piena larghezza */
 @media (max-width: 400px) {
   .carousel-track .card,
   .product-list-row.grid-mode .card {
@@ -216,7 +236,6 @@ b {
   }
 }
 
-/* immagini sempre responsive */
 .card-img-container img {
   width: 100%;
   height: auto;
@@ -236,7 +255,7 @@ b {
     font-size: 1rem;
   }
 
-  .price {
+  .price-row {
     font-size: 0.95rem;
   }
 
