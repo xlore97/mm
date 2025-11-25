@@ -54,9 +54,6 @@ export default function PaymentModal({ onClose, onSuccess, amount }) {
     return (
         <div className="payment-modal-overlay">
             <div className="payment-modal">
-                <button className="modal-close" onClick={onClose} aria-label="Chiudi">
-                    ×
-                </button>
                 <h3>Dettagli Carta di Credito</h3>
                 <form onSubmit={handleSubmit} className="payment-form">
                     <label>
@@ -105,7 +102,7 @@ export default function PaymentModal({ onClose, onSuccess, amount }) {
                             Annulla
                         </button>
                         <button type="submit" className="checkout-btn">
-                            Paga €{amount}
+                            Acquista Ora
                         </button>
                     </div>
 

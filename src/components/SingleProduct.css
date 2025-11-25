@@ -31,7 +31,7 @@
 .card-img-container {
   width: 100%;
   border-radius: 12px;
-  background: #181818;
+  
   flex-shrink: 0;
 }
 
@@ -131,6 +131,8 @@ b {
   overflow: hidden;
 }
 
+
+
 /* ========================= CAROSELLO / GRIGLIA FLEX ========================= */
 
 .carousel-track {
@@ -143,12 +145,16 @@ b {
 }
 
 .carousel-track::-webkit-scrollbar {
-  display: none; /* nasconde scrollbar su webkit */
+  display: none; 
 }
 
 .carousel-track .card {
-  flex: 0 0 300px; /* default desktop */
+  flex: 0 0 300px; 
   max-width: 300px;
+}
+
+.product-list-row.grid-mode .card {
+    height: 500px;
 }
 
 /* ===== Responsive ===== */
