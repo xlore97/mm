@@ -312,6 +312,11 @@ h4 {
   z-index: 2000;
 }
 
+.payment-modal h3 {
+  font-family: lato;
+  margin-bottom: 10px;
+}
+
 .payment-modal {
   background: #151515;
   padding: 20px;
