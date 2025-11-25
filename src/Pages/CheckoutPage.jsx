@@ -35,26 +35,14 @@ export default function CheckoutPage() {
   const [couponCode, setCouponCode] = useState("");
   const [couponError, setCouponError] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [invalidFields, setInvalidFields] = useState([]);
 
   // Aggiorna billing
   const handleBillingChange = (e) => {
     const { name, value } = e.target;
     setBillingData((prev) => ({ ...prev, [name]: value }));
   };
-
-  // Calcoli visualizzazione prezzi tenendo conto di coupon
-  const subtotal = Number(total) || 0;
-  let discountAmount = 0;
-  if (appliedCoupon) {
-    if (appliedCoupon.type === "percent") {
-      discountAmount = subtotal * (appliedCoupon.value / 100);
-    } else if (appliedCoupon.type === "fixed") {
-      discountAmount = appliedCoupon.value;
-    }
-  }
-  const subtotalAfterDiscount = Math.max(0, subtotal - discountAmount);
-  const shippingCost = appliedCoupon && appliedCoupon.type === "shipping" ? 0 : (subtotalAfterDiscount > 99 ? 0 : 4.99);
-  const finalTotal = Number((subtotalAfterDiscount + shippingCost).toFixed(2));
 
   // Aggiorna shipping
   const handleShippingChange = (e) => {
@@ -74,11 +62,11 @@ export default function CheckoutPage() {
 
     const shippingComplete = useDifferentAddress
       ? shippingData.name.trim() &&
-      shippingData.email.trim() &&
-      shippingData.address.trim() &&
-      shippingData.city.trim() &&
-      /^\d{5}$/.test(shippingData.zip) &&
-      shippingData.country
+        shippingData.email.trim() &&
+        shippingData.address.trim() &&
+        shippingData.city.trim() &&
+        /^\d{5}$/.test(shippingData.zip) &&
+        shippingData.country
       : true;
 
     setCanCompleteOrder(billingComplete && shippingComplete && cart.length > 0);
@@ -86,16 +74,41 @@ export default function CheckoutPage() {
 
   const handleCompleteOrder = (e) => {
     e.preventDefault();
-    if (!canCompleteOrder) return;
+
+    let missingFields = [];
+
+    // Billing
+    if (!billingData.name.trim()) missingFields.push("name");
+    if (!billingData.email.trim()) missingFields.push("email");
+    if (!billingData.address.trim()) missingFields.push("address");
+    if (!billingData.city.trim()) missingFields.push("city");
+    if (!/^\d{5}$/.test(billingData.zip)) missingFields.push("zip");
+    if (!billingData.country) missingFields.push("country");
+
+    // Shipping (solo se è diverso)
+    if (useDifferentAddress) {
+      if (!shippingData.name.trim()) missingFields.push("s_name");
+      if (!shippingData.email.trim()) missingFields.push("s_email");
+      if (!shippingData.address.trim()) missingFields.push("s_address");
+      if (!shippingData.city.trim()) missingFields.push("s_city");
+      if (!/^\d{5}$/.test(shippingData.zip)) missingFields.push("s_zip");
+      if (!shippingData.country) missingFields.push("s_country");
+    }
+
+    if (missingFields.length > 0) {
+      setInvalidFields(missingFields);
+      const firstField = document.getElementById(missingFields[0]);
+      firstField?.focus();
+      setFeedbackMessage("Compila tutti i campi obbligatori prima di procedere!");
+      setTimeout(() => setFeedbackMessage(""), 3000);
+      return;
+    }
+
+    setInvalidFields([]);
     setShowPayment(true);
   };
 
-  const COUPONS = {
-    SCONTO10: { type: "percent", value: 10 },
-    FREESHIP: { type: "shipping", value: 0 },
-    EURO5: { type: "fixed", value: 5 },
-  };
-
+  // Coupon
   const handleApplyCoupon = async (e) => {
     e?.preventDefault();
     setCouponError("");
@@ -116,13 +129,13 @@ export default function CheckoutPage() {
         return;
       }
 
-      // Imposta il coupon valido
       setAppliedCoupon({ code, type: "percent", value: data.discount });
     } catch (err) {
       console.error(err);
       setCouponError("Errore durante la verifica del coupon.");
     }
   };
+
   const handleRemoveCoupon = () => {
     setAppliedCoupon(null);
     setCouponCode("");
@@ -141,13 +154,13 @@ export default function CheckoutPage() {
 
     const shipping = useDifferentAddress
       ? {
-        name: shippingData.name,
-        street: shippingData.address,
-        cap: shippingData.zip,
-        city: shippingData.city,
-        province: shippingData.country,
-        country: shippingData.country,
-      }
+          name: shippingData.name,
+          street: shippingData.address,
+          cap: shippingData.zip,
+          city: shippingData.city,
+          province: shippingData.country,
+          country: shippingData.country,
+        }
       : billing;
 
     const items = cart.map((it) => ({
@@ -158,18 +171,15 @@ export default function CheckoutPage() {
       product_name: it.name,
     }));
 
-    // Calcola totale effettivo includendo coupon/spedizione
     const subtotal = Number(total) || 0;
     let discount = 0;
     if (appliedCoupon) {
-      if (appliedCoupon.type === "percent") {
-        discount = (subtotal * (appliedCoupon.value / 100));
-      } else if (appliedCoupon.type === "fixed") {
-        discount = appliedCoupon.value;
-      }
+      if (appliedCoupon.type === "percent") discount = subtotal * (appliedCoupon.value / 100);
+      else if (appliedCoupon.type === "fixed") discount = appliedCoupon.value;
     }
     const subtotalAfterDiscount = Math.max(0, subtotal - discount);
-    const shippingCost = appliedCoupon && appliedCoupon.type === "shipping" ? 0 : (subtotalAfterDiscount > 99 ? 0 : 4.99);
+    const shippingCost =
+      appliedCoupon && appliedCoupon.type === "shipping" ? 0 : subtotalAfterDiscount > 99 ? 0 : 4.99;
 
     const payload = {
       total_price: Number((subtotalAfterDiscount + shippingCost).toFixed(2)),
@@ -185,7 +195,7 @@ export default function CheckoutPage() {
 
     axios
       .post("http://localhost:3000/api/orders", payload)
-      .then((res) => {
+      .then(() => {
         clearCart();
         navigate("/order-complete");
       })
@@ -195,13 +205,23 @@ export default function CheckoutPage() {
       });
   };
 
+  // Calcoli prezzi
+  const subtotal = Number(total) || 0;
+  let discountAmount = 0;
+  if (appliedCoupon) {
+    if (appliedCoupon.type === "percent") discountAmount = subtotal * (appliedCoupon.value / 100);
+    else if (appliedCoupon.type === "fixed") discountAmount = appliedCoupon.value;
+  }
+  const subtotalAfterDiscount = Math.max(0, subtotal - discountAmount);
+  const shippingCost = appliedCoupon && appliedCoupon.type === "shipping" ? 0 : subtotalAfterDiscount > 99 ? 0 : 4.99;
+  const finalTotal = Number((subtotalAfterDiscount + shippingCost).toFixed(2));
+
   return (
     <>
       <div className="checkout-container">
         <div className="col-left-checkout">
           {cart.length > 0 ? (
             <>
-              {/* Carrello */}
               {cart.map((item) => (
                 <CartItem key={item.id} item={item} />
               ))}
@@ -219,7 +239,7 @@ export default function CheckoutPage() {
                         id="name"
                         value={billingData.name}
                         onChange={handleBillingChange}
-                        required
+                        className={invalidFields.includes("name") ? "invalid-field" : ""}
                         placeholder="Es. Vlad Dracula"
                       />
                     </div>
@@ -231,7 +251,7 @@ export default function CheckoutPage() {
                         id="email"
                         value={billingData.email}
                         onChange={handleBillingChange}
-                        required
+                        className={invalidFields.includes("email") ? "invalid-field" : ""}
                         placeholder="dracu.love@bloodmail.com"
                       />
                     </div>
@@ -245,7 +265,7 @@ export default function CheckoutPage() {
                         id="address"
                         value={billingData.address}
                         onChange={handleBillingChange}
-                        required
+                        className={invalidFields.includes("address") ? "invalid-field" : ""}
                         placeholder="Via del Castello 66"
                       />
                     </div>
@@ -259,7 +279,7 @@ export default function CheckoutPage() {
                         id="city"
                         value={billingData.city}
                         onChange={handleBillingChange}
-                        required
+                        className={invalidFields.includes("city") ? "invalid-field" : ""}
                         placeholder="Mordor"
                       />
                     </div>
@@ -271,8 +291,7 @@ export default function CheckoutPage() {
                         id="zip"
                         value={billingData.zip}
                         onChange={handleBillingChange}
-                        required
-                        pattern="\d{5}"
+                        className={invalidFields.includes("zip") ? "invalid-field" : ""}
                         placeholder="Es: 80100"
                       />
                     </div>
@@ -283,7 +302,7 @@ export default function CheckoutPage() {
                         id="country"
                         value={billingData.country}
                         onChange={handleBillingChange}
-                        required
+                        className={invalidFields.includes("country") ? "invalid-field" : ""}
                       >
                         <option value="">Seleziona una nazione</option>
                         <option value="italia">Italia</option>
@@ -322,7 +341,7 @@ export default function CheckoutPage() {
                           id="s_name"
                           value={shippingData.name}
                           onChange={handleShippingChange}
-                          required
+                          className={invalidFields.includes("s_name") ? "invalid-field" : ""}
                           placeholder="Es. Vlad Dracula"
                         />
                       </div>
@@ -334,7 +353,7 @@ export default function CheckoutPage() {
                           id="s_email"
                           value={shippingData.email}
                           onChange={handleShippingChange}
-                          required
+                          className={invalidFields.includes("s_email") ? "invalid-field" : ""}
                           placeholder="dracu.love@bloodmail.com"
                         />
                       </div>
@@ -349,7 +368,7 @@ export default function CheckoutPage() {
                           id="s_address"
                           value={shippingData.address}
                           onChange={handleShippingChange}
-                          required
+                          className={invalidFields.includes("s_address") ? "invalid-field" : ""}
                           placeholder="Via del Castello 66"
                         />
                       </div>
@@ -364,7 +383,7 @@ export default function CheckoutPage() {
                           id="s_city"
                           value={shippingData.city}
                           onChange={handleShippingChange}
-                          required
+                          className={invalidFields.includes("s_city") ? "invalid-field" : ""}
                           placeholder="Mordor"
                         />
                       </div>
@@ -376,7 +395,7 @@ export default function CheckoutPage() {
                           id="s_zip"
                           value={shippingData.zip}
                           onChange={handleShippingChange}
-                          required
+                          className={invalidFields.includes("s_zip") ? "invalid-field" : ""}
                           placeholder="Es: 80100"
                         />
                       </div>
@@ -387,7 +406,7 @@ export default function CheckoutPage() {
                           id="s_country"
                           value={shippingData.country}
                           onChange={handleShippingChange}
-                          required
+                          className={invalidFields.includes("s_country") ? "invalid-field" : ""}
                         >
                           <option value="">Seleziona una nazione</option>
                           <option value="italia">Italia</option>
@@ -444,24 +463,24 @@ export default function CheckoutPage() {
                   </div>
                 )}
 
-                {couponError ? <div style={{ color: "#f56565", marginTop: 8 }}>{couponError}</div> : null}
+                {couponError && <div style={{ color: "#f56565", marginTop: 8 }}>{couponError}</div>}
               </div>
 
-              {subtotalAfterDiscount > 99 ? (
+              {subtotalAfterDiscount > 99 && (
                 <div className="free-shipping-bar">Hai diritto alla spedizione gratuita</div>
-              ) : null}
+              )}
 
               <div className="summary-row shipping-row">
                 <h4>Spedizione:</h4>
                 <h4>€{shippingCost.toFixed(2)}</h4>
               </div>
 
-              {discountAmount > 0 ? (
+              {discountAmount > 0 && (
                 <div className="summary-row">
                   <h4>Sconto coupon:</h4>
                   <h4>-€{discountAmount.toFixed(2)}</h4>
                 </div>
-              ) : null}
+              )}
 
               <div className="summary-row">
                 <h4>Totale:</h4>
@@ -471,7 +490,6 @@ export default function CheckoutPage() {
               <button
                 className="checkout-btn btn"
                 onClick={handleCompleteOrder}
-                disabled={!canCompleteOrder}
               >
                 Completa Ordine
               </button>
@@ -479,6 +497,12 @@ export default function CheckoutPage() {
           </div>
         )}
       </div>
+
+      {feedbackMessage && (
+        <div className={`feedback-toast ${feedbackMessage ? "show" : ""}`}>
+          {feedbackMessage}
+        </div>
+      )}
 
       {showPayment && (
         <PaymentModal
@@ -490,3 +514,4 @@ export default function CheckoutPage() {
     </>
   );
 }
+

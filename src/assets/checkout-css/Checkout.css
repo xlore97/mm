@@ -56,14 +56,13 @@ h4 {
   border-radius: 6px;
   cursor: pointer;
   margin-top: 0px;
-  transition: all 0.2s ease; 
+  transition: all 0.2s ease;
 }
 
 .btn:hover {
   background-color: #e02d2d;
-  transform: scale(1.05); 
+  transform: scale(1.05);
 }
-
 
 /* ======================== CHECKOUT ========================= */
 .checkout-container {
@@ -574,4 +573,44 @@ h4 {
     flex: 1 1 auto;
     width: 100%;
   }
+}
+
+.feedback-toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #c62020;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  font-weight: 600;
+  font-size: 0.95rem;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  z-index: 1000;
+  pointer-events: none; /* non blocca click sottostanti */
+}
+
+.feedback-toast.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+}
+
+/* Campi invalidi */
+.invalid-field {
+  border-color: #c62020; /* rosso */
+  box-shadow: 0 0 0 2px rgba(198, 32, 32, 0.3);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+/* Facoltativo: focus sui campi invalidi */
+.invalid-field:focus {
+  border-color: #ff3b3b;
+  box-shadow: 0 0 0 3px rgba(255, 59, 59, 0.4);
+  outline: none;
 }
