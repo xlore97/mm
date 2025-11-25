@@ -62,11 +62,11 @@ export default function CheckoutPage() {
 
     const shippingComplete = useDifferentAddress
       ? shippingData.name.trim() &&
-      shippingData.email.trim() &&
-      shippingData.address.trim() &&
-      shippingData.city.trim() &&
-      /^\d{5}$/.test(shippingData.zip) &&
-      shippingData.country
+        shippingData.email.trim() &&
+        shippingData.address.trim() &&
+        shippingData.city.trim() &&
+        /^\d{5}$/.test(shippingData.zip) &&
+        shippingData.country
       : true;
 
     setCanCompleteOrder(billingComplete && shippingComplete && cart.length > 0);
@@ -81,8 +81,11 @@ export default function CheckoutPage() {
     if (!billingData.name.trim()) missingFields.push("name");
 
     // EMAIL BILLING: vuota o senza formato valido
-    if (!billingData.email.trim() || !/^\S+@\S+\.\S+$/.test(billingData.email)) {
-      missingFields.push("email_invalid");
+    if (
+      !billingData.email.trim() ||
+      !/^\S+@\S+\.\S+$/.test(billingData.email)
+    ) {
+      missingFields.push("email"); // <-- qui la correzione
     }
 
     if (!billingData.address.trim()) missingFields.push("address");
@@ -95,8 +98,11 @@ export default function CheckoutPage() {
       if (!shippingData.name.trim()) missingFields.push("s_name");
 
       // EMAIL SHIPPING: vuota o invalida
-      if (!shippingData.email.trim() || !/^\S+@\S+\.\S+$/.test(shippingData.email)) {
-        missingFields.push("s_email_invalid");
+      if (
+        !shippingData.email.trim() ||
+        !/^\S+@\S+\.\S+$/.test(shippingData.email)
+      ) {
+        missingFields.push("s_email"); // <-- qui la correzione
       }
 
       if (!shippingData.address.trim()) missingFields.push("s_address");
@@ -105,17 +111,21 @@ export default function CheckoutPage() {
       if (!shippingData.country) missingFields.push("s_country");
     }
 
-
     if (missingFields.length > 0) {
       setInvalidFields(missingFields);
 
       const firstField = document.getElementById(missingFields[0]);
       firstField?.focus();
 
-      if (missingFields.includes("email_invalid") || missingFields.includes("s_email_invalid")) {
+      if (
+        missingFields.includes("email") ||
+        missingFields.includes("s_email")
+      ) {
         setFeedbackMessage("Inserisci un indirizzo email valido!");
       } else {
-        setFeedbackMessage("Compila tutti i campi obbligatori prima di procedere!");
+        setFeedbackMessage(
+          "Compila tutti i campi obbligatori prima di procedere!"
+        );
       }
 
       setTimeout(() => setFeedbackMessage(""), 3000);
@@ -139,7 +149,9 @@ export default function CheckoutPage() {
     }
 
     try {
-      const res = await axios.get(`http://localhost:3000/api/coupons/validate?code=${code}`);
+      const res = await axios.get(
+        `http://localhost:3000/api/coupons/validate?code=${code}`
+      );
       const data = res.data.data;
 
       if (!data.valid) {
@@ -172,13 +184,13 @@ export default function CheckoutPage() {
 
     const shipping = useDifferentAddress
       ? {
-        name: shippingData.name,
-        street: shippingData.address,
-        cap: shippingData.zip,
-        city: shippingData.city,
-        province: shippingData.country,
-        country: shippingData.country,
-      }
+          name: shippingData.name,
+          street: shippingData.address,
+          cap: shippingData.zip,
+          city: shippingData.city,
+          province: shippingData.country,
+          country: shippingData.country,
+        }
       : billing;
 
     const items = cart.map((it) => ({
@@ -192,12 +204,17 @@ export default function CheckoutPage() {
     const subtotal = Number(total) || 0;
     let discount = 0;
     if (appliedCoupon) {
-      if (appliedCoupon.type === "percent") discount = subtotal * (appliedCoupon.value / 100);
+      if (appliedCoupon.type === "percent")
+        discount = subtotal * (appliedCoupon.value / 100);
       else if (appliedCoupon.type === "fixed") discount = appliedCoupon.value;
     }
     const subtotalAfterDiscount = Math.max(0, subtotal - discount);
     const shippingCost =
-      appliedCoupon && appliedCoupon.type === "shipping" ? 0 : subtotalAfterDiscount > 99 ? 0 : 4.99;
+      appliedCoupon && appliedCoupon.type === "shipping"
+        ? 0
+        : subtotalAfterDiscount > 99
+        ? 0
+        : 4.99;
 
     const payload = {
       total_price: Number((subtotalAfterDiscount + shippingCost).toFixed(2)),
@@ -227,11 +244,18 @@ export default function CheckoutPage() {
   const subtotal = Number(total) || 0;
   let discountAmount = 0;
   if (appliedCoupon) {
-    if (appliedCoupon.type === "percent") discountAmount = subtotal * (appliedCoupon.value / 100);
-    else if (appliedCoupon.type === "fixed") discountAmount = appliedCoupon.value;
+    if (appliedCoupon.type === "percent")
+      discountAmount = subtotal * (appliedCoupon.value / 100);
+    else if (appliedCoupon.type === "fixed")
+      discountAmount = appliedCoupon.value;
   }
   const subtotalAfterDiscount = Math.max(0, subtotal - discountAmount);
-  const shippingCost = appliedCoupon && appliedCoupon.type === "shipping" ? 0 : subtotalAfterDiscount > 99 ? 0 : 4.99;
+  const shippingCost =
+    appliedCoupon && appliedCoupon.type === "shipping"
+      ? 0
+      : subtotalAfterDiscount > 99
+      ? 0
+      : 4.99;
   const finalTotal = Number((subtotalAfterDiscount + shippingCost).toFixed(2));
 
   return (
@@ -257,7 +281,9 @@ export default function CheckoutPage() {
                         id="name"
                         value={billingData.name}
                         onChange={handleBillingChange}
-                        className={invalidFields.includes("name") ? "invalid-field" : ""}
+                        className={
+                          invalidFields.includes("name") ? "invalid-field" : ""
+                        }
                         placeholder="Es. Vlad Dracula"
                       />
                     </div>
@@ -269,7 +295,9 @@ export default function CheckoutPage() {
                         id="email"
                         value={billingData.email}
                         onChange={handleBillingChange}
-                        className={invalidFields.includes("email") ? "invalid-field" : ""}
+                        className={
+                          invalidFields.includes("email") ? "invalid-field" : ""
+                        }
                         placeholder="dracu.love@bloodmail.com"
                       />
                     </div>
@@ -283,7 +311,11 @@ export default function CheckoutPage() {
                         id="address"
                         value={billingData.address}
                         onChange={handleBillingChange}
-                        className={invalidFields.includes("address") ? "invalid-field" : ""}
+                        className={
+                          invalidFields.includes("address")
+                            ? "invalid-field"
+                            : ""
+                        }
                         placeholder="Via del Castello 66"
                       />
                     </div>
@@ -297,7 +329,9 @@ export default function CheckoutPage() {
                         id="city"
                         value={billingData.city}
                         onChange={handleBillingChange}
-                        className={invalidFields.includes("city") ? "invalid-field" : ""}
+                        className={
+                          invalidFields.includes("city") ? "invalid-field" : ""
+                        }
                         placeholder="Mordor"
                       />
                     </div>
@@ -309,7 +343,9 @@ export default function CheckoutPage() {
                         id="zip"
                         value={billingData.zip}
                         onChange={handleBillingChange}
-                        className={invalidFields.includes("zip") ? "invalid-field" : ""}
+                        className={
+                          invalidFields.includes("zip") ? "invalid-field" : ""
+                        }
                         placeholder="Es: 80100"
                       />
                     </div>
@@ -320,7 +356,11 @@ export default function CheckoutPage() {
                         id="country"
                         value={billingData.country}
                         onChange={handleBillingChange}
-                        className={invalidFields.includes("country") ? "invalid-field" : ""}
+                        className={
+                          invalidFields.includes("country")
+                            ? "invalid-field"
+                            : ""
+                        }
                       >
                         <option value="">Seleziona una nazione</option>
                         <option value="italia">Italia</option>
@@ -359,7 +399,11 @@ export default function CheckoutPage() {
                           id="s_name"
                           value={shippingData.name}
                           onChange={handleShippingChange}
-                          className={invalidFields.includes("s_name") ? "invalid-field" : ""}
+                          className={
+                            invalidFields.includes("s_name")
+                              ? "invalid-field"
+                              : ""
+                          }
                           placeholder="Es. Vlad Dracula"
                         />
                       </div>
@@ -371,7 +415,11 @@ export default function CheckoutPage() {
                           id="s_email"
                           value={shippingData.email}
                           onChange={handleShippingChange}
-                          className={invalidFields.includes("s_email") ? "invalid-field" : ""}
+                          className={
+                            invalidFields.includes("s_email")
+                              ? "invalid-field"
+                              : ""
+                          }
                           placeholder="dracu.love@bloodmail.com"
                         />
                       </div>
@@ -386,7 +434,11 @@ export default function CheckoutPage() {
                           id="s_address"
                           value={shippingData.address}
                           onChange={handleShippingChange}
-                          className={invalidFields.includes("s_address") ? "invalid-field" : ""}
+                          className={
+                            invalidFields.includes("s_address")
+                              ? "invalid-field"
+                              : ""
+                          }
                           placeholder="Via del Castello 66"
                         />
                       </div>
@@ -401,7 +453,11 @@ export default function CheckoutPage() {
                           id="s_city"
                           value={shippingData.city}
                           onChange={handleShippingChange}
-                          className={invalidFields.includes("s_city") ? "invalid-field" : ""}
+                          className={
+                            invalidFields.includes("s_city")
+                              ? "invalid-field"
+                              : ""
+                          }
                           placeholder="Mordor"
                         />
                       </div>
@@ -413,7 +469,11 @@ export default function CheckoutPage() {
                           id="s_zip"
                           value={shippingData.zip}
                           onChange={handleShippingChange}
-                          className={invalidFields.includes("s_zip") ? "invalid-field" : ""}
+                          className={
+                            invalidFields.includes("s_zip")
+                              ? "invalid-field"
+                              : ""
+                          }
                           placeholder="Es: 80100"
                         />
                       </div>
@@ -424,7 +484,11 @@ export default function CheckoutPage() {
                           id="s_country"
                           value={shippingData.country}
                           onChange={handleShippingChange}
-                          className={invalidFields.includes("s_country") ? "invalid-field" : ""}
+                          className={
+                            invalidFields.includes("s_country")
+                              ? "invalid-field"
+                              : ""
+                          }
                         >
                           <option value="">Seleziona una nazione</option>
                           <option value="italia">Italia</option>
@@ -468,24 +532,37 @@ export default function CheckoutPage() {
                       value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value)}
                     />
-                    <button type="submit" className="btn">Applica</button>
+                    <button type="submit" className="btn">
+                      Applica
+                    </button>
                   </form>
                 ) : (
-                  <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                  <div
+                    style={{ display: "flex", gap: 10, alignItems: "center" }}
+                  >
                     <div style={{ fontSize: 14, color: "#bfe3c6" }}>
                       Coupon applicato: <strong>{appliedCoupon.code}</strong>
                     </div>
-                    <button onClick={handleRemoveCoupon} style={{ padding: "8px 12px" }}>
+                    <button
+                      onClick={handleRemoveCoupon}
+                      style={{ padding: "8px 12px" }}
+                    >
                       Rimuovi
                     </button>
                   </div>
                 )}
 
-                {couponError && <div style={{ color: "#f56565", marginTop: 8 }}>{couponError}</div>}
+                {couponError && (
+                  <div style={{ color: "#f56565", marginTop: 8 }}>
+                    {couponError}
+                  </div>
+                )}
               </div>
 
               {subtotalAfterDiscount > 99 && (
-                <div className="free-shipping-bar">Hai diritto alla spedizione gratuita</div>
+                <div className="free-shipping-bar">
+                  Hai diritto alla spedizione gratuita
+                </div>
               )}
 
               <div className="summary-row shipping-row">
@@ -532,4 +609,3 @@ export default function CheckoutPage() {
     </>
   );
 }
-
