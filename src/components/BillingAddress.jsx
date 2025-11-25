@@ -1,87 +1,90 @@
-import { useState } from "react";
-
-export default function BillingAddress() {
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("");
-  const [indirizzo, setIndirizzo] = useState("");
-  const [citta, setCitta] = useState("");
-  const [cap, setCap] = useState("");
-  const [nazione, setNazione] = useState("");
-
-  const isFormComplete = () => {
-    return (
-      nome.trim() &&
-      email.trim() &&
-      indirizzo.trim() &&
-      citta.trim() &&
-      /^\d{5}$/.test(cap) &&
-      nazione
-    );
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!isFormComplete()) {
-      console.log("Form incompleto. Inserisci tutti i dati!");
-      return;
-    }
-    console.log("Ordine completato!", {
-      nome,
-      email,
-      indirizzo,
-      citta,
-      cap,
-      nazione,
-    });
-    alert("Ordine completato!");
-  };
-
-  return (
-    <div className="address-container">
-      <h2>Indirizzo di Fatturazione</h2>
-      <form onSubmit={handleSubmit} noValidate>
+{/* Billing Address */}
+<div className="address-container">
+  <h2 className="address-text">Indirizzo di Fatturazione</h2>
+  <form>
+    <div className="form-row">
+      <div className="form-group">
+        <label htmlFor="name">Nome</label>
         <input
           type="text"
-          placeholder="Nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
+          name="name"
+          id="name"
+          value={billingData.name}
+          onChange={handleBillingChange}
+          placeholder="Es. Vlad Dracula"
+          className={invalidFields.includes("name") ? "invalid-field" : ""}
         />
+      </div>
+      <div className="form-group">
+        <label htmlFor="email">Email</label>
         <input
           type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          id="email"
+          value={billingData.email}
+          onChange={handleBillingChange}
+          placeholder="dracu.love@bloodmail.com"
+          className={invalidFields.includes("email") ? "invalid-field" : ""}
         />
+      </div>
+    </div>
+
+    <div className="form-row">
+      <div className="form-group full-width">
+        <label htmlFor="address">Indirizzo</label>
         <input
           type="text"
-          placeholder="Indirizzo"
-          value={indirizzo}
-          onChange={(e) => setIndirizzo(e.target.value)}
+          name="address"
+          id="address"
+          value={billingData.address}
+          onChange={handleBillingChange}
+          placeholder="Via del Castello 66"
+          className={invalidFields.includes("address") ? "invalid-field" : ""}
         />
+      </div>
+    </div>
+
+    <div className="form-row">
+      <div className="form-group">
+        <label htmlFor="city">Città</label>
         <input
           type="text"
-          placeholder="Città"
-          value={citta}
-          onChange={(e) => setCitta(e.target.value)}
+          name="city"
+          id="city"
+          value={billingData.city}
+          onChange={handleBillingChange}
+          placeholder="Mordor"
+          className={invalidFields.includes("city") ? "invalid-field" : ""}
         />
+      </div>
+      <div className="form-group">
+        <label htmlFor="zip">CAP</label>
         <input
           type="text"
-          placeholder="CAP (5 cifre)"
-          value={cap}
-          onChange={(e) => setCap(e.target.value)}
+          name="zip"
+          id="zip"
+          value={billingData.zip}
+          onChange={handleBillingChange}
+          placeholder="Es: 80100"
+          className={invalidFields.includes("zip") ? "invalid-field" : ""}
         />
-        <select value={nazione} onChange={(e) => setNazione(e.target.value)}>
-          <option value="">Seleziona nazione</option>
+      </div>
+      <div className="form-group">
+        <label htmlFor="country">Nazione</label>
+        <select
+          name="country"
+          id="country"
+          value={billingData.country}
+          onChange={handleBillingChange}
+          className={invalidFields.includes("country") ? "invalid-field" : ""}
+        >
+          <option value="">Seleziona una nazione</option>
           <option value="italia">Italia</option>
           <option value="mordravia">Mordravia</option>
           <option value="cryptagonia">Cryptagonia</option>
           <option value="nightmerrica">Nightmerrica</option>
         </select>
-
-        <button type="submit" disabled={!isFormComplete()}>
-          Continua
-        </button>
-      </form>
+      </div>
     </div>
-  );
-}
+  </form>
+</div>
