@@ -6,7 +6,7 @@
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding: 0 10px; /* padding di base, poi modificato dai media query */
+  padding: 0 10px;
 }
 
 /* riga base: verrà specializzata da .grid-mode / .list-mode */
@@ -18,7 +18,6 @@
 }
 
 /* ====== MODALITÀ GRIGLIA ====== */
-/* use CSS Grid and auto-fit to distribuire le colonne e centrarle */
 .product-list-row.grid-mode {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -55,6 +54,9 @@
   height: 220px;
 }
 
+p {
+  text-align: unset;
+}
 /* ========================= RESPONSIVE  ========================= */
 
 @media (max-width: 1400px) {
