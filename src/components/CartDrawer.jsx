@@ -16,7 +16,7 @@ export default function CartDrawer({ isOpen, onClose }) {
       {/* Immagine carrello vuoto: solo se cart.length === 0 */}
       {cart.length === 0 && (
         <img
-          src="/empty-cart.webp" // path dalla cartella public
+          src="/empty-cart.png.PNG" //
           alt="Carrello vuoto"
           style={{
             position: "absolute",
@@ -25,7 +25,7 @@ export default function CartDrawer({ isOpen, onClose }) {
             transform: "translateX(-50%)",
             width: "100%",
             height: "auto",
-            pointerEvents: "none", // non blocca click su altri elementi
+            pointerEvents: "none",
             zIndex: 0,
             opacity: 0.8,
           }}
