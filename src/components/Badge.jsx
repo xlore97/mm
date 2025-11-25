@@ -6,9 +6,10 @@ export default function Badge({ category }) {
 
   let categoryClass = "default";
 
-  if (c.includes("vamp")) categoryClass = "vampiri";
-  else if (c.includes("streg")) categoryClass = "streghe";
-  else if (c.includes("licant") || c.includes("licantropi")) categoryClass = "licantropi";
+  if (c.includes("vamp")) categoryClass = "vampire";
+  else if (c.includes("streg")) categoryClass = "witch";
+  else if (c.includes("licant") || c.includes("licantropi"))
+    categoryClass = "lycan";
 
   return <span className={`badge ${categoryClass}`}>{label}</span>;
 }

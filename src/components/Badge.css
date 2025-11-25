@@ -8,7 +8,6 @@
   font-size: 0.8rem;
   font-weight: 700;
   margin-top: 6px;
-  width: fit-content;
 }
 
 /* Categorie */
@@ -31,7 +30,7 @@
 }
 
 /* badge speciali */
-.bestseller {
+.badge.bestseller {
   background-color: #a57c1b;
   color: black;
   border: 1px solid #d3b14d;
