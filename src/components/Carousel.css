@@ -88,6 +88,21 @@
   }
 }
 
+/* ==================== CAROSELLO HOMEPAGE DESKTOP + TABLET ==================== */
+@media (min-width: 601px) {
+  .carousel-track {
+    padding: 40px 32px; /* margine interno */
+    gap: 20px; /* distanza tra le card */
+    justify-content: center;
+  }
+
+  .carousel-track .card {
+    flex: 0 0 250px; /* larghezza fissa */
+    width: 250px;
+    height: 450px; /* altezza fissa */
+    scroll-snap-align: center;
+  }
+}
 /* ==================== BREAKPOINT MOBILE ==================== */
 @media (max-width: 600px) {
   .carousel-container {
@@ -173,7 +188,7 @@
   /* immagini dentro card */
   .carousel-track .card img {
     width: 80%;
-    
+
     margin: 0 auto;
     height: auto;
     object-fit: cover;

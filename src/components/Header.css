@@ -55,6 +55,7 @@ a {
   height: 100%;
   display: flex;
   align-items: center;
+  margin-left: 10px;
   width: calc(100% / 3);
 }
 
@@ -146,10 +147,6 @@ a {
 
   .col-left h3 {
     display: none;
-  }
-
-  .col-center {
-    justify-content: flex-end;
   }
 
   .col-center a {
