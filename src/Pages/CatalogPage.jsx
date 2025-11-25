@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom"; // <--- AGGIUNTA
+import { useSearchParams } from "react-router-dom";
 
 import axios from "axios";
 
 import ProductsList from "../components/ProductsList";
 import SearchBar from "../components/Searchbar";
+import NoProductFound from "../components/NoProductFound";
 
 import "./CatalogPage.css";
 
@@ -12,7 +13,7 @@ export default function CatalogPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchParams, setSearchParams] = useSearchParams(); // <--- AGGIUNTA
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // stato UI ricerca / filtro / ordinamento / “doppia vista” griglia/lista
   const [searchText, setSearchText] = useState("");
@@ -50,32 +51,32 @@ export default function CatalogPage() {
     return isNaN(n) ? 0 : n;
   };
 
-  // === Inizializza stati dai query params ===  // <--- AGGIUNTA
-useEffect(() => {
-  const search = searchParams.get("search") || "";
-  const categories = searchParams.get("categories");
-  const sort = searchParams.get("sort") || "newest";
-  const price = searchParams.get("price"); // es "10-80"
+  // === Inizializza stati dai query params ===
+  useEffect(() => {
+    const search = searchParams.get("search") || "";
+    const categories = searchParams.get("categories");
+    const sort = searchParams.get("sort") || "newest";
+    const price = searchParams.get("price"); // es "10-80"
 
-  // search text
-  setSearchText(search);
+    // search text
+    setSearchText(search);
 
-  // categorie multiple
-  if (categories) {
-    setSelectedCategories(categories.split(",")); // "vampiri,streghe"
-  }
-
-  // sort
-  setSortMode(sort);
-
-  // prezzo
-  if (price) {
-    const [min, max] = price.split("-").map(Number);
-    if (!isNaN(min) && !isNaN(max)) {
-      setPriceRange({ min, max });
+    // categorie multiple
+    if (categories) {
+      setSelectedCategories(categories.split(",")); // "vampiri,streghe"
     }
-  }
-}, []);
+
+    // sort
+    setSortMode(sort);
+
+    // prezzo
+    if (price) {
+      const [min, max] = price.split("-").map(Number);
+      if (!isNaN(min) && !isNaN(max)) {
+        setPriceRange({ min, max });
+      }
+    }
+  }, []);
 
   // ================== FETCH PRODOTTI ==================
 
@@ -181,34 +182,37 @@ useEffect(() => {
 
   const visibleProducts = buildVisibleProducts();
 
-  // === Sincronizza query string quando cambiano i filtri ===  // <--- AGGIUNTA
-useEffect(() => {
-  const params = {};
+  // === Sincronizza query string quando cambiano i filtri ===
+  useEffect(() => {
+    const params = {};
 
-  if (searchText) params.search = searchText;
+    if (searchText) params.search = searchText;
 
-  if (selectedCategories.length > 0) {
-    params.categories = selectedCategories.join(",");
-  }
+    if (selectedCategories.length > 0) {
+      params.categories = selectedCategories.join(",");
+    }
 
-  if (sortMode !== "newest") {
-    params.sort = sortMode;
-  }
+    if (sortMode !== "newest") {
+      params.sort = sortMode;
+    }
 
-  // prezzo (solo se bounds hanno senso)
-  if (priceRange.min !== priceBounds.min || priceRange.max !== priceBounds.max) {
-    params.price = `${priceRange.min}-${priceRange.max}`;
-  }
+    // prezzo (solo se bounds hanno senso)
+    if (
+      priceRange.min !== priceBounds.min ||
+      priceRange.max !== priceBounds.max
+    ) {
+      params.price = `${priceRange.min}-${priceRange.max}`;
+    }
 
-  setSearchParams(params);
-}, [
-  searchText,
-  selectedCategories,
-  sortMode,
-  priceRange,
-  priceBounds,
-  setSearchParams,
-]);
+    setSearchParams(params);
+  }, [
+    searchText,
+    selectedCategories,
+    sortMode,
+    priceRange,
+    priceBounds,
+    setSearchParams,
+  ]);
 
   // ================== RENDER ==================
   return (
@@ -234,11 +238,12 @@ useEffect(() => {
         priceBounds={priceBounds}
       />
 
-      {!loading && !error && (
+      {/* conteggio prodotti / messaggio vuoto */}
+      {!loading && !error && visibleProducts.length === 0 && <NoProductFound />}
+
+      {!loading && !error && visibleProducts.length > 0 && (
         <p className="catalog-count">
-          {visibleProducts.length > 0
-            ? `${visibleProducts.length} prodotti da brivido`
-            : "Nessun prodotto trovato"}
+          {visibleProducts.length} prodotti da brivido
         </p>
       )}
 
