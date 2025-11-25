@@ -55,6 +55,7 @@ a {
   height: 100%;
   display: flex;
   align-items: center;
+  width: calc(100% / 3);
 }
 
 .col-center {
@@ -137,12 +138,6 @@ a {
 
   .title-wrapper h3 {
     font-size: 1.15rem;
-  }
-
-  .col-left,
-  .col-center,
-  .col-right {
-    width: auto;
   }
 
   .col-left {

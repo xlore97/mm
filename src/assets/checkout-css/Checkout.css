@@ -87,34 +87,6 @@ h4 {
   margin: 0 auto;
 }
 
-.empty-cart-wrapper {
-  width: 100%;
-  margin-top: 250px;
-  text-align: center;
-}
-
-.empty-cart-wrapper h2 {
-  font-size: 2.3rem;
-  margin-bottom: 15px;
-}
-
-.empty-cart-wrapper h3 {
-  font-family: lato;
-  color: #676767;
-  margin-bottom: 30px;
-}
-
-.empty-cart-wrapper a {
-  background-color: #c52020;
-  padding: 10px;
-  border-radius: 12px;
-  font-size: 1.3rem;
-}
-
-.empty-cart-wrapper a:hover {
-  background-color: #a61919;
-}
-
 .col-right-checkout {
   width: 30%;
   margin-top: 70px;
@@ -404,6 +376,51 @@ h4 {
   margin-top: 6px;
 }
 
+/* ========================= EMPTY CART ========================= */
+.empty-cart-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 15px;
+  width: 100%;
+  min-height: 60vh;
+  margin: 0 auto;
+}
+
+@media (min-width: 901px) {
+  /* Quando carrello vuoto, colonna sinistra occupa tutta la larghezza */
+  .col-left-checkout:has(.empty-cart-wrapper) {
+    width: 100%;
+  }
+  .col-right-checkout:has(.empty-cart-wrapper) {
+    display: none;
+  }
+}
+
+.empty-cart-wrapper h2 {
+  font-size: 2.3rem;
+  margin-bottom: 15px;
+}
+
+.empty-cart-wrapper h3 {
+  font-family: lato;
+  color: #676767;
+  margin-bottom: 30px;
+}
+
+.empty-cart-wrapper a {
+  background-color: #c52020;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 1.3rem;
+}
+
+.empty-cart-wrapper a:hover {
+  background-color: #a61919;
+}
+
 /* ========================= RESPONSIVE TABLET ========================= */
 @media (max-width: 900px) {
   .checkout-container {
@@ -575,6 +592,7 @@ h4 {
   }
 }
 
+/* ========================= FEEDBACK TOAST ========================= */
 .feedback-toast {
   position: fixed;
   bottom: 20px;
@@ -591,7 +609,7 @@ h4 {
   transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
   z-index: 1000;
-  pointer-events: none; /* non blocca click sottostanti */
+  pointer-events: none;
 }
 
 .feedback-toast.show {
@@ -600,15 +618,14 @@ h4 {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
 }
 
-/* Campi invalidi */
+/* ========================= CAMPi INVALIDI ========================= */
 .invalid-field {
-  border-color: #c62020; /* rosso */
+  border-color: #c62020;
   box-shadow: 0 0 0 2px rgba(198, 32, 32, 0.3);
   transition: border-color 0.3s ease, box-shadow 0.3s ease,
     background-color 0.3s ease;
 }
 
-/* Facoltativo: focus sui campi invalidi */
 .invalid-field:focus {
   border-color: #ff3b3b;
   box-shadow: 0 0 0 3px rgba(255, 59, 59, 0.4);

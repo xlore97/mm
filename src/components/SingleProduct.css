@@ -18,8 +18,8 @@
   box-shadow: 0 0 28px rgba(255, 40, 40, 0.55);
 }
 
-/* tutto il contenuto cliccabile: default = colonna (griglia) */
-.card>a {
+/* tutto il contenuto cliccabile */
+.card > a {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -62,7 +62,6 @@
   color: #ffffff;
   margin: 2px 0 4px;
   line-height: 1.25;
-  min-height: 3.2em;
   display: flex;
   align-items: flex-start;
 }
@@ -79,23 +78,29 @@ b {
 }
 
 /* ========================= MODALITÀ LISTA ========================= */
-/* layout tipo "scheda con immagine a sinistra, testo a destra" */
 
 .product-list-row.list-mode .card {
   width: 90%;
+  max-width: 1000px;
   padding: 12px 16px;
   display: flex;
   align-self: center;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.01),
+    rgba(255, 255, 255, 0.005)
+  );
 }
 
-/* il link interno diventa una riga orizzontale */
-.product-list-row.list-mode .card>a {
+/* link interno diventa riga orizzontale */
+.product-list-row.list-mode .card > a {
   flex-direction: row;
   align-items: center;
   gap: 16px;
 }
 
-/* immagine più piccola, fissa a sinistra */
+/* immagine più piccola a sinistra */
 .product-list-row.list-mode .card-img-container {
   width: 120px;
   max-width: 120px;
@@ -105,7 +110,6 @@ b {
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1;
-  /* quadrata */
   object-fit: cover;
 }
 
@@ -124,21 +128,68 @@ b {
   margin-top: 6px;
   font-size: 0.95rem;
   line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.product-list-row.list-mode .card {
-  width: 90%;
-  max-width: 1000px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+/* ========================= CAROSELLO / GRIGLIA FLEX ========================= */
+
+.carousel-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 40px 32px;
+  scroll-behavior: smooth;
+  justify-content: flex-start;
 }
 
-/* ========================= RESPONSIVE ========================= */
+.carousel-track::-webkit-scrollbar {
+  display: none; /* nasconde scrollbar su webkit */
+}
+
+.carousel-track .card {
+  flex: 0 0 300px; /* default desktop */
+  max-width: 300px;
+}
+
+/* ===== Responsive ===== */
+
+/* Tablet medio / piccoli */
+@media (max-width: 900px) {
+  .carousel-track {
+    gap: 14px;
+    padding: 32px 20px;
+  }
+
+  .carousel-track .card {
+    flex: 0 0 250px;
+    max-width: 250px;
+  }
+}
+
+/* Mobile: due card per riga */
+@media (max-width: 600px) {
+  .carousel-track .card {
+    flex: 0 0 calc((100% - 16px) / 2); /* due card visibili con gap */
+    max-width: none;
+  }
+}
+
+/* Extra small mobile: una card per riga */
+@media (max-width: 400px) {
+  .carousel-track .card {
+    flex: 0 0 100%;
+  }
+}
+
+/* immagini sempre responsive */
+.card-img-container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* ========================= RESPONSIVE GENERALE ========================= */
 
 @media (max-width: 600px) {
   .card {
@@ -148,14 +199,12 @@ b {
 
   .card-title {
     font-size: 1rem;
-    min-height: 2.8em;
   }
 
   .price {
     font-size: 0.95rem;
   }
 
-  /* in lista su schermi piccoli stringiamo un po' */
   .product-list-row.list-mode .card-img-container {
     width: 100px;
     max-width: 100px;

@@ -1,19 +1,10 @@
-button {
-  background: transparent;
-  border: none;
-}
-
-p {
-  font-size: 1.3rem;
-  text-align: center;
-  color: grey;
-}
-
+/* Drawer / Carrello */
 .drawer-wrapper {
   position: fixed;
   top: 0;
   right: 0;
-  width: 400px;
+  width: 400px;           
+  max-width: 95vw;     
   height: 100vh;
   background: #181818;
   padding: 20px;
@@ -24,12 +15,18 @@ p {
   overflow-y: auto;
 }
 
+.cart-button {
+  background: none;
+    border: none;
+}
+
 .drawer-wrapper.active {
   transform: translateX(0);
 }
 
+/* Close button */
 .close-btn {
-  background: none;
+  background: transparent; 
   border: none;
   font-size: 1.3rem;
   color: #fff;
@@ -37,11 +34,43 @@ p {
   position: absolute;
   top: 10px;
   right: 10px;
+  padding: 0; 
 }
 
+/* Messaggio carrello vuoto */
 .empty-message {
   color: #fff;
   margin-top: 60px;
   font-size: 2rem;
   text-align: center;
+}
+
+/* Paragrafo generico */
+p {
+  font-size: 1.3rem;
+  text-align: center;
+  color: grey;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .drawer-wrapper {
+    width: 90vw;  
+    padding: 16px;
+  }
+
+  .close-btn {
+    font-size: 1.2rem;
+    top: 8px;
+    right: 8px;
+  }
+
+  .empty-message {
+    font-size: 1.6rem;
+    margin-top: 40px;
+  }
+
+  p {
+    font-size: 1.1rem;
+  }
 }

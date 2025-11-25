@@ -3,9 +3,11 @@
 .big-card {
   display: flex;
   gap: 30px;
-  background: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.02),
-      rgba(255, 255, 255, 0.01));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(255, 255, 255, 0.01)
+  );
   padding: 24px;
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
@@ -35,38 +37,44 @@
   color: #fff;
 }
 
-/* testo generico nella colonna di destra */
 .big-card .details p {
   line-height: 1.5;
+  color: #d6d6d6;
+  text-align: start;
 }
 
-/* riga "Categoria: [badge]" */
-.category-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 4px 0 8px 0;
-}
-
+/* ========================= BADGE CATEGORIE ========================= */
 .big-card .details .badge {
   padding: 6px 12px;
   border-radius: 12px;
   font-size: 0.9rem;
   font-weight: 700;
-  text-transform: none;
   margin-top: 0;
-}
-
-/* Ensure badge is visible even if other badge css doesn't load */
-.big-card .details .badge {
   display: inline-block;
-  background-color: #333;
-  color: #eee;
-  border: 1px solid #666;
   margin-left: 6px;
+  text-transform: none;
 }
 
-/* stock badges */
+/* categorie prodotto */
+.big-card .details .badge.vampire {
+  background-color: #3c1b1b;
+  color: #c52020;
+  border: 1px solid #c52020;
+}
+
+.big-card .details .badge.witch {
+  background-color: #2a1c32;
+  color: #ffffff;
+  border: 1px solid #3b1e4a;
+}
+
+.big-card .details .badge.lycan {
+  background-color: #000060;
+  color: #e7b540;
+  border: 1px solid #000060;
+}
+
+/* badge stock */
 .badge.stock-low {
   background-color: #c47f17;
   color: black;
@@ -84,14 +92,21 @@
   font-size: 0.9rem;
 }
 
-/* prezzo evidenziato */
+/* ========================= PREZZO ========================= */
 .price {
   font-size: 1.6rem;
   color: #c52020;
   font-weight: 800;
 }
 
-/* descrizione prodotto */
+/* prezzo base piccolo */
+.price-bp {
+  color: #c52020;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* ========================= DESCRIZIONE ========================= */
 .description {
   margin-top: 6px;
   color: #d6d6d6;
@@ -99,7 +114,6 @@
 }
 
 /* ========================= QUANTITÀ + CTA ========================= */
-
 .quantity-controls {
   display: flex;
   align-items: center;
@@ -149,14 +163,7 @@
   transform: scale(1.01);
 }
 
-.price-bp {
-  color: #c52020;
-  font-weight: 700;
-  font-size: 1rem;
-}
-
 /* ========================= RESPONSIVE ========================= */
-
 @media (max-width: 900px) {
   .main-container-sing-prod {
     width: 92%;
@@ -165,7 +172,7 @@
 
   .big-card {
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
   }
 
   .big-card img {
@@ -175,5 +182,9 @@
 
   .big-card .details {
     width: 100%;
+  }
+
+  .quantity-controls {
+    justify-content: center;
   }
 }
