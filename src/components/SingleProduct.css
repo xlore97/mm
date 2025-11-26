@@ -177,9 +177,7 @@
 .product-list-row.grid-mode .card {
   flex: 0 0 300px;
   width: 300px;
-  height: 500px;
   max-width: 300px;
-  max-height: 500px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -262,5 +260,37 @@
   .product-list-row.list-mode .card-img-container {
     width: 100px;
     max-width: 100px;
+  }
+}
+
+@media (max-width: 500px) {
+  /* Card in modalità lista: lascia l'altezza automatica */
+  .product-list-row.list-mode .card {
+    height: auto; /* non più fissata */
+    flex-direction: column; /* se vuoi, altrimenti lascia row */
+    padding: 12px;
+  }
+
+  /* Contenitore testi: lascia che cresca liberamente */
+  .product-list-row.list-mode .card-text-container {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* Titolo e descrizione: testo normale e leggibile */
+  .list-description {
+    display: none;
+  }
+
+  /* Immagine: eventualmente riduci altezza */
+  .product-list-row.list-mode .card-img-container img {
+    height: auto;
+    max-width: 100px; /* se vuoi mantenerla piccola */
+    object-fit: cover;
+  }
+
+  .badge-row {
+    display: block;
   }
 }

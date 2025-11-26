@@ -118,6 +118,26 @@ a {
   color: #ffffff;
 }
 
+.extra {
+  background-color: #c52020;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  min-height: 50px;
+  padding-top: 80px;
+}
+
+@media (max-width: 660px) {
+.extra {
+  font-size: 0.9rem;
+}
+}
+
+.special {
+  padding: 0 2rem;
+}
 /* ========================= HEADER RESPONSIVE ========================= */
 
 /* Tablet / mobile orizzontale */

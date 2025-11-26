@@ -496,6 +496,19 @@ h4 {
   }
 }
 
+@media screen and (max-width: 800px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-row .form-group {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+    display: contents;
+  }
+}
+
 /* ========================= RESPONSIVE MOBILE ========================= */
 @media (max-width: 600px) {
   .checkout-container {

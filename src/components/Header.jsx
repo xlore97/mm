@@ -57,6 +57,20 @@ export default function Header({ onCartClick }) {
           </button>
         </div>
       </div>
+      <div className="extra">
+        <div className="special">
+          <span className="material-symbols-outlined">local_shipping</span>
+          <span>
+            Spedizione Gratuita da <b>€99.99</b>
+          </span>
+        </div>
+        <div className="special">
+          <span className="material-symbols-outlined">sell</span>
+          <span>
+            Usa il codice <b>BLACKFRIDAY</b> per sconti esclusivi
+          </span>
+        </div>
+      </div>
     </header>
   );
 }
