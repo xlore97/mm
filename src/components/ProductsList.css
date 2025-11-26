@@ -55,7 +55,7 @@
 p {
   text-align: unset;
 }
-/* ========================= RESPONSIVE  ========================= */
+/* ======================== RESPONSIVE  ========================= */
 
 @media (max-width: 1400px) {
   .product-list-row.grid-mode {
