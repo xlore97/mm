@@ -26,10 +26,8 @@
   align-items: start;
 }
 
-/* larghezza card in griglia (lasciamo che sia la grid a gestire le colonne) */
 .product-list-row.grid-mode .card {
-  width: 100%;
-  max-width: 320px; /* le card non diventano troppo larghe */
+  max-width: 320px; 
 }
 
 /* ====== MODALITÀ LISTA ====== */

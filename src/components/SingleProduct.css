@@ -213,24 +213,6 @@
   .product-list-row.grid-mode .card {
     flex: 0 0 280px;
     width: 280px;
-    height: 480px;
-  }
-}
-
-@media (max-width: 600px) {
-  .carousel-track .card,
-  .product-list-row.grid-mode .card {
-    flex: 0 0 90%;
-    width: 90%;
-    height: auto;
-  }
-}
-
-@media (max-width: 400px) {
-  .carousel-track .card,
-  .product-list-row.grid-mode .card {
-    flex: 0 0 100%;
-    width: 100%;
   }
 }
 
@@ -247,6 +229,13 @@
   .card {
     padding: 10px;
     border-radius: 14px;
+  }
+
+  .carousel-track .card,
+  .product-list-row.grid-mode .card {
+    flex: 0 0 90%;
+    width: 90%;
+    height: auto;
   }
 
   .card-title {
@@ -266,8 +255,8 @@
 @media (max-width: 500px) {
   /* Card in modalità lista: lascia l'altezza automatica */
   .product-list-row.list-mode .card {
-    height: auto; /* non più fissata */
-    flex-direction: column; /* se vuoi, altrimenti lascia row */
+    height: auto;
+    flex-direction: column;
     padding: 12px;
   }
 
@@ -286,11 +275,23 @@
   /* Immagine: eventualmente riduci altezza */
   .product-list-row.list-mode .card-img-container img {
     height: auto;
-    max-width: 100px; /* se vuoi mantenerla piccola */
+    max-width: 100px;
     object-fit: cover;
   }
 
   .badge-row {
     display: block;
+  }
+
+  .card-title {
+     min-height: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .carousel-track .card,
+  .product-list-row.grid-mode .card {
+    flex: 0 0 100%;
+    width: 100%;
   }
 }

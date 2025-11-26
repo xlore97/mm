@@ -166,7 +166,7 @@ export default function SearchBar({
           className={`sort-button ${sortMode === "oldest" ? "is-active" : ""}`}
           onClick={() => onSortChange("oldest")}
         >
-          Più vecchi
+          Più antichi
         </button>
 
         <button

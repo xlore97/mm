@@ -39,3 +39,9 @@
     text-align: center;
   }
 }
+
+@media (max-width: 600px) {
+  .homepage-section-titles {
+    margin-bottom: 20px;
+  }
+}
